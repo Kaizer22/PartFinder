@@ -1,9 +1,8 @@
-package ru.desh.partfinder.features.start
+package ru.desh.partfinder.features.start.presentation
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
 import ru.desh.partfinder.core.MainActivity
@@ -15,7 +14,7 @@ class SplashScreenActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         GlobalScope.launch {
-            // Do some preparation work
+            // TODO fix scope and do some preparation work
             // - Get on boarding flag
             // - Try to auth from cache, refresh token
             // - Get data for main page

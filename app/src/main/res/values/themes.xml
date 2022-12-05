@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="linkColor">@color/primary_40</item>
     </style>
     
     <style name="PartFinderSplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">

@@ -18,7 +18,7 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".features.start.SplashScreenActivity"
+            android:name=".features.start.presentation.SplashScreenActivity"
             android:theme="@style/PartFinderSplashScreen"
             android:exported="true">
             <intent-filter>
