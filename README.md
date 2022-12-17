@@ -21,6 +21,7 @@
 
 Технологии и подходы:
 Android SDK, Kotlin, Firebase (Authentication, Storage, Firestore и, возможно, Analytics), Retrofit2 + FirebaseSDK, Room, Material Components, Glide, Dagger2, RxKotlin, LiveData, Moshi, Cicerone
+
 Single Activity, Clean Architecture, MVVM, DI, Unit тесты - JUnit, UI тесты - Espresso
 
 Планируемые экраны:
