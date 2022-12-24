@@ -2,52 +2,50 @@
 <resources>
 
     <style name="TextAppearance.PartFinder.BaseFont" parent="">
-        <item name="font">@font/ubuntu</item>
         <item name="fontFamily">@font/ubuntu</item>
     </style>
-
     <style name="TextAppearance.PartFinder.H1Header" parent="TextAppearance.PartFinder.BaseFont">
         <item name="android:textSize">96sp</item>
         <item name="fontWeight">500</item>
     </style>
-    <style name="TextAppearance.PartFinder.H2Header" parent="">
+    <style name="TextAppearance.PartFinder.H2Header" parent="TextAppearance.PartFinder.BaseFont">
         <item name="android:textSize">60sp</item>
         <item name="fontWeight">500</item>
     </style>
-    <style name="TextAppearance.PartFinder.H3Header" parent="">
+    <style name="TextAppearance.PartFinder.H3Header" parent="TextAppearance.PartFinder.BaseFont">
         <item name="android:textSize">48sp</item>
         <item name="fontWeight">500</item>
     </style>
-    <style name="TextAppearance.PartFinder.H4Header" parent="">
+    <style name="TextAppearance.PartFinder.H4Header" parent="TextAppearance.PartFinder.BaseFont">
         <item name="android:textSize">34sp</item>
         <item name="fontWeight">500</item>
     </style>
-    <style name="TextAppearance.PartFinder.H5Header" parent="">
+    <style name="TextAppearance.PartFinder.H5Header" parent="TextAppearance.PartFinder.BaseFont">
         <item name="android:textSize">24sp</item>
         <item name="fontWeight">500</item>
     </style>
-    <style name="TextAppearance.PartFinder.H6Header" parent="">
+    <style name="TextAppearance.PartFinder.H6Header" parent="TextAppearance.PartFinder.BaseFont">
         <item name="android:textSize">20sp</item>
         <item name="fontWeight">500</item>
     </style>
-    <style name="TextAppearance.PartFinder.Body" parent="">
+    <style name="TextAppearance.PartFinder.Body" parent="TextAppearance.PartFinder.BaseFont">
         <item name="android:textSize">16sp</item>
-        <item name="fontWeight">400</item>
+        <item name="fontWeight">100</item>
     </style>
-    <style name="TextAppearance.PartFinder.Subtitle" parent="">
+    <style name="TextAppearance.PartFinder.Subtitle" parent="TextAppearance.PartFinder.BaseFont">
         <item name="android:textSize">14sp</item>
         <item name="fontWeight">300</item>
     </style>
-    <style name="TextAppearance.PartFinder.Caption" parent="">
+    <style name="TextAppearance.PartFinder.Caption" parent="TextAppearance.PartFinder.BaseFont">
         <item name="android:textSize">12sp</item>
         <item name="fontWeight">100</item>
     </style>
-    <style name="TextAppearance.PartFinder.BodyLink" parent="">
+    <style name="TextAppearance.PartFinder.BodyLink" parent="TextAppearance.PartFinder.BaseFont">
         <item name="android:textSize">16sp</item>
         <item name="fontWeight">500</item>
         <item name="android:textColor">?attr/linkColor</item>
     </style>
-    <style name="TextAppearance.PartFinder.SubtitleLink" parent="">
+    <style name="TextAppearance.PartFinder.SubtitleLink" parent="TextAppearance.PartFinder.BaseFont">
         <item name="android:textSize">96sp</item>
         <item name="fontWeight">500</item>
         <item name="android:textColor">?attr/linkColor</item>

@@ -1,2 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <style name="ButtonPrimaryColor" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundColor">?attr/buttonPrimaryColor</item>
+        <item name="android:textColor">?attr/buttonPrimaryTextColor</item>
+        <item name="android:textAppearance">@style/TextAppearance.PartFinder.H5Header</item>
+        <item name="cornerRadius">100dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="ButtonSecondaryColor" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundColor">?attr/buttonSecondaryColor</item>
+        <item name="android:textColor">?attr/buttonPrimaryTextColor</item>
+        <item name="android:textAppearance">@style/TextAppearance.PartFinder.H5Header</item>
+        <item name="cornerRadius">100dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+</resources>

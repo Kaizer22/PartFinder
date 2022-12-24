@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">PartFinder</string>
+    <string name="welcome_title">Добро пожаловать в \n Part Finder!👋</string>
+    <string name="welcome_message">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="welcome_button_agree">Понятно</string>
+    <string name="privacy_policy_title">Политика \n конфиденциальности</string>
+    <string name="privacy_policy_statement2">Мы не передаем Ваши данные третьим лицам</string>
+    <string name="privacy_policy_statement1">Мы храним и обрабатываем данные, которые Вы указываете в приложении (ФИО, email, контакты, номера телефонов и др.). Это нужно чтобы организовать взаимодействиие пользователей, идентифицировать пользователей и пресекать неправомерные действия</string>
+    <string name="privacy_policy_additional">Подробнее с политикой конфиденциальности можно ознакомиться по ссылке:</string>
+    <string name="exit">Выход</string>
+    <string name="accept">Принять</string>
 </resources>

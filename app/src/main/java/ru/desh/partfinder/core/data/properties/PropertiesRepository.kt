@@ -1,18 +1,20 @@
 package ru.desh.partfinder.core.data.properties
 
+import kotlinx.coroutines.flow.Flow
+
 interface PropertiesRepository {
-    fun getOnBoardingFlag(): Boolean
-    fun setOnboardingFinished()
+    fun getOnBoardingFlag(): Flow<Boolean>
+    suspend fun setOnboardingFinished()
 
-    fun getLanguage(): PropertiesLanguage
-    fun setLanguage(lang: PropertiesLanguage)
+    fun getLanguage(): Flow<PropertyLanguage>
+    suspend fun setLanguage(lang: PropertyLanguage)
 
-    fun getUiMode(): PropertiesUiMode
-    fun setUiMode(mode: PropertiesUiMode)
+    fun getUiMode(): Flow<PropertyUiMode>
+    suspend fun setUiMode(mode: PropertyUiMode)
 
-    fun getIsNotificationsEnabled(): Boolean
-    fun setIsNotificationsEnabled(isEnabled: Boolean)
+    fun getIsNotificationsEnabled(): Flow<Boolean>
+    suspend fun setIsNotificationsEnabled(isEnabled: Boolean)
 }
 
-enum class PropertiesUiMode { DARK, LIGHT, SYSTEM }
-enum class PropertiesLanguage { RU, ENG }
+enum class PropertyUiMode { DARK, LIGHT, SYSTEM }
+enum class PropertyLanguage { RU, ENG }
