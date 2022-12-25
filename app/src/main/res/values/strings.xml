@@ -7,6 +7,7 @@
     <string name="privacy_policy_statement2">Мы не передаем Ваши данные третьим лицам</string>
     <string name="privacy_policy_statement1">Мы храним и обрабатываем данные, которые Вы указываете в приложении (ФИО, email, контакты, номера телефонов и др.). Это нужно чтобы организовать взаимодействиие пользователей, идентифицировать пользователей и пресекать неправомерные действия</string>
     <string name="privacy_policy_additional">Подробнее с политикой конфиденциальности можно ознакомиться по ссылке:</string>
+    <string name="privacy_policy_button"><u>Политика конфиденциальности</u></string>
     <string name="exit">Выход</string>
     <string name="accept">Принять</string>
 </resources>

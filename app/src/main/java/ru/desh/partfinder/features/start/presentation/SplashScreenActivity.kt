@@ -21,7 +21,6 @@ class SplashScreenActivity: AppCompatActivity() {
     lateinit var navigatorHolder: NavigatorHolder
     @Inject
     lateinit var router: Router
-
     @Inject
     lateinit var propertiesRepository: PropertiesRepository
 

@@ -5,6 +5,7 @@ import ru.desh.partfinder.core.di.SingleApplicationComponent
 
 // To do list
 // TODO Compound views for a survey questions
+// TODO Navigation animations
 
 class PartFinderApplication: Application() {
     override fun onCreate() {
