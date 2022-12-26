@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+ 
+    <!--region Buttons -->
     <style name="ButtonPrimaryColor" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundColor">?attr/buttonPrimaryColor</item>
+        <item name="backgroundTint">?attr/buttonPrimaryColor</item>
         <item name="android:textColor">?attr/buttonPrimaryTextColor</item>
         <item name="android:textAppearance">@style/TextAppearance.PartFinder.H5Header</item>
         <item name="cornerRadius">100dp</item>
@@ -11,12 +12,31 @@
     </style>
 
     <style name="ButtonSecondaryColor" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundColor">?attr/buttonSecondaryColor</item>
+        <item name="backgroundTint">?attr/buttonSecondaryColor</item>
         <item name="android:textColor">?attr/buttonPrimaryTextColor</item>
         <item name="android:textAppearance">@style/TextAppearance.PartFinder.H5Header</item>
         <item name="cornerRadius">100dp</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="ButtonSecondaryColorLight" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">?attr/buttonSecondaryColorLight</item>
+        <item name="android:textColor">?attr/buttonPrimaryTextColor</item>
+        <item name="android:textAppearance">@style/TextAppearance.PartFinder.H5Header</item>
+        <item name="cornerRadius">100dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="ButtonInactive" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">?attr/buttonInactiveColor</item>
+        <item name="android:textColor">?attr/buttonInactiveTextColor</item>
+        <item name="android:textAppearance">@style/TextAppearance.PartFinder.H5Header</item>
+        <item name="cornerRadius">100dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="StrictFitButton" parent="Widget.MaterialComponents.Button">
@@ -32,5 +52,22 @@
         <item name="android:padding">0dp</item>
         <item name="android:textAppearance">@style/TextAppearance.PartFinder.BodyLink</item>
     </style>
+    <!--endregion-->
+    
+    <!--region Input-->
+    <style name="PartFinder.InputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.PartFinder.Body</item>
+        <item name="hintTextColor">?attr/inputFieldHintTextColor</item>
+        <item name="boxCornerRadiusBottomEnd">25dp</item>
+        <item name="boxCornerRadiusBottomStart">25dp</item>
+        <item name="boxCornerRadiusTopEnd">25dp</item>
+        <item name="boxCornerRadiusTopStart">25dp</item>
+        <item name="boxBackgroundColor">?attr/inputFieldBgColor</item>
+        <item name="endIconMode">custom</item>
+        <item name="startIconTint">?attr/inputFieldIconsTint</item>
+        <item name="endIconTint">?attr/inputFieldIconsTint</item>
+        <item name="boxStrokeColor">?attr/inputFieldBoxStrokeColor</item>
+    </style>
+    <!--endregion-->
 
 </resources>

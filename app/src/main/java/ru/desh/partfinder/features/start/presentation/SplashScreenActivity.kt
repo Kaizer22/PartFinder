@@ -36,8 +36,9 @@ class SplashScreenActivity: AppCompatActivity() {
             // - Try to auth from cache, refresh token
             // - Get data for main page
             propertiesRepository.getOnBoardingFlag().collectLatest { onBoardingFlag ->
-                val startFragment = if (!onBoardingFlag) "auth" else "onboarding"
+                val startFragment = if (onBoardingFlag) "auth" else "onboarding"
                 router.navigateTo(Main(startFragment))
+                finish()
             }
         }
     }

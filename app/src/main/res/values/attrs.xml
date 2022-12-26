@@ -8,7 +8,19 @@
     <attr name="buttonSecondaryColor" format="color"/>
     <attr name="buttonSecondaryColorLight" format="color"/>
 
+    <attr name="buttonInactiveColor" format="color"/>
+    <attr name="buttonInactiveTextColor" format="color"/>
+
+    <attr name="outlinedButtonColor" format="color"/>
+
     <!-- Text -->
     <attr name="linkColor" format="color"/>
+    <attr name="bodyHintColor" format="color"/>
+
+    <!-- Input -->
+    <attr name="inputFieldBgColor" format="color"/>
+    <attr name="inputFieldIconsTint" format="color"/>
+    <attr name="inputFieldBoxStrokeColor" format="color"/>
+    <attr name="inputFieldHintTextColor" format="color"/>
 
 </resources>
