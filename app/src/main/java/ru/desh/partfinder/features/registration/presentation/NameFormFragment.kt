@@ -1,4 +1,20 @@
 package ru.desh.partfinder.features.registration.presentation
 
-class NameFormFragment {
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import ru.desh.partfinder.databinding.FragmentNameFormBinding
+
+class NameFormFragment: Fragment(){
+    private lateinit var binding: FragmentNameFormBinding
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentNameFormBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 }

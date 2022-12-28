@@ -9,6 +9,7 @@ import ru.desh.partfinder.core.di.module.FirebaseModule
 import ru.desh.partfinder.core.di.module.NavigationModule
 import ru.desh.partfinder.core.di.module.RepositoryModule
 import ru.desh.partfinder.features.auth.presentation.AuthFragment
+import ru.desh.partfinder.features.auth.presentation.PhoneAuthFragment
 import ru.desh.partfinder.features.start.presentation.SplashScreenActivity
 import ru.desh.partfinder.features.start.presentation.WelcomeFragment
 import javax.inject.Singleton
@@ -29,4 +30,5 @@ interface ApplicationComponent {
 
     fun inject(welcomeFragment: WelcomeFragment)
     fun inject(authFragment: AuthFragment)
+    fun inject(phoneAuthFragment: PhoneAuthFragment)
 }

@@ -28,6 +28,8 @@
         <item name="inputFieldHintTextColor">@color/primary_40</item>
         <item name="buttonInactiveColor">@color/gray</item>
         <item name="buttonInactiveTextColor">@color/primary_10</item>
+        <item name="otpInputBgColor">@color/light_gray</item>
+        <item name="otpInputFocusColor">@color/primary</item>
     </style>
     
     <style name="PartFinderSplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">

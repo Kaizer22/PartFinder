@@ -9,6 +9,7 @@ import ru.desh.partfinder.R
 
 class OnBoardingFragment: Fragment() {
 
+    // https://androidexample365.com/tab-animations-that-sync-with-the-scrolling-progress-of-viewpager/
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

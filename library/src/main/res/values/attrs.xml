@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomOtpInputView">
+        <attr name="inputSpacing" format="dimension"/>
+        <attr name="inputBackground" format="color"/>
+        <attr name="inputFocusBackground" format="color"/>
+        <attr name="digitsCount" format="integer"/>
+        <attr name="inputRadius" format="dimension"/>
+        <attr name="borderColor" format="color"/>
+        <attr name="borderWidth" format="dimension"/>
+        <attr name="inputType" format="enum">
+            <enum name="number" value="1" />
+            <enum name="numberPassword" value="2" />
+        </attr>
+        <attr name="android:textSize"/>
+        <attr name="android:textColor"/>
+        <attr name="android:textStyle"/>
+        <attr name="android:hint"/>
+        <attr name="android:textColorHint"/>
+        <attr name="android:cursorVisible"/>
+        <attr name="android:textAppearance"/>
+    </declare-styleable>
+</resources>

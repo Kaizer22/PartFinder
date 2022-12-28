@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
-import ru.desh.partfinder.core.Screens
+import ru.desh.partfinder.core.Screens.NameForm
+import ru.desh.partfinder.core.Screens.PasswordReset
+import ru.desh.partfinder.core.Screens.PhoneAuth
 import ru.desh.partfinder.core.Screens.Welcome
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.databinding.FragmentAuthBinding
@@ -50,16 +52,16 @@ class AuthFragment: Fragment() {
                         if (!result.isException) router.navigateTo(Welcome())
                     }
                 }
-                //show loading
-
+                //TODO show loading
             }
             textButtonForgotPassword.setOnClickListener {
-                router.navigateTo(Screens.PasswordReset())
+                router.navigateTo(PasswordReset())
+            }
+            authButtonPhone.setOnClickListener {
+                router.navigateTo(PhoneAuth())
             }
             hintRegisterBlock.authButtonToRegister.setOnClickListener {
-                val email = authEmailInput.editText?.text.toString()
-                val password = authPasswordInput.editText?.text.toString()
-                viewModel.testSignUnWithEmailAndPassword(email, password)
+                router.navigateTo(NameForm())
             }
         }
     }

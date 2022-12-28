@@ -23,4 +23,7 @@
     <attr name="inputFieldBoxStrokeColor" format="color"/>
     <attr name="inputFieldHintTextColor" format="color"/>
 
+    <attr name="otpInputBgColor" format="color"/>
+    <attr name="otpInputFocusColor" format="color"/>
+
 </resources>

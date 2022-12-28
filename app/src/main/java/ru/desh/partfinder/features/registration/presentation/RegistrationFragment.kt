@@ -1,4 +1,6 @@
 package ru.desh.partfinder.features.registration.presentation
 
-class RegistrationFragment {
+import androidx.fragment.app.Fragment
+
+class RegistrationFragment: Fragment() {
 }

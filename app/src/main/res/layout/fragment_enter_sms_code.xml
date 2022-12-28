@@ -41,12 +41,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <View
+    <ru.desh.library.ui.CustomOtpInputView
         android:id="@+id/view"
         android:layout_width="315dp"
         android:layout_height="45dp"
         android:layout_marginTop="96dp"
-        android:background="@color/black"
+        app:inputFocusBackground="?attr/otpInputFocusColor"
+        app:inputBackground="?attr/otpInputBgColor"
+        android:textAppearance="@style/TextAppearance.PartFinder.H5Header"
+        app:inputType="numberPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
