@@ -91,7 +91,7 @@ open class CustomOtpInputView: LinearLayout {
         }
 
         for (i in 0 until digitsCount) {
-            val digitView = inflate(context, R.layout.custom_digit_field, null) as MaterialCardView
+            val digitView = inflate(context, R.layout.custom_otp_input_digit_field, null) as MaterialCardView
             digitView.radius = cornerRadius.toFloat()
 
             val editText = digitView.getChildAt(0) as EditText

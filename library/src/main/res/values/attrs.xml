@@ -20,4 +20,17 @@
         <attr name="android:cursorVisible"/>
         <attr name="android:textAppearance"/>
     </declare-styleable>
+    
+    <declare-styleable name="SteppedProgressBarView">
+        <attr name="progressDrawable" format="reference"/>
+        <attr name="progressFillDrawable" format="reference"/>
+        <attr name="progressBarWidth" format="dimension"/>
+        <attr name="notAchievedStepDrawable" format="reference"/>
+        <attr name="achievedStepDrawable" format="reference"/>
+        <attr name="hasPreStep" format="boolean"/>
+        <attr name="hasPostStep" format="boolean"/>
+        <attr name="defaultStep" format="integer"/>
+
+        <attr name="android:entries"/>
+    </declare-styleable>
 </resources>

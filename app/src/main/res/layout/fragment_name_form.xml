@@ -102,6 +102,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/name_form_button_send"
         style="@style/ButtonPrimaryColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
