@@ -11,6 +11,7 @@ import ru.desh.partfinder.core.di.module.RepositoryModule
 import ru.desh.partfinder.features.auth.presentation.AuthFragment
 import ru.desh.partfinder.features.auth.presentation.PhoneAuthFragment
 import ru.desh.partfinder.features.registration.presentation.NameFormFragment
+import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
 import ru.desh.partfinder.features.start.presentation.SplashScreenActivity
 import ru.desh.partfinder.features.start.presentation.WelcomeFragment
 import javax.inject.Singleton
@@ -33,4 +34,5 @@ interface ApplicationComponent {
     fun inject(authFragment: AuthFragment)
     fun inject(phoneAuthFragment: PhoneAuthFragment)
     fun inject(nameFormFragment: NameFormFragment)
+    fun inject(registrationFragment: RegistrationFragment)
 }

@@ -30,6 +30,9 @@
         <item name="buttonInactiveTextColor">@color/primary_10</item>
         <item name="otpInputBgColor">@color/light_gray</item>
         <item name="otpInputFocusColor">@color/primary</item>
+        <item name="steppedProgressBarProgressColor">@color/primary_40</item>
+        <item name="steppedProgressBarEmptyColor">@color/light_gray</item>
+        <item name="buttonTertiaryColor">@color/tertiary</item>
     </style>
     
     <style name="PartFinderSplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">

@@ -8,8 +8,9 @@ import ru.desh.partfinder.features.auth.presentation.CodeEnterFragment
 import ru.desh.partfinder.features.auth.presentation.PhoneAuthFragment
 import ru.desh.partfinder.features.password_reset.presentation.PasswordResetFragment
 import ru.desh.partfinder.features.registration.presentation.NameFormFragment
-import ru.desh.partfinder.features.registration.presentation.NewProfileFragment
+import ru.desh.partfinder.features.registration.presentation.UserFormFragment
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
+import ru.desh.partfinder.features.registration.presentation.child_fragments.*
 import ru.desh.partfinder.features.start.presentation.OnBoardingFragment
 import ru.desh.partfinder.features.start.presentation.PrivacyPolicyFragment
 import ru.desh.partfinder.features.start.presentation.WelcomeFragment
@@ -36,6 +37,51 @@ object Screens {
     fun PrivacyPolicy() = FragmentScreen {
         PrivacyPolicyFragment()
     }
+    // endregion
+
+    // region Registration
+    fun NameForm() = FragmentScreen {
+        NameFormFragment()
+    }
+    fun Registration() = FragmentScreen {
+        RegistrationFragment()
+    }
+    fun NewProfile() = FragmentScreen {
+        UserFormFragment()
+    }
+    fun Registration_Method() = FragmentScreen {
+        RegistrationMethodFragment()
+    }
+    fun Registration_Data() = FragmentScreen {
+        RegistrationDataFragment()
+    }
+    fun Registration_Confirmation() = FragmentScreen {
+        RegistrationConfirmationFragment()
+    }
+    fun Post_Registration() = FragmentScreen {
+        PostRegistrationFragment()
+    }
+    fun UserForm() = FragmentScreen {
+        UserFormFragment()
+    }
+    fun Pre_UserForm() = FragmentScreen {
+        PreUserFormFragment()
+    }
+    fun UserForm_Orgainisation() = FragmentScreen {
+        UserFormOrganisationFragment()
+    }
+    fun UserForm_Activity() = FragmentScreen {
+        UserFormActivityFragment()
+    }
+    fun UserForm_About() = FragmentScreen {
+        UserFormAboutFragment()
+    }
+    fun UserForm_Survey() = FragmentScreen {
+        UserFormSurveyFragment()
+    }
+    // endregion
+
+    // region Auth
     fun Auth() = FragmentScreen {
         AuthFragment()
     }
@@ -47,15 +93,6 @@ object Screens {
     }
     fun CodeEnter() = FragmentScreen {
         CodeEnterFragment()
-    }
-    fun NameForm() = FragmentScreen {
-        NameFormFragment()
-    }
-    fun Registration() = FragmentScreen {
-        RegistrationFragment()
-    }
-    fun NewProfile() = FragmentScreen {
-        NewProfileFragment()
     }
     // endregion
 

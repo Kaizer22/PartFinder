@@ -4,6 +4,7 @@
     <attr name="buttonPrimaryColor" format="color"/>
     <attr name="buttonPrimaryColorLight" format="color"/>
     <attr name="buttonPrimaryTextColor" format="color"/>
+    <attr name="buttonTertiaryColor" format="color"/>
 
     <attr name="buttonSecondaryColor" format="color"/>
     <attr name="buttonSecondaryColorLight" format="color"/>
@@ -25,5 +26,9 @@
 
     <attr name="otpInputBgColor" format="color"/>
     <attr name="otpInputFocusColor" format="color"/>
+
+    <!-- Progress -->
+    <attr name="steppedProgressBarProgressColor" format="color"/>
+    <attr name="steppedProgressBarEmptyColor" format="color"/>
 
 </resources>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/phone_auth_button_send2"
+        android:id="@+id/registration_button_next_step"
         style="@style/ButtonPrimaryColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/materialButton2"
+        android:id="@+id/registration_button_back"
         style="@style/TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,25 +31,32 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <FrameLayout
+        android:id="@+id/registration_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/steppedProgressBarView"
+        app:layout_constraintBottom_toTopOf="@+id/registration_stepped_progress_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialButton2" />
+        app:layout_constraintTop_toBottomOf="@+id/registration_button_back" />
 
     <ru.desh.library.ui.SteppedProgressBarView
-        android:id="@+id/steppedProgressBarView"
+        android:id="@+id/registration_stepped_progress_bar"
         android:entries="@array/register_steps"
-        app:progressDrawable="@color/primary"
-        app:notAchievedStepDrawable="@drawable/ic_persona"
+        app:hasPreStep="false"
+        app:progressBarWidth="6dp"
+        app:progressDrawable="@drawable/stepped_progress_bar_empty"
+        app:progressFillDrawable="@drawable/stepped_progress_bar_progress"
+        app:notAchievedStepDrawable="@drawable/stepped_progress_bar_na_step"
+        app:achievedStepDrawable="@drawable/stepped_progress_bar_step"
+        app:defaultStep="1"
+        android:textAppearance="@style/TextAppearance.PartFinder.Subtitle"
         android:layout_width="0dp"
         android:layout_height="32dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="110dp"
-        app:layout_constraintBottom_toTopOf="@+id/phone_auth_button_send2"
+        app:layout_constraintBottom_toTopOf="@+id/registration_button_next_step"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

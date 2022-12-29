@@ -32,5 +32,6 @@
         <attr name="defaultStep" format="integer"/>
 
         <attr name="android:entries"/>
+        <attr name="android:textAppearance"/>
     </declare-styleable>
 </resources>

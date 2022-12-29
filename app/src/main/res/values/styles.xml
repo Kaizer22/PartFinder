@@ -2,31 +2,27 @@
 <resources>
  
     <!--region Buttons -->
-    <style name="ButtonPrimaryColor" parent="Widget.MaterialComponents.Button">
+    <style name="PartFinder.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">?attr/buttonPrimaryTextColor</item>
+        <item name="android:textAppearance">@style/TextAppearance.PartFinder.H5Header</item>
+        <item name="cornerRadius">100dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+    <style name="ButtonPrimaryColor" parent="PartFinder.Button">
         <item name="backgroundTint">?attr/buttonPrimaryColor</item>
-        <item name="android:textColor">?attr/buttonPrimaryTextColor</item>
-        <item name="android:textAppearance">@style/TextAppearance.PartFinder.H5Header</item>
-        <item name="cornerRadius">100dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
     </style>
 
-    <style name="ButtonSecondaryColor" parent="Widget.MaterialComponents.Button">
+    <style name="ButtonSecondaryColor" parent="PartFinder.Button">
         <item name="backgroundTint">?attr/buttonSecondaryColor</item>
-        <item name="android:textColor">?attr/buttonPrimaryTextColor</item>
-        <item name="android:textAppearance">@style/TextAppearance.PartFinder.H5Header</item>
-        <item name="cornerRadius">100dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
     </style>
 
-    <style name="ButtonSecondaryColorLight" parent="Widget.MaterialComponents.Button">
+    <style name="ButtonSecondaryColorLight" parent="PartFinder.Button">
         <item name="backgroundTint">?attr/buttonSecondaryColorLight</item>
-        <item name="android:textColor">?attr/buttonPrimaryTextColor</item>
-        <item name="android:textAppearance">@style/TextAppearance.PartFinder.H5Header</item>
-        <item name="cornerRadius">100dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="ButtonTertiaryColor" parent="PartFinder.Button">
+        <item name="backgroundTint">?attr/buttonTertiaryColor</item>
     </style>
 
     <style name="ButtonInactive" parent="Widget.MaterialComponents.Button">
