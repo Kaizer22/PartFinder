@@ -10,6 +10,7 @@ import ru.desh.partfinder.features.password_reset.presentation.PasswordResetFrag
 import ru.desh.partfinder.features.registration.presentation.NameFormFragment
 import ru.desh.partfinder.features.registration.presentation.UserFormFragment
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
+import ru.desh.partfinder.features.registration.presentation.RegistrationState
 import ru.desh.partfinder.features.registration.presentation.child_fragments.*
 import ru.desh.partfinder.features.start.presentation.OnBoardingFragment
 import ru.desh.partfinder.features.start.presentation.PrivacyPolicyFragment
@@ -52,11 +53,12 @@ object Screens {
     fun Registration_Method() = FragmentScreen {
         RegistrationMethodFragment()
     }
-    fun Registration_Data() = FragmentScreen {
-        RegistrationDataFragment()
+    fun Registration_Data(registrationType: RegistrationFragment.RegistrationType) =
+        FragmentScreen {
+            RegistrationDataFragment(registrationType)
     }
-    fun Registration_Confirmation() = FragmentScreen {
-        RegistrationConfirmationFragment()
+    fun Registration_Confirmation(registrationState: RegistrationFragment.RegistrationType) = FragmentScreen {
+        RegistrationConfirmationFragment(registrationState)
     }
     fun Post_Registration() = FragmentScreen {
         PostRegistrationFragment()

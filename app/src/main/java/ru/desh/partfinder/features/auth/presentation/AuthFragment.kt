@@ -12,6 +12,7 @@ import ru.desh.partfinder.core.Screens.NameForm
 import ru.desh.partfinder.core.Screens.PasswordReset
 import ru.desh.partfinder.core.Screens.PhoneAuth
 import ru.desh.partfinder.core.Screens.Welcome
+import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.databinding.FragmentAuthBinding
 import javax.inject.Inject
@@ -21,8 +22,10 @@ class AuthFragment: Fragment() {
     lateinit var viewModel: AuthFragmentViewModel
 
     @Inject
+    @AppNavigation
     lateinit var router: Router
     @Inject
+    @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder
 
     private lateinit var binding: FragmentAuthBinding

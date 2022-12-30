@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import ru.desh.partfinder.core.Screens.Registration
+import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.databinding.FragmentNameFormBinding
 import javax.inject.Inject
@@ -15,8 +16,10 @@ import javax.inject.Inject
 class NameFormFragment: Fragment(){
 
     @Inject
+    @AppNavigation
     lateinit var router: Router
     @Inject
+    @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder
 
     private lateinit var binding: FragmentNameFormBinding

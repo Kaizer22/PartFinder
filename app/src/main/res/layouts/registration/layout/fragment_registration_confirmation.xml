@@ -6,7 +6,8 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/registration_confirmation_title"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
@@ -17,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView18"
+        android:id="@+id/registration_confirmation_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -29,10 +30,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+        app:layout_constraintTop_toBottomOf="@+id/registration_confirmation_title" />
 
     <ru.desh.library.ui.CustomOtpInputView
-        android:id="@+id/view"
+        android:id="@+id/registration_confirmation_otp_input"
+        android:visibility="gone"
         android:layout_width="315dp"
         android:layout_height="45dp"
         android:layout_marginTop="175dp"
@@ -42,17 +44,63 @@
         app:inputType="numberPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView18"/>
+        app:layout_constraintTop_toBottomOf="@+id/registration_confirmation_info"/>
 
     <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/registration_confirmation_email_animation"
         android:layout_width="175dp"
         android:layout_height="127dp"
         android:layout_marginTop="52dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/registration_confirmation_info"
         app:lottie_autoPlay="true"
         app:lottie_fileName="email_animation.json"
-        app:lottie_loop="true"/>
+        app:lottie_loop="true" />
+
+    <com.google.android.material.button.MaterialButton
+        android:visibility="gone"
+        android:id="@+id/registration_confirmation_button_email_next"
+        style="@style/ButtonPrimaryColor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="70dp"
+        android:text="Далее"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:visibility="gone"
+        android:clickable="false"
+        android:id="@+id/registration_confirmation_button_repeat_otp"
+        style="@style/ButtonInactive"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/button_repeat_after_1_min"
+        app:layout_constraintBottom_toTopOf="@+id/registration_confirmation_button_confirm_otp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:visibility="gone"
+        android:clickable="false"
+        android:id="@+id/registration_confirmation_button_confirm_otp"
+        style="@style/ButtonInactive"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="44dp"
+        android:text="Продолжить"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,18 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/registration_button_next_step"
-        style="@style/ButtonPrimaryColor"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="70dp"
-        android:text="Отправить"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/registration_button_back"
@@ -42,22 +32,22 @@
 
     <ru.desh.library.ui.SteppedProgressBarView
         android:id="@+id/registration_stepped_progress_bar"
-        android:entries="@array/register_steps"
-        app:hasPreStep="false"
-        app:progressBarWidth="6dp"
-        app:progressDrawable="@drawable/stepped_progress_bar_empty"
-        app:progressFillDrawable="@drawable/stepped_progress_bar_progress"
-        app:notAchievedStepDrawable="@drawable/stepped_progress_bar_na_step"
-        app:achievedStepDrawable="@drawable/stepped_progress_bar_step"
-        app:defaultStep="1"
-        android:textAppearance="@style/TextAppearance.PartFinder.Subtitle"
         android:layout_width="0dp"
         android:layout_height="32dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="110dp"
-        app:layout_constraintBottom_toTopOf="@+id/registration_button_next_step"
+        android:layout_marginBottom="44dp"
+        android:entries="@array/register_steps"
+        android:textAppearance="@style/TextAppearance.PartFinder.Subtitle"
+        app:achievedStepDrawable="@drawable/stepped_progress_bar_step"
+        app:defaultStep="1"
+        app:hasPreStep="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:notAchievedStepDrawable="@drawable/stepped_progress_bar_na_step"
+        app:progressBarWidth="6dp"
+        app:progressDrawable="@drawable/stepped_progress_bar_empty"
+        app:progressFillDrawable="@drawable/stepped_progress_bar_progress" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

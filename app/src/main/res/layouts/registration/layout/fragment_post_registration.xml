@@ -42,5 +42,18 @@
         app:lottie_autoPlay="true"
         app:lottie_fileName="dance_party.json"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/registration_button_finish"
+        style="@style/ButtonPrimaryColor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="70dp"
+        android:text="Поехали!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

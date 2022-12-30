@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/materialButton2"
+        android:id="@+id/registration_method_button_phone"
         style="@style/ButtonSecondaryColor"
         android:gravity="center"
         android:paddingStart="32dp"
@@ -50,6 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/registration_method_button_email"
         style="@style/ButtonTertiaryColor"
         app:icon="@drawable/ic_baseline_email"
         android:paddingStart="32dp"
@@ -64,5 +65,5 @@
         android:text="По E-mail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialButton2" />
+        app:layout_constraintTop_toBottomOf="@+id/registration_method_button_phone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

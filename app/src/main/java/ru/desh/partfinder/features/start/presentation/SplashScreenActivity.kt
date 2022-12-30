@@ -11,6 +11,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import ru.desh.partfinder.core.Screens.Main
 import ru.desh.partfinder.core.data.properties.PropertiesRepository
+import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import javax.inject.Inject
 
@@ -18,8 +19,10 @@ import javax.inject.Inject
 class SplashScreenActivity: AppCompatActivity() {
 
     @Inject
+    @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder
     @Inject
+    @AppNavigation
     lateinit var router: Router
     @Inject
     lateinit var propertiesRepository: PropertiesRepository

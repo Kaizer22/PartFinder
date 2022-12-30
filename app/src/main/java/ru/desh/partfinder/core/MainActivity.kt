@@ -10,14 +10,17 @@ import com.github.terrakok.cicerone.androidx.AppNavigator
 import ru.desh.partfinder.R
 import ru.desh.partfinder.core.Screens.Auth
 import ru.desh.partfinder.core.Screens.Welcome
+import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
     @Inject
+    @AppNavigation
     lateinit var router: Router
     @Inject
+    @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder
 
     private val navigator: Navigator = AppNavigator(this, R.id.app_container)
