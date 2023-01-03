@@ -3,14 +3,14 @@ package ru.desh.partfinder.core
 import android.content.Intent
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
+import ru.desh.partfinder.features.ads.HomePageFragment
 import ru.desh.partfinder.features.auth.presentation.AuthFragment
 import ru.desh.partfinder.features.auth.presentation.CodeEnterFragment
 import ru.desh.partfinder.features.auth.presentation.PhoneAuthFragment
-import ru.desh.partfinder.features.password_reset.presentation.PasswordResetFragment
-import ru.desh.partfinder.features.registration.presentation.NameFormFragment
+import ru.desh.partfinder.features.auth.presentation.PasswordResetFragment
+import ru.desh.partfinder.features.registration.presentation.child_fragments.RegistrationNameFragment
 import ru.desh.partfinder.features.registration.presentation.UserFormFragment
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
-import ru.desh.partfinder.features.registration.presentation.RegistrationState
 import ru.desh.partfinder.features.registration.presentation.child_fragments.*
 import ru.desh.partfinder.features.start.presentation.OnBoardingFragment
 import ru.desh.partfinder.features.start.presentation.PrivacyPolicyFragment
@@ -41,8 +41,8 @@ object Screens {
     // endregion
 
     // region Registration
-    fun NameForm() = FragmentScreen {
-        NameFormFragment()
+    fun Registration_Name() = FragmentScreen {
+        RegistrationNameFragment()
     }
     fun Registration() = FragmentScreen {
         RegistrationFragment()
@@ -95,6 +95,13 @@ object Screens {
     }
     fun CodeEnter() = FragmentScreen {
         CodeEnterFragment()
+    }
+    // endregion
+
+    // region Ads
+
+    fun HomePage() = FragmentScreen {
+        HomePageFragment()
     }
     // endregion
 

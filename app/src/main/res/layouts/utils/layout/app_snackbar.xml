@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <androidx.cardview.widget.CardView
+        android:id="@+id/app_snackbar_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
@@ -14,6 +15,7 @@
             android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/app_snackbar_accent_line"
                 android:layout_width="8dp"
                 android:layout_height="0dp"
                 android:backgroundTint="@color/primary"

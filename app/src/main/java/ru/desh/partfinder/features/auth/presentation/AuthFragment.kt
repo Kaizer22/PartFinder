@@ -1,25 +1,29 @@
 package ru.desh.partfinder.features.auth.presentation
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
-import ru.desh.partfinder.core.Screens.NameForm
+import com.google.android.material.snackbar.Snackbar
+import ru.desh.partfinder.core.Screens.HomePage
 import ru.desh.partfinder.core.Screens.PasswordReset
 import ru.desh.partfinder.core.Screens.PhoneAuth
-import ru.desh.partfinder.core.Screens.Welcome
+import ru.desh.partfinder.core.Screens.Registration
 import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
+import ru.desh.partfinder.core.ui.SnackbarBuilder
 import ru.desh.partfinder.databinding.FragmentAuthBinding
 import javax.inject.Inject
 
 class AuthFragment: Fragment() {
     @Inject
-    lateinit var viewModel: AuthFragmentViewModel
+    lateinit var viewModel: AuthViewModel
 
     @Inject
     @AppNavigation
@@ -47,15 +51,42 @@ class AuthFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
+            val infoMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
+                .setType(SnackbarBuilder.Type.SECONDARY)
+                .setTitle("TODO")
+                .setText("Реализация функционала запланирована в будущем")
+            val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
+                .setType(SnackbarBuilder.Type.DANGER)
+                .setTitle("Ошибка авторизации")
+            val successMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
+                .setType(SnackbarBuilder.Type.PRIMARY)
+                .setTitle("Добро пожаловать!")
+                .setText("Вы успешно вошли")
+            val warningMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
+                .setType(SnackbarBuilder.Type.WARNING)
+                .setTitle("Ошибка")
+                .setText("Проверьте корректность ввода email и пароля")
             authButtonSignIn.setOnClickListener {
                 val email = authEmailInput.editText?.text.toString()
                 val password = authPasswordInput.editText?.text.toString()
-                lifecycleScope.launchWhenCreated {
-                    viewModel.authWithEmailAndPassword(email, password).collect { result ->
-                        if (!result.isException) router.navigateTo(Welcome())
+                hideInput()
+                if (isValidInput(email, password)) {
+                    //TODO show loading
+                    //lifecycleScope.launchWhenCreated {
+                    viewModel.authWithEmailAndPassword(email, password).observe(viewLifecycleOwner) { result ->
+                        // TODO hide loading
+                        if (!result.isException){
+                            successMessage.show()
+                            router.navigateTo(HomePage())
+                        } else {
+                            dangerMessage
+                                .setText(result.exception.toString())
+                                .show()
+                        }
                     }
+                } else {
+                    warningMessage.show()
                 }
-                //TODO show loading
             }
             textButtonForgotPassword.setOnClickListener {
                 router.navigateTo(PasswordReset())
@@ -63,9 +94,26 @@ class AuthFragment: Fragment() {
             authButtonPhone.setOnClickListener {
                 router.navigateTo(PhoneAuth())
             }
-            hintRegisterBlock.authButtonToRegister.setOnClickListener {
-                router.navigateTo(NameForm())
+            authButtonGoogle.setOnClickListener {
+                infoMessage.show()
             }
+            authButtonFacebook.setOnClickListener {
+                infoMessage.show()
+            }
+            hintRegisterBlock.authButtonToRegister.setOnClickListener {
+                router.navigateTo(Registration())
+            }
+        }
+    }
+
+    private fun isValidInput(email: String, password: String): Boolean =
+        email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+                //&& password.length >= 8
+
+    private fun hideInput() {
+        this@AuthFragment.activity?.currentFocus?.let {
+            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(view?.windowToken,0)
         }
     }
 }

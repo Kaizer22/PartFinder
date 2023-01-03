@@ -15,8 +15,8 @@ import javax.inject.Inject
 class RegistrationConfirmationViewModel @Inject constructor(
     private val registrationState: MutableStateFlow<RegistrationState>
 ): ViewModel() {
-    fun notifyRegistrationFinished(){
-        registrationState.value = RegistrationState.RegistrationFinished
+    fun notifyDataConfirmed(){
+        registrationState.value = RegistrationState.DataConfirmed
     }
 }
 
@@ -62,10 +62,10 @@ class RegistrationConfirmationFragment(
                 }
             }
             registrationConfirmationButtonEmailNext.setOnClickListener {
-                viewModel.notifyRegistrationFinished()
+                viewModel.notifyDataConfirmed()
             }
             registrationConfirmationButtonConfirmOtp.setOnClickListener {
-                viewModel.notifyRegistrationFinished()
+                viewModel.notifyDataConfirmed()
             }
         }
     }

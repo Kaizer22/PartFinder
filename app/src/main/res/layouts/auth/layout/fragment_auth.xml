@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -16,7 +17,7 @@
             android:id="@+id/auth_logo"
             android:layout_width="220dp"
             android:layout_height="93dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="32dp"
             android:src="@drawable/ic_full_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +27,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:text="@string/sign_in"
             android:textAppearance="@style/TextAppearance.PartFinder.H5Header"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,17 +41,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:hint="Email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:startIconDrawable="@drawable/ic_baseline_email">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -91,7 +93,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:text="@string/button_sign_in"
             app:layout_constraintEnd_toEndOf="parent"
@@ -103,7 +105,7 @@
             style="@style/TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:text="@string/text_button_forgot_password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +115,7 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="16dp"
             android:text="Войти через"
             android:textAppearance="@style/TextAppearance.PartFinder.Body"
             android:textColor="?attr/bodyHintColor"
@@ -146,34 +148,35 @@
             app:layout_constraintTop_toTopOf="@+id/textView4" />
 
         <ImageButton
-            android:background="@drawable/outlined_rounded_button"
-            android:src="@drawable/ic_facebook"
-            android:padding="16dp"
-            android:scaleType="fitCenter"
-            android:id="@+id/imageButton2"
+            android:id="@+id/auth_button_facebook"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/outlined_rounded_button"
+            android:padding="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_facebook"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <ImageButton
+            android:id="@+id/auth_button_phone"
             android:padding="16dp"
             android:background="@drawable/outlined_rounded_button"
             android:src="@drawable/ic_phone"
             android:scaleType="fitCenter"
-            android:id="@+id/auth_button_phone"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
+            app:layout_constraintBottom_toBottomOf="@+id/auth_button_facebook"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageButton2"
-            app:layout_constraintTop_toTopOf="@+id/imageButton2" />
+            app:layout_constraintStart_toEndOf="@+id/auth_button_facebook"
+            app:layout_constraintTop_toTopOf="@+id/auth_button_facebook" />
 
         <ImageButton
+            android:id="@+id/auth_button_google"
             android:src="@drawable/ic_google"
             android:background="@drawable/outlined_rounded_button"
             android:scaleType="fitCenter"
@@ -182,10 +185,10 @@
             android:layout_height="64dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+            app:layout_constraintBottom_toBottomOf="@+id/auth_button_facebook"
+            app:layout_constraintEnd_toStartOf="@+id/auth_button_facebook"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageButton2" />
+            app:layout_constraintTop_toTopOf="@+id/auth_button_facebook" />
 
         <include android:id="@+id/hint_register_block" layout="@layout/text_button_register_block"/>
 

@@ -9,6 +9,9 @@ import ru.desh.partfinder.core.di.SingleApplicationComponent
 // TODO Rename views ids
 // TODO Extract string resources
 // TODO Startups and investments news using API and Retrofit
+// TODO Master/Detail for chats in landscape orientation
+// TODO Unify validation process
+// TODO Human readable auth errors
 
 class PartFinderApplication: Application() {
     override fun onCreate() {

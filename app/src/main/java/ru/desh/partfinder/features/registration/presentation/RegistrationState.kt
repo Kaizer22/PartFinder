@@ -9,5 +9,6 @@ sealed class RegistrationState {
 
     object PhoneInputFinished : RegistrationState()
     object EmailInputFinished : RegistrationState()
+    object DataConfirmed: RegistrationState()
     object RegistrationFinished: RegistrationState()
 }

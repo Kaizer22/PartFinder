@@ -24,7 +24,8 @@
     <declare-styleable name="SteppedProgressBarView">
         <attr name="progressDrawable" format="reference"/>
         <attr name="progressFillDrawable" format="reference"/>
-        <attr name="progressBarWidth" format="dimension"/>
+        <attr name="progressBarHeight" format="dimension"/>
+        <attr name="stepSize" format="dimension"/>
         <attr name="notAchievedStepDrawable" format="reference"/>
         <attr name="achievedStepDrawable" format="reference"/>
         <attr name="hasPreStep" format="boolean"/>

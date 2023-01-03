@@ -5,9 +5,7 @@ import dagger.Subcomponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
 import ru.desh.partfinder.features.registration.presentation.RegistrationState
-import ru.desh.partfinder.features.registration.presentation.child_fragments.RegistrationConfirmationFragment
-import ru.desh.partfinder.features.registration.presentation.child_fragments.RegistrationDataFragment
-import ru.desh.partfinder.features.registration.presentation.child_fragments.RegistrationMethodFragment
+import ru.desh.partfinder.features.registration.presentation.child_fragments.*
 
 @Subcomponent
 interface RegistrationComponent {
@@ -19,7 +17,10 @@ interface RegistrationComponent {
     }
 
     fun inject(registrationFragment: RegistrationFragment)
+
     fun inject(registrationMethodFragment: RegistrationMethodFragment)
     fun inject(registrationDataFragment: RegistrationDataFragment)
     fun inject(registrationConfirmationFragment: RegistrationConfirmationFragment)
+    fun inject(registrationNameFragment: RegistrationNameFragment)
+    fun inject(postRegistrationFragment: PostRegistrationFragment)
 }

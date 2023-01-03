@@ -18,15 +18,13 @@ import ru.desh.partfinder.core.Screens.Post_Registration
 import ru.desh.partfinder.core.Screens.Registration_Confirmation
 import ru.desh.partfinder.core.Screens.Registration_Data
 import ru.desh.partfinder.core.Screens.Registration_Method
+import ru.desh.partfinder.core.Screens.Registration_Name
 import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.RegistrationNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.databinding.FragmentRegistrationBinding
 import ru.desh.partfinder.features.registration.di.RegistrationComponent
-import ru.desh.partfinder.features.registration.presentation.child_fragments.PostRegistrationFragment
-import ru.desh.partfinder.features.registration.presentation.child_fragments.RegistrationConfirmationFragment
-import ru.desh.partfinder.features.registration.presentation.child_fragments.RegistrationDataFragment
-import ru.desh.partfinder.features.registration.presentation.child_fragments.RegistrationMethodFragment
+import ru.desh.partfinder.features.registration.presentation.child_fragments.*
 import javax.inject.Inject
 
 class RegistrationFragment: Fragment() {
@@ -53,6 +51,7 @@ class RegistrationFragment: Fragment() {
     private val registrationMethodFragment = RegistrationMethodFragment()
     private lateinit var registrationDataFragment: RegistrationDataFragment
     private lateinit var registrationConfirmationFragment: RegistrationConfirmationFragment
+    private val registrationNameFragment = RegistrationNameFragment()
     private val postRegistrationFragment = PostRegistrationFragment()
 
     enum class RegistrationType{
@@ -81,6 +80,9 @@ class RegistrationFragment: Fragment() {
                         )
                         Registration_Confirmation(RegistrationType.EMAIL).screenKey -> changeStage(
                             registrationConfirmationFragment
+                        )
+                        Registration_Name().screenKey -> changeStage(
+                            registrationNameFragment
                         )
                     }
                 }
@@ -147,8 +149,12 @@ class RegistrationFragment: Fragment() {
                             innerRouter.navigateTo(Registration_Confirmation(RegistrationType.EMAIL))
                             binding.registrationSteppedProgressBar.nextStep()
                         }
+                        is RegistrationState.DataConfirmed -> {
+                            binding.registrationSteppedProgressBar.nextStep()
+                            innerRouter.navigateTo(Registration_Name())
+                        }
                         is RegistrationState.RegistrationFinished -> {
-                            //post step
+                            binding.registrationSteppedProgressBar.nextStep()
                             innerRouter.navigateTo(Post_Registration())
                         }
                         is RegistrationState.InitState -> {}

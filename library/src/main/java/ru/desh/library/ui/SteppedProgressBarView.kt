@@ -36,6 +36,12 @@ class SteppedProgressBarView: View {
             textAlign = Paint.Align.CENTER
         }
 
+        stepSize = typedArray.getDimensionPixelSize(R.styleable.
+        SteppedProgressBarView_stepSize, stepSize)
+
+        progressBarHeight = typedArray.getDimensionPixelSize(R.styleable.
+        SteppedProgressBarView_progressBarHeight, progressBarHeight)
+
         progressDrawableId = typedArray.getResourceId(R.styleable.SteppedProgressBarView_progressDrawable,
             android.R.color.transparent)
         progressFillDrawableId = typedArray.getResourceId(R.styleable.SteppedProgressBarView_progressFillDrawable,
@@ -45,9 +51,9 @@ class SteppedProgressBarView: View {
         achievedStepDrawableId = typedArray.getResourceId(R.styleable.SteppedProgressBarView_achievedStepDrawable,
             android.R.color.transparent)
         hasPreStep = typedArray.getBoolean(R.styleable.SteppedProgressBarView_hasPreStep,
-            true)
+            hasPreStep)
         hasPostStep = typedArray.getBoolean(R.styleable.SteppedProgressBarView_hasPostStep,
-            true)
+            hasPostStep)
 
         progressDrawable = ResourcesCompat.getDrawable(resources, progressDrawableId, null)!!
         progressFillDrawable = ResourcesCompat.getDrawable(resources, progressFillDrawableId, null)!!
@@ -82,8 +88,35 @@ class SteppedProgressBarView: View {
 
     private var mStepsList = mutableListOf<String>()
     private var mStepsBordersList = mutableListOf<Rect>()
+    private var mLabelsBordersList = mutableListOf<Rect>()
     private lateinit var mProgressBarBorders: Rect
     private lateinit var mProgressFillBorders: Rect
+
+    private var steppedProgressBarPaint = Paint()
+
+    private var currentStep = 0
+
+    private var viewWidth = 0
+    private var viewHeight = 0
+
+    private var stepSize = 30
+    private var progressBarHeight = 10
+
+    private var hasPreStep = true
+    private var hasPostStep = true
+
+    var onStart = true
+        private set
+    var finished = false
+        private set
+
+    // TODO
+    // onStartProgressAnimator
+    // onProgressBarChangeAnimator
+    // onActivateStepAnimator
+    // onDeactivateStepAnimator
+    // onFinishProgressAnimator
+
     init {
         val emptySteps = arrayOfNulls<String>(stepsNumber).map { it ?: "" }.toList()
         setSteps(emptySteps)
@@ -96,33 +129,9 @@ class SteppedProgressBarView: View {
         mProgressBarBorders = Rect()
         mProgressFillBorders = Rect()
         mStepsBordersList = mStepsList.map { Rect() }.toMutableList()
+        mLabelsBordersList = mStepsList.map { Rect() }.toMutableList()
         remeasure()
     }
-
-    private var currentStep = 0
-
-    private var viewWidth = 0
-    private var viewHeight = 0
-
-    //private var stepHeight = 20
-    //private var stepWidth = 20
-    private var progressHeight = 10
-
-    private var hasPreStep = true
-    private var hasPostStep = true
-
-    var onStart = true
-        private set
-    var finished = false
-        private set
-
-    private var steppedProgressBarPaint = Paint()
-
-    // onStartProgressAnimator
-    // onProgressBarChangeAnimator
-    // onActivateStepAnimator
-    // onDeactivateStepAnimator
-    // onFinishProgressAnimator
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -133,17 +142,22 @@ class SteppedProgressBarView: View {
     }
 
     private fun remeasure() {
-        mProgressBarBorders.set(0, viewHeight / 2 - progressHeight / 2,
-            viewWidth, viewHeight / 2 + progressHeight / 2)
+        mProgressBarBorders.set(0, stepSize / 2 - progressBarHeight / 2,
+            viewWidth, stepSize / 2 + progressBarHeight / 2)
         val stepStartEndDistance = viewWidth / (stepsNumber + 1) / 2
         val stepsIndent = (viewWidth - 2 * stepStartEndDistance) / (stepsNumber - 1)
         for (i in 0 until mStepsBordersList.size) {
-            mStepsBordersList[i].set(stepStartEndDistance + i * stepsIndent - viewHeight / 2,0,
-                stepStartEndDistance + i * stepsIndent + viewHeight / 2, viewHeight)
+            mStepsBordersList[i].set(stepStartEndDistance + i * stepsIndent - stepSize / 2,0,
+                stepStartEndDistance + i * stepsIndent + stepSize / 2, stepSize)
+
+            val stepLabel = mStepsList[i]
+            steppedProgressBarPaint.getTextBounds(stepLabel, 0, stepLabel.length, mLabelsBordersList[i])
         }
-        mProgressFillBorders.set(0, viewHeight / 2 - progressHeight / 2,
-            stepStartEndDistance + (currentStep - 1) * stepsIndent,
-            viewHeight / 2 + progressHeight / 2)
+        val fillRightBorder = if(hasPostStep && currentStep > stepsNumber) viewWidth else
+            stepStartEndDistance + (currentStep - 1) * stepsIndent
+
+        mProgressFillBorders.set(0, stepSize / 2 - progressBarHeight / 2,
+            fillRightBorder, stepSize / 2 + progressBarHeight / 2)
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -161,14 +175,17 @@ class SteppedProgressBarView: View {
                     notAchievedStepDrawable.bounds = step
                     notAchievedStepDrawable.draw(canvas)
                 }
-                canvas.drawText(mStepsList[i], step.left.toFloat(), step.bottom.toFloat(),
+                canvas.drawText(mStepsList[i],
+                    step.left.toFloat() + step.width() / 2,
+                    step.bottom.toFloat() + 15 + mLabelsBordersList[i].height(),
                     steppedProgressBarPaint)
             }
         }
     }
 
     fun nextStep(){
-        if (currentStep < stepsNumber) {
+        if ( (currentStep + 1 <= stepsNumber + 1  && hasPostStep)  ||
+                currentStep + 1 <= stepsNumber) {
             currentStep += 1
             remeasure()
         }

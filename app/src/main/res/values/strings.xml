@@ -23,6 +23,7 @@
     <string name="registration_stage_1">Способ</string>
     <string name="registration_stage_2">Данные</string>
     <string name="registration_stage_3">Подтверждение</string>
+    <string name="registration_stage_4">ФИО</string>
     <string name="user_profile_stage_1">Организация</string>
     <string name="user_profile_stage_2">Деятельность</string>
     <string name="user_profile_stage_3">О себе</string>

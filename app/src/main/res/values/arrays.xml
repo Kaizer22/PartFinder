@@ -5,6 +5,7 @@
         <item>@string/registration_stage_1</item>
         <item>@string/registration_stage_2</item>
         <item>@string/registration_stage_3</item>
+        <item>@string/registration_stage_4</item>
     </array>
     <array name="user_profile_steps">
         <item>@string/user_profile_stage_1</item>

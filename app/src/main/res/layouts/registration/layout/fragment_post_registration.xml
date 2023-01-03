@@ -43,7 +43,7 @@
         app:lottie_fileName="dance_party.json"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/registration_button_finish"
+        android:id="@+id/post_registration_button_finish"
         style="@style/ButtonPrimaryColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

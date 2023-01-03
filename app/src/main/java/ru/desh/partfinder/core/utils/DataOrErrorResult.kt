@@ -23,12 +23,11 @@ class DataOrErrorResult<T, E: Exception?>() {
     var isException: Boolean = false
         private set
 
-    constructor(d: T?, e: E?, isE: Boolean) : this() {
+    constructor(d: T?, e: E?) : this() {
         data = d
         exception = e
-        isException = isE
-        if (isException && exception == null || !isException && data == null) {
+        if (data == null && exception == null) {
             throw IncorrectDataOrErrorResultException()
-        }
+        } else isException = data == null
     }
 }
