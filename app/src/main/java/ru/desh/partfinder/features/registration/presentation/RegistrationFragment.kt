@@ -78,7 +78,7 @@ class RegistrationFragment: Fragment() {
                         Registration_Data(RegistrationType.EMAIL).screenKey -> changeStage(
                             registrationDataFragment
                         )
-                        Registration_Confirmation(RegistrationType.EMAIL).screenKey -> changeStage(
+                        Registration_Confirmation(RegistrationType.EMAIL, "").screenKey -> changeStage(
                             registrationConfirmationFragment
                         )
                         Registration_Name().screenKey -> changeStage(
@@ -138,15 +138,15 @@ class RegistrationFragment: Fragment() {
                         }
                         is RegistrationState.PhoneInputFinished -> {
                             registrationConfirmationFragment = RegistrationConfirmationFragment(
-                                RegistrationType.PHONE)
-                            innerRouter.navigateTo(Registration_Confirmation(RegistrationType.PHONE))
+                                RegistrationType.PHONE, regState.phoneNumber)
+                            innerRouter.navigateTo(Registration_Confirmation(RegistrationType.PHONE, regState.phoneNumber))
                             binding.registrationSteppedProgressBar.nextStep()
                         }
                         is RegistrationState.EmailInputFinished -> {
                             registrationConfirmationFragment = RegistrationConfirmationFragment(
-                                RegistrationType.EMAIL
+                                RegistrationType.EMAIL, ""
                             )
-                            innerRouter.navigateTo(Registration_Confirmation(RegistrationType.EMAIL))
+                            innerRouter.navigateTo(Registration_Confirmation(RegistrationType.EMAIL, ""))
                             binding.registrationSteppedProgressBar.nextStep()
                         }
                         is RegistrationState.DataConfirmed -> {

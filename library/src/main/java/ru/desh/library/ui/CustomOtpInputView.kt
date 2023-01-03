@@ -28,6 +28,7 @@ open class CustomOtpInputView: LinearLayout {
     private val mListOfDigits = mutableListOf<EditText>()
     private val mListOfViews = mutableListOf<CardView>()
     private var digitsCount = 6
+    fun digitsCount() = digitsCount
 
     private var cornerRadius = 10
     private var inputSpacing = 15
@@ -45,12 +46,20 @@ open class CustomOtpInputView: LinearLayout {
     private var hintText = ""
     private var hintColor = -1
 
-    val otpText: String
-        get() {
-            return mListOfDigits.joinToString(separator = "") {
-                it.text.toString()
+    private lateinit var mOtpText: String
+    fun getText(): String {
+        return mListOfDigits.joinToString(separator = "") {
+            it.text.toString()
+        }
+    }
+    fun setText(value: String) {
+        if (value.length == digitsCount) {
+            mOtpText = value
+            mListOfDigits.forEachIndexed { i, field ->
+                field.setText(mOtpText[i].toString())
             }
         }
+    }
 
     var isCursorVisible: Boolean
         set(value) {
@@ -300,7 +309,7 @@ open class CustomOtpInputView: LinearLayout {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(s: Editable) {
-                    onChanged(otpText.length == digitsCount, otpText)
+                    onChanged(mOtpText.length == digitsCount, mOtpText)
                 }
             })
         }
@@ -311,8 +320,8 @@ open class CustomOtpInputView: LinearLayout {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun afterTextChanged(s: Editable) {
-                if (otpText.length == digitsCount) {
-                    onInputFinished(otpText)
+                if (mOtpText.length == digitsCount) {
+                    onInputFinished(mOtpText)
                 }
             }
         })

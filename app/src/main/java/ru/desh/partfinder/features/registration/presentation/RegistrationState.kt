@@ -7,7 +7,9 @@ sealed class RegistrationState {
         val registrationType: RegistrationFragment.RegistrationType
         ): RegistrationState()
 
-    object PhoneInputFinished : RegistrationState()
+    data class PhoneInputFinished(
+        val phoneNumber: String
+    ) : RegistrationState()
     object EmailInputFinished : RegistrationState()
     object DataConfirmed: RegistrationState()
     object RegistrationFinished: RegistrationState()

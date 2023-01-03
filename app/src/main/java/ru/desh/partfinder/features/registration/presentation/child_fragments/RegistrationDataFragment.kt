@@ -25,8 +25,8 @@ class RegistrationDataViewModel @Inject constructor(
     private val registrationState: MutableStateFlow<RegistrationState>,
     private val authRepository: AuthRepository
 ): ViewModel() {
-    fun notifyPhoneDataSent() {
-        registrationState.value = RegistrationState.PhoneInputFinished
+    fun notifyPhoneDataSent(phoneNumber: String) {
+        registrationState.value = RegistrationState.PhoneInputFinished(phoneNumber)
     }
     fun notifyEmailDataSent() {
         registrationState.value = RegistrationState.EmailInputFinished
@@ -95,14 +95,15 @@ class RegistrationDataFragment(
                     RegistrationFragment.RegistrationType.PHONE -> {
                         val phoneNumber = registrationDataPhoneInput.editText?.text.toString()
                         if (isValidPhoneNumber(phoneNumber)) {
-                            viewModel.createUserWithPhoneNumber(phoneNumber).observe(viewLifecycleOwner) {
-                                result ->
-                                if (!result.isException) {
-                                    viewModel.notifyPhoneDataSent()
-                                } else {
-                                    dangerMessage.setText(result.exception.toString()).show()
-                                }
-                            }
+                            viewModel.notifyPhoneDataSent(phoneNumber)
+//                            viewModel.createUserWithPhoneNumber(phoneNumber).observe(viewLifecycleOwner) {
+//                                result ->
+//                                if (!result.isException) {
+//                                    viewModel.notifyPhoneDataSent(phoneNumber)
+//                                } else {
+//                                    dangerMessage.setText(result.exception.toString()).show()
+//                                }
+//                            }
                         } else {
                             warningMessage.setText("Пожалуйста, перепроверьте введенные значения. " +
                                     "Некорректный номер телефона").show()

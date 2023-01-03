@@ -14,8 +14,8 @@ interface AuthRepository {
     fun createAccountWithGoogleAccount(): LiveData<DataOrErrorResult<Account?, Exception?>>
 
     fun createAccountWithPhone(phoneNumber: String): LiveData<DataOrErrorResult<Account?, Exception?>>
-    fun sendVerificationCode(phoneNumber: String): LiveData<DataOrErrorResult<Account?, Exception?>>
-    fun verifyCode(code: String): LiveData<DataOrErrorResult<Account?, Exception?>>
+    fun sendVerificationCode(phoneNumber: String): LiveData<DataOrErrorResult<String, Exception?>>
+    fun verifyCode(code: String): LiveData<DataOrErrorResult<Boolean, Exception?>>
 
     fun signInWithGoogle(): LiveData<DataOrErrorResult<Account?, Exception?>>
 
