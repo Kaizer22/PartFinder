@@ -1,4 +1,4 @@
-package ru.desh.partfinder.core.data.properties
+package ru.desh.partfinder.core.utils.exception.properties
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey

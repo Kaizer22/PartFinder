@@ -78,6 +78,9 @@ class PasswordResetFragment: Fragment() {
                     warningMessage.show()
                 }
             }
+            passwordResetButtonBack.setOnClickListener {
+                router.exit()
+            }
         }
     }
 

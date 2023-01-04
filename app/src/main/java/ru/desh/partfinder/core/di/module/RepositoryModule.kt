@@ -2,8 +2,8 @@ package ru.desh.partfinder.core.di.module
 
 import dagger.Binds
 import dagger.Module
-import ru.desh.partfinder.core.data.properties.PropertiesRepository
-import ru.desh.partfinder.core.data.properties.PropertiesRepositoryDataStoreImpl
+import ru.desh.partfinder.core.utils.exception.properties.PropertiesRepository
+import ru.desh.partfinder.core.utils.exception.properties.PropertiesRepositoryDataStoreImpl
 import ru.desh.partfinder.core.domain.repository.AuthRepository
 import ru.desh.partfinder.core.data.firebase.FirebaseAuthRepositoryImpl
 import ru.desh.partfinder.core.data.firebase.FirebaseUserRepositoryImpl

@@ -20,6 +20,7 @@
         <item name="buttonSecondaryColor">@color/secondary</item>
         <item name="buttonSecondaryColorLight">@color/secondary_20</item>
         <item name="buttonPrimaryTextColor">@color/black</item>
+        <item name="textAccentColor">@color/secondary</item>
         <item name="outlinedButtonColor">@color/primary</item>
         <item name="bodyHintColor">@color/gray</item>
         <item name="inputFieldBgColor">@color/primary_10</item>

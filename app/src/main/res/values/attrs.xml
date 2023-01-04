@@ -17,6 +17,7 @@
     <!-- Text -->
     <attr name="linkColor" format="color"/>
     <attr name="bodyHintColor" format="color"/>
+    <attr name="textAccentColor" format="color"/>
 
     <!-- Input -->
     <attr name="inputFieldBgColor" format="color"/>

@@ -40,8 +40,12 @@ android {
         main {
             res.srcDirs =
                     [
+                            'src/main/res/layouts/ads',
+                            'src/main/res/layouts/chats',
+                            'src/main/res/layouts/favourites',
                             'src/main/res/layouts/registration',
                             'src/main/res/layouts/auth',
+                            'src/main/res/layouts/settings',
                             'src/main/res/layouts/start',
                             'src/main/res/layouts/utils',
                             'src/main/res/layouts',

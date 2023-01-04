@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/materialButton"
+            android:id="@+id/enter_sms_code_button_back"
             style="@style/TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
