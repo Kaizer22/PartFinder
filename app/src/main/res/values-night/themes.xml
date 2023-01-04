@@ -1,6 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Theme.PartFinder" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.PartFinder" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary_20</item>
@@ -12,6 +12,26 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="linkColor">@color/primary_40</item>
+
+        <item name="buttonPrimaryColor">@color/primary</item>
+        <item name="buttonPrimaryColorLight">@color/primary_20</item>
+        <item name="buttonSecondaryColor">@color/secondary</item>
+        <item name="buttonSecondaryColorLight">@color/secondary_20</item>
+        <item name="buttonPrimaryTextColor">@color/black</item>
+        <item name="outlinedButtonColor">@color/primary</item>
+        <item name="bodyHintColor">@color/gray</item>
+        <item name="inputFieldBgColor">@color/primary_10</item>
+        <item name="inputFieldIconsTint">@color/black</item>
+        <item name="inputFieldBoxStrokeColor">@color/primary_40</item>
+        <item name="inputFieldHintTextColor">@color/primary_40</item>
+        <item name="buttonInactiveColor">@color/gray</item>
+        <item name="buttonInactiveTextColor">@color/primary_10</item>
+        <item name="otpInputBgColor">@color/light_gray</item>
+        <item name="otpInputFocusColor">@color/primary</item>
+        <item name="steppedProgressBarProgressColor">@color/primary_40</item>
+        <item name="steppedProgressBarEmptyColor">@color/light_gray</item>
+        <item name="buttonTertiaryColor">@color/tertiary</item>
     </style>
 
     <style name="PartFinderSplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">

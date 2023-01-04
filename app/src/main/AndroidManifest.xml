@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.desh.partfinder">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
+        android:name=".PartFinderApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,10 +18,12 @@
         tools:targetApi="31">
         <activity
             android:name=".core.MainActivity"
-            android:exported="true">
+            android:screenOrientation="portrait"
+            android:exported="true"
+            tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
-            android:name=".features.start.SplashScreenActivity"
+            android:name=".features.start.presentation.SplashScreenActivity"
             android:theme="@style/PartFinderSplashScreen"
             android:exported="true">
             <intent-filter>

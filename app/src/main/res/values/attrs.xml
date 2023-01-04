@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Buttons -->
+    <attr name="buttonPrimaryColor" format="color"/>
+    <attr name="buttonPrimaryColorLight" format="color"/>
+    <attr name="buttonPrimaryTextColor" format="color"/>
+    <attr name="buttonTertiaryColor" format="color"/>
+
+    <attr name="buttonSecondaryColor" format="color"/>
+    <attr name="buttonSecondaryColorLight" format="color"/>
+
+    <attr name="buttonInactiveColor" format="color"/>
+    <attr name="buttonInactiveTextColor" format="color"/>
+
+    <attr name="outlinedButtonColor" format="color"/>
+
+    <!-- Text -->
+    <attr name="linkColor" format="color"/>
+    <attr name="bodyHintColor" format="color"/>
+    <attr name="textAccentColor" format="color"/>
+
+    <!-- Input -->
+    <attr name="inputFieldBgColor" format="color"/>
+    <attr name="inputFieldIconsTint" format="color"/>
+    <attr name="inputFieldBoxStrokeColor" format="color"/>
+    <attr name="inputFieldHintTextColor" format="color"/>
+
+    <attr name="otpInputBgColor" format="color"/>
+    <attr name="otpInputFocusColor" format="color"/>
+
+    <!-- Progress -->
+    <attr name="steppedProgressBarProgressColor" format="color"/>
+    <attr name="steppedProgressBarEmptyColor" format="color"/>
+    
+    <!-- Snackbar -->
+    <attr name="primaryIconTint" format="color"/>
+    <attr name="primaryTextColor" format="color"/>
+    <attr name="primaryBgColor" format="color"/>
+    <attr name="primaryAccentColor" format="color"/>
+
+    <attr name="secondaryIconTint" format="color"/>
+    <attr name="secondaryTextColor" format="color"/>
+    <attr name="secondaryBgColor" format="color"/>
+    <attr name="secondaryAccentColor" format="color"/>
+
+    <attr name="successIconTint" format="color"/>
+    <attr name="successTextColor" format="color"/>
+    <attr name="successBgColor" format="color"/>
+    <attr name="successAccentColor" format="color"/>
+
+    <attr name="warningIconTint" format="color"/>
+    <attr name="warningTextColor" format="color"/>
+    <attr name="warningBgColor" format="color"/>
+    <attr name="warningAccentColor" format="color"/>
+
+    <attr name="dangerIconTint" format="color"/>
+    <attr name="dangerTextColor" format="color"/>
+    <attr name="dangerBgColor" format="color"/>
+    <attr name="dangerAccentColor" format="color"/>
+</resources>

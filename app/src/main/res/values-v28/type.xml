@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.PartFinder.Body" parent="TextAppearance.PartFinder.BaseFont">
+        <item name="android:textSize">16sp</item>
+        <item name="fontWeight">100</item>
+        <item name="android:textFontWeight">100</item>
+    </style>
+    <style name="TextAppearance.PartFinder.Subtitle" parent="TextAppearance.PartFinder.BaseFont">
+        <item name="android:textSize">14sp</item>
+        <item name="fontWeight">300</item>
+        <item name="android:textFontWeight">300</item>
+    </style>
+</resources>

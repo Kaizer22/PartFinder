@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomOtpInputView">
+        <attr name="inputSpacing" format="dimension"/>
+        <attr name="inputBackground" format="color"/>
+        <attr name="inputFocusBackground" format="color"/>
+        <attr name="digitsCount" format="integer"/>
+        <attr name="inputRadius" format="dimension"/>
+        <attr name="borderColor" format="color"/>
+        <attr name="borderWidth" format="dimension"/>
+        <attr name="inputType" format="enum">
+            <enum name="number" value="1" />
+            <enum name="numberPassword" value="2" />
+        </attr>
+        <attr name="android:textSize"/>
+        <attr name="android:textColor"/>
+        <attr name="android:textStyle"/>
+        <attr name="android:hint"/>
+        <attr name="android:textColorHint"/>
+        <attr name="android:cursorVisible"/>
+        <attr name="android:textAppearance"/>
+    </declare-styleable>
+    
+    <declare-styleable name="SteppedProgressBarView">
+        <attr name="progressDrawable" format="reference"/>
+        <attr name="progressFillDrawable" format="reference"/>
+        <attr name="progressBarHeight" format="dimension"/>
+        <attr name="stepSize" format="dimension"/>
+        <attr name="notAchievedStepDrawable" format="reference"/>
+        <attr name="achievedStepDrawable" format="reference"/>
+        <attr name="hasPreStep" format="boolean"/>
+        <attr name="hasPostStep" format="boolean"/>
+        <attr name="defaultStep" format="integer"/>
+
+        <attr name="android:entries"/>
+        <attr name="android:textAppearance"/>
+    </declare-styleable>
+</resources>
