@@ -19,9 +19,9 @@ import ru.desh.partfinder.core.Screens.Registration_Confirmation
 import ru.desh.partfinder.core.Screens.Registration_Data
 import ru.desh.partfinder.core.Screens.Registration_Method
 import ru.desh.partfinder.core.Screens.Registration_Name
-import ru.desh.partfinder.core.di.AppNavigation
-import ru.desh.partfinder.core.di.RegistrationNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
+import ru.desh.partfinder.core.di.module.AppNavigation
+import ru.desh.partfinder.core.di.module.RegistrationNavigation
 import ru.desh.partfinder.databinding.FragmentRegistrationBinding
 import ru.desh.partfinder.features.registration.di.RegistrationComponent
 import ru.desh.partfinder.features.registration.presentation.child_fragments.*
@@ -45,6 +45,8 @@ class RegistrationFragment: Fragment() {
 
     lateinit var registrationComponent: RegistrationComponent
         private set
+
+    // Registration state, shared with child fragments
     private val _registrationState = MutableStateFlow<RegistrationState>(RegistrationState.InitState)
     val registrationState: StateFlow<RegistrationState> = _registrationState
 

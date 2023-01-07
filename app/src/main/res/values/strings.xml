@@ -28,4 +28,20 @@
     <string name="user_profile_stage_2">Деятельность</string>
     <string name="user_profile_stage_3">О себе</string>
     <string name="user_profile_stage_4">Доп. вопросы</string>
+    <string name="unknown_source">Источник не указан</string>
+    <string name="unknown_author">Автор не указан</string>
+    <string name="no_title">Заголовок отсутствует</string>
+    <string name="no_description">Описание отсутствует</string>
+    <string name="bottom_app_bar_settings">Настройки</string>
+    <string name="bottom_app_bar_chats">Чаты</string>
+    <string name="bottom_app_bar_home">Главная</string>
+    <string name="bottom_app_bar_favourite">Избранное</string>
+    
+    <!-- Ads categories -->
+    <string name="category_e_commerce">E-commerce</string>
+    <string name="category_e_commerce_description">E-commerce</string>
+    <string name="category_retail">Ритейл</string>
+    <string name="category_retail_description">Ритейл</string>
+    <string name="category_real_estate">Недвижимость</string>
+    <string name="category_real_estate_description">Недвижимость</string>
 </resources>

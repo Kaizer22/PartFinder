@@ -11,7 +11,7 @@ import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.MutableStateFlow
-import ru.desh.partfinder.core.di.RegistrationNavigation
+import ru.desh.partfinder.core.di.module.RegistrationNavigation
 import ru.desh.partfinder.core.domain.model.User
 import ru.desh.partfinder.core.domain.repository.UserRepository
 import ru.desh.partfinder.core.ui.SnackbarBuilder
@@ -27,10 +27,11 @@ class RegistrationNameViewModel @Inject constructor(
     private val userRepository: UserRepository
 ): ViewModel() {
     fun createUser(name: String, surname: String, thirdName: String)
-    : LiveData<DataOrErrorResult<Boolean,Exception>>{
+    : LiveData<DataOrErrorResult<Boolean, Exception>>{
         val user = User(UUID.randomUUID().toString(),
         "",
-        name, surname, thirdName, "")
+        name, surname, thirdName, "", emptyList()
+        )
         return userRepository.createUser(user)
     }
     fun notifyUserCreated() {

@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModel
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
 import ru.desh.partfinder.core.Screens.Auth
-import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
+import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.domain.repository.AuthRepository
 import ru.desh.partfinder.core.ui.SnackbarBuilder
 import ru.desh.partfinder.core.utils.DataOrErrorResult

@@ -1,9 +1,14 @@
 package ru.desh.partfinder.core
 
 import android.content.Intent
+import android.net.Uri
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import ru.desh.partfinder.features.ads.HomePageFragment
+import ru.desh.partfinder.core.domain.model.Ad
+import ru.desh.partfinder.features.BottomNavigationActivity
+import ru.desh.partfinder.features.ads.presentation.AdDetailsFragment
+import ru.desh.partfinder.features.ads.presentation.CreateAdFragment
+import ru.desh.partfinder.features.ads.presentation.HomePageFragment
 import ru.desh.partfinder.features.auth.presentation.AuthFragment
 import ru.desh.partfinder.features.auth.presentation.CodeEnterFragment
 import ru.desh.partfinder.features.auth.presentation.PhoneAuthFragment
@@ -24,9 +29,20 @@ object Screens {
         val i = Intent(it, MainActivity::class.java)
         i.putExtra(START_FRAGMENT, startFragment)
     }
+    fun BottomNavigation() = ActivityScreen {
+        Intent(it, BottomNavigationActivity::class.java)
+    }
     //endregion
 
-    //region Fragment
+    // region External
+
+    fun NewsArticleSource(url: String) = ActivityScreen {
+        Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    }
+
+    // endregion
+
+    // region Fragment
 
     // region Start
     fun Welcome() = FragmentScreen {
@@ -104,8 +120,36 @@ object Screens {
     fun HomePage() = FragmentScreen {
         HomePageFragment()
     }
+
+    fun AdDetails(ad: Ad) = FragmentScreen {
+        AdDetailsFragment(ad)
+    }
+
+    fun CreateAd() = FragmentScreen {
+        CreateAdFragment()
+    }
+
+    fun CreateAd_Target() = FragmentScreen {
+        CreateAdFragment()
+    }
+
+    fun CreateAd_Description() = FragmentScreen {
+        CreateAdFragment()
+    }
+
+    fun CreateAd_Files() = FragmentScreen {
+        CreateAdFragment()
+    }
+
+    fun CreateAd_Contacts() = FragmentScreen {
+        CreateAdFragment()
+    }
+
+    fun Post_CreateAd() = FragmentScreen {
+        CreateAdFragment()
+    }
     // endregion
 
-    //endregion
+    // endregion
 
 }

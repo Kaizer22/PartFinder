@@ -20,17 +20,12 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
 ): AuthRepository {
     override fun createAccountWithEmailAndPassword(email: String, password: String): LiveData<DataOrErrorResult<Account?, Exception?>> {
-//        val dataOrException: MutableStateFlow<DataOrErrorResult<Account?, Exception?>> = MutableStateFlow(
-//            DataOrErrorResult(Account.getEmpty(), null, false)
-//        )
         val dataOrException = MutableLiveData<DataOrErrorResult<Account?, Exception?>>()
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{ task ->
             val res = DataOrErrorResult<Account?, Exception?>()
             if (task.isSuccessful) {
-                Log.d("AUTH", "created user $email $password")
                 res.data = getUser(auth.currentUser)
             } else {
-                Log.d("AUTH", "error ${task.exception.toString()}")
                 res.exception = task.exception
             }
             dataOrException.value = res
@@ -91,7 +86,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
                 override fun onCodeSent(vId: String, fRT: PhoneAuthProvider.ForceResendingToken) {
                     super.onCodeSent(vId, fRT)
                     verificationId = vId
-                    Log.d("AUTH_REPOSITORY", "Verification code sent to $phoneNumber")
+                    Log.d("FIREBASE_AUTH_REPOSITORY", "Verification code sent to $phoneNumber")
                 }
                 override fun onVerificationCompleted(pAC: PhoneAuthCredential) {
                     val code = pAC.smsCode
@@ -116,7 +111,6 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     }
 
     override fun verifyCode(code: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
-        // verify
         val dataOrException = MutableLiveData<DataOrErrorResult<Boolean, Exception?>>()
         val credential = PhoneAuthProvider.getCredential(verificationId, code)
         auth.signInWithCredential(credential).addOnCompleteListener {  result ->
@@ -137,17 +131,12 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     }
 
     override fun signInWithEmailAndPassword(email: String, password: String): LiveData<DataOrErrorResult<Account?, Exception?>> {
-//        val dataOrException: MutableStateFlow<DataOrErrorResult<Account?, Exception?>> = MutableStateFlow(
-//            DataOrErrorResult(Account.getEmpty(), null, false)
-//        )
         val dataOrException = MutableLiveData<DataOrErrorResult<Account?, Exception?>>()
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             val res = DataOrErrorResult<Account?, Exception?>()
             if (task.isSuccessful) {
-                Log.d("AUTH", "logged in as $email $password")
                 res.data = getUser(auth.currentUser)
             } else {
-                Log.d("AUTH", "error ${task.exception.toString()}")
                 res.exception = task.exception
             }
             dataOrException.value = res

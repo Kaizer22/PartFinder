@@ -11,8 +11,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import ru.desh.partfinder.core.Screens.Main
 import ru.desh.partfinder.core.utils.exception.properties.PropertiesRepository
-import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
+import ru.desh.partfinder.core.di.module.AppNavigation
 import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")

@@ -8,15 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
+import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.google.android.material.snackbar.Snackbar
-import ru.desh.partfinder.core.Screens.HomePage
+import ru.desh.partfinder.core.Screens.BottomNavigation
 import ru.desh.partfinder.core.Screens.PasswordReset
 import ru.desh.partfinder.core.Screens.PhoneAuth
 import ru.desh.partfinder.core.Screens.Registration
-import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
+import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.ui.SnackbarBuilder
 import ru.desh.partfinder.databinding.FragmentAuthBinding
 import javax.inject.Inject
@@ -31,6 +33,8 @@ class AuthFragment: Fragment() {
     @Inject
     @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder
+
+    private lateinit var activityNavigator : Navigator
 
     private lateinit var binding: FragmentAuthBinding
 
@@ -50,6 +54,7 @@ class AuthFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activityNavigator = AppNavigator(requireActivity(), -1)
         binding.apply {
             val infoMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.SECONDARY)
@@ -72,12 +77,11 @@ class AuthFragment: Fragment() {
                 hideInput()
                 if (isValidInput(email, password)) {
                     //TODO show loading
-                    //lifecycleScope.launchWhenCreated {
                     viewModel.authWithEmailAndPassword(email, password).observe(viewLifecycleOwner) { result ->
                         // TODO hide loading
                         if (!result.isException){
                             successMessage.show()
-                            router.navigateTo(HomePage())
+                            router.navigateTo(BottomNavigation())
                         } else {
                             dangerMessage
                                 .setText(result.exception.toString())

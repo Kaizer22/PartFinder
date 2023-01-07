@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import ru.desh.partfinder.core.Screens.CodeEnter
-import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
+import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.databinding.FragmentPhoneAuthBinding
 import javax.inject.Inject
 

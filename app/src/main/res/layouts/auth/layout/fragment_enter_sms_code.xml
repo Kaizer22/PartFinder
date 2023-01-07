@@ -43,8 +43,8 @@
 
     <ru.desh.library.ui.CustomOtpInputView
         android:id="@+id/view"
-        android:layout_width="315dp"
-        android:layout_height="45dp"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
         app:inputFocusBackground="?attr/otpInputFocusColor"
         app:inputBackground="?attr/otpInputBgColor"

@@ -11,8 +11,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.desh.partfinder.core.Screens.PrivacyPolicy
 import ru.desh.partfinder.core.utils.exception.properties.PropertiesRepository
-import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
+import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.databinding.FragmentWelcomeBinding
 import javax.inject.Inject
 
