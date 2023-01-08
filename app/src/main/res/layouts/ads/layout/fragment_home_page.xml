@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/content">
@@ -22,23 +21,24 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="12dp"
-                android:hint="Искать по всем категориям"
+                android:hint="@string/home_page_search_hint"
                 app:layout_constraintEnd_toStartOf="@+id/materialButton6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+                app:layout_constraintTop_toBottomOf="@+id/home_page_user_name" />
 
             <TextView
                 android:id="@+id/textView22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="-8dp"
                 android:background="@color/tertiary"
                 android:elevation="10dp"
-                android:maxWidth="32dp"
+                android:maxLines="1"
                 android:paddingLeft="2dp"
                 android:paddingTop="0dp"
                 android:paddingEnd="2dp"
                 android:paddingBottom="0dp"
-                android:text="+999"
+                android:text="@string/user_rating_placeholder"
                 android:textAppearance="@style/TextAppearance.PartFinder.Caption"
                 app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView2"
                 app:layout_constraintStart_toStartOf="@+id/shapeableImageView2" />
@@ -59,18 +59,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Добро пожаловать,"
+                android:text="@string/home_page_welcome_prefix"
                 android:textAppearance="@style/TextAppearance.PartFinder.Caption"
                 app:layout_constraintStart_toEndOf="@+id/shapeableImageView2"
                 app:layout_constraintTop_toTopOf="@+id/shapeableImageView2" />
 
             <TextView
-                android:id="@+id/textView23"
+                android:id="@+id/home_page_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="6dp"
-                android:text="%NAME%"
                 android:textAppearance="@style/TextAppearance.PartFinder.Body"
                 app:layout_constraintStart_toEndOf="@+id/shapeableImageView2"
                 app:layout_constraintTop_toBottomOf="@+id/textView21" />
@@ -105,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="Категории"
+                android:text="@string/home_page_categories_title"
                 android:textAppearance="@style/TextAppearance.PartFinder.H5Header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText" />
@@ -113,7 +112,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/home_page_category_list"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
@@ -123,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="Новости"
+                android:text="@string/home_page_news_title"
                 android:textAppearance="@style/TextAppearance.PartFinder.H5Header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_page_category_list" />
@@ -141,12 +140,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="Рекомендации"
+                android:text="@string/home_page_recommended_ads_title"
                 android:textAppearance="@style/TextAppearance.PartFinder.H5Header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_page_news_list" />
 
+            <!-- TODO hide bottom bar on scroll instead of padding -->
             <androidx.recyclerview.widget.RecyclerView
+                android:paddingBottom="@dimen/bottom_bar_height"
                 android:id="@+id/home_page_recommendations_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

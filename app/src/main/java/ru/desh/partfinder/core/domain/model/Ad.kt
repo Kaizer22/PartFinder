@@ -16,7 +16,7 @@ data class Ad(
     val userContacts: List<UserContact>,
     val favouritesCount: Int,
     val commentsCount: Int,
-    val reputation: Int
+    var reputation: Int
 ) {
     // TODO get rid of empty constructors for Firebase
     constructor() : this("", "", "", "", 0L, "", "",

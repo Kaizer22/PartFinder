@@ -40,6 +40,13 @@ class BottomNavigationActivity: AppCompatActivity() {
         return true
     }
 
+    fun hideNavigation() {
+        binding.bottomNavigationCoordinatorLayout.visibility = View.GONE
+    }
+    fun showNavigation() {
+        binding.bottomNavigationCoordinatorLayout.visibility = View.VISIBLE
+    }
+
     override fun onResume() {
         super.onResume()
         navigatorHolder.setNavigator(navigator)

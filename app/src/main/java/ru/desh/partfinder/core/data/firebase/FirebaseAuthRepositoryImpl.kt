@@ -19,12 +19,20 @@ import javax.inject.Inject
 class FirebaseAuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
 ): AuthRepository {
-    override fun createAccountWithEmailAndPassword(email: String, password: String): LiveData<DataOrErrorResult<Account?, Exception?>> {
-        val dataOrException = MutableLiveData<DataOrErrorResult<Account?, Exception?>>()
+
+    private var currentUser: Account? = null
+
+    override fun getCurrentAccount(): Account? {
+        return currentUser?.copy()
+    }
+
+    override fun createAccountWithEmailAndPassword(email: String, password: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
+        val dataOrException = MutableLiveData<DataOrErrorResult<Boolean, Exception?>>()
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{ task ->
-            val res = DataOrErrorResult<Account?, Exception?>()
+            val res = DataOrErrorResult<Boolean, Exception?>()
             if (task.isSuccessful) {
-                res.data = getUser(auth.currentUser)
+                currentUser = getUser(auth.currentUser)
+                res.data = true
             } else {
                 res.exception = task.exception
             }
@@ -61,11 +69,11 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         return dataOrException
     }
 
-    override fun createAccountWithGoogleAccount(): LiveData<DataOrErrorResult<Account?, Exception?>> {
+    override fun createAccountWithGoogleAccount(): LiveData<DataOrErrorResult<Boolean, Exception?>> {
         TODO("Not yet implemented")
     }
 
-    override fun createAccountWithPhone(phoneNumber: String): LiveData<DataOrErrorResult<Account?, Exception?>> {
+    override fun createAccountWithPhone(phoneNumber: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
         TODO("Not yet implemented")
     }
 
@@ -116,6 +124,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         auth.signInWithCredential(credential).addOnCompleteListener {  result ->
             val res = DataOrErrorResult<Boolean, Exception?>()
             if (result.isSuccessful) {
+                currentUser = getUser(auth.currentUser)
                 res.data = true
             } else {
                 res.exception = result.exception
@@ -130,12 +139,13 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun signInWithEmailAndPassword(email: String, password: String): LiveData<DataOrErrorResult<Account?, Exception?>> {
-        val dataOrException = MutableLiveData<DataOrErrorResult<Account?, Exception?>>()
+    override fun signInWithEmailAndPassword(email: String, password: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
+        val dataOrException = MutableLiveData<DataOrErrorResult<Boolean, Exception?>>()
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            val res = DataOrErrorResult<Account?, Exception?>()
+            val res = DataOrErrorResult<Boolean, Exception?>()
             if (task.isSuccessful) {
-                res.data = getUser(auth.currentUser)
+                currentUser = getUser(auth.currentUser)
+                res.data = true
             } else {
                 res.exception = task.exception
             }
@@ -150,12 +160,14 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
             val email = currentUser.email ?: ""
             val regType = if (phone.isEmpty()) Account.RegistrationType.EMAIL
                 else Account.RegistrationType.PHONE
+            val name = currentUser.displayName ?: ""
             Account(
                 currentUser.uid, regType,
                 // TODO check phone verification
                 currentUser.isEmailVerified,
                 phone,
-                email
+                email,
+                name
             )
         }
     }

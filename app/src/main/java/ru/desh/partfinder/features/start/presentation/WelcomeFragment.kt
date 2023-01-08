@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import ru.desh.partfinder.core.Screens.PrivacyPolicy
 import ru.desh.partfinder.core.utils.exception.properties.PropertiesRepository
 import ru.desh.partfinder.core.di.SingleApplicationComponent
@@ -33,16 +31,13 @@ class WelcomeFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
-        GlobalScope.launch {
-            propertiesRepository.setOnboardingFinished()
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentWelcomeBinding.inflate(layoutInflater)
         return binding.root
     }

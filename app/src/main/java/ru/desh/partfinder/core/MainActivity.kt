@@ -28,12 +28,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         SingleApplicationComponent.getInstance().inject(this)
-        val startFr = intent.getStringExtra(Screens.START_FRAGMENT)
-        when (startFr) {
-            //TODO
-            "onboarding" -> router.navigateTo(Welcome())
-            "auth" -> router.navigateTo(Auth())
-        }
+        val isOnboardingFinished = intent.getBooleanExtra(Screens.IS_ONBOARDING, false)
+        if (!isOnboardingFinished) router.navigateTo(Welcome())
+        else router.navigateTo(Auth())
     }
 
     override fun onResume() {

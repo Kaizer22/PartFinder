@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:id="@+id/content">
 
+    <!-- Registration data input -->
+    <!-- Content depends on registration type - phone or email -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/registration_button_send_data"
         style="@style/ButtonPrimaryColor"
@@ -12,8 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="70dp"
-        android:text="Отправить"
+        android:layout_marginBottom="24dp"
+        android:text="@string/button_send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -23,7 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
-        android:text="Регистрация по"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.PartFinder.H5Header"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +39,6 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
         android:gravity="center"
-        android:text="На указанный будет выслано"
         android:textAppearance="@style/TextAppearance.PartFinder.Body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -67,7 +67,7 @@
             app:startIconDrawable="@drawable/ic_phone_20">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
+                android:layout_height="wrap_content"
                 android:inputType="phone" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginTop="8dp"
-            android:text="Например, +78001234567"
+            android:text="@string/phone_input_example_hint"
             android:textAppearance="@style/TextAppearance.PartFinder.Subtitle"
             android:textColor="?attr/bodyHintColor"
             app:layout_constraintStart_toStartOf="@+id/registration_data_phone_input"
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:hint="E-mail адрес"
+            android:hint="@string/registration_email_input_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -107,7 +107,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
+                android:layout_height="wrap_content"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
-            android:text="Например, example@gmail.com"
+            android:text="@string/email_input_example_hint"
             android:textAppearance="@style/TextAppearance.PartFinder.Subtitle"
             android:textColor="?attr/bodyHintColor"
             app:layout_constraintStart_toStartOf="@+id/registration_data_email_input"
@@ -131,7 +131,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
-            android:hint="Пароль"
+            android:hint="@string/password_input_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/registration_data_email_input_hint"
@@ -139,7 +139,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
+                android:layout_height="wrap_content"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -151,7 +151,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
-            android:hint="Повторите пароль"
+            android:hint="@string/registration_repeat_password_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/registration_data_password_input"
@@ -159,7 +159,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
+                android:layout_height="wrap_content"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -170,7 +170,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="24dp"
-            android:text="Пароль должен быть длиннее 8 символов и содержать цифры, строчные и прописные буквы, спец. символы"
+            android:text="@string/registration_password_input_hint"
             android:textAppearance="@style/TextAppearance.PartFinder.Subtitle"
             android:textColor="?attr/bodyHintColor"
             app:layout_constraintEnd_toEndOf="parent"

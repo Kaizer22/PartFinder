@@ -8,11 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
-import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.google.android.material.snackbar.Snackbar
+import ru.desh.partfinder.R
 import ru.desh.partfinder.core.Screens.BottomNavigation
 import ru.desh.partfinder.core.Screens.PasswordReset
 import ru.desh.partfinder.core.Screens.PhoneAuth
@@ -34,7 +33,6 @@ class AuthFragment: Fragment() {
     @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder
 
-    private lateinit var activityNavigator : Navigator
 
     private lateinit var binding: FragmentAuthBinding
 
@@ -54,23 +52,22 @@ class AuthFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activityNavigator = AppNavigator(requireActivity(), -1)
         binding.apply {
             val infoMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.SECONDARY)
-                .setTitle("TODO")
-                .setText("Реализация функционала запланирована в будущем")
+                .setTitle(getString(R.string.message_title_todo))
+                .setText(getString(R.string.message_text_todo))
             val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.DANGER)
-                .setTitle("Ошибка авторизации")
+                .setTitle(getString(R.string.message_title_auth_error))
             val successMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.PRIMARY)
-                .setTitle("Добро пожаловать!")
-                .setText("Вы успешно вошли")
+                .setTitle(getString(R.string.message_title_sign_in_success))
+                .setText(getString(R.string.message_text_sign_in_success))
             val warningMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.WARNING)
-                .setTitle("Ошибка")
-                .setText("Проверьте корректность ввода email и пароля")
+                .setTitle(getString(R.string.message_title_error))
+                .setText(getString(R.string.message_text_auth_incorrect_email_or_password))
             authButtonSignIn.setOnClickListener {
                 val email = authEmailInput.editText?.text.toString()
                 val password = authPasswordInput.editText?.text.toString()
@@ -80,11 +77,12 @@ class AuthFragment: Fragment() {
                     viewModel.authWithEmailAndPassword(email, password).observe(viewLifecycleOwner) { result ->
                         // TODO hide loading
                         if (!result.isException){
+                            // TODO check if current user has confirmed email
                             successMessage.show()
                             router.navigateTo(BottomNavigation())
                         } else {
                             dangerMessage
-                                .setText(result.exception.toString())
+                                .setText(result.exception?.message ?: "")
                                 .show()
                         }
                     }

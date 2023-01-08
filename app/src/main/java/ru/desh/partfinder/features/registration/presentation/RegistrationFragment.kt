@@ -1,7 +1,6 @@
 package ru.desh.partfinder.features.registration.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -117,9 +116,6 @@ class RegistrationFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             registrationButtonBack.setOnClickListener {
-                registrationSteppedProgressBar.previousStep()
-            }
-            registrationButtonBack.setOnClickListener {
                 router.exit()
             }
         }
@@ -129,10 +125,6 @@ class RegistrationFragment: Fragment() {
                 registrationState.collect{ regState ->
                     when (regState){
                         is RegistrationState.RegistrationMethodSelected -> {
-                            when(regState.registrationType) {
-                                RegistrationType.PHONE -> Log.d("TEST", "PHONE")
-                                RegistrationType.EMAIL -> Log.d("TEST", "EMAIL")
-                            }
                             //TODO refactor
                             binding.registrationSteppedProgressBar.nextStep()
                             registrationDataFragment = RegistrationDataFragment(regState.registrationType)

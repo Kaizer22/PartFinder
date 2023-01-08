@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <array name="register_steps">
         <item>@string/registration_stage_1</item>
         <item>@string/registration_stage_2</item>
@@ -13,5 +12,10 @@
         <item>@string/user_profile_stage_3</item>
         <item>@string/user_profile_stage_4</item>
     </array>
-
+    <array name="create_ad_steps">
+        <item>@string/create_ad_stage_1</item>
+        <item>@string/create_ad_stage_2</item>
+        <item>@string/create_ad_stage_3</item>
+        <item>@string/create_ad_stage_4</item>
+    </array>
 </resources>

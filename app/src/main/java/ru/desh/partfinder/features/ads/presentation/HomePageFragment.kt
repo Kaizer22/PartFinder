@@ -9,12 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
+import ru.desh.partfinder.R
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.ui.SnackbarBuilder
 import ru.desh.partfinder.databinding.FragmentHomePageBinding
+import ru.desh.partfinder.features.BottomNavigationActivity
 import ru.desh.partfinder.features.ads.presentation.adapter.AdsAdapter
 import ru.desh.partfinder.features.ads.presentation.adapter.BusinessArticleAdapter
+import ru.desh.partfinder.features.ads.presentation.adapter.CategoriesAdapter
+import ru.desh.partfinder.features.ads.data.CategoryProvider
 import javax.inject.Inject
 
 class HomePageFragment: Fragment() {
@@ -43,11 +47,13 @@ class HomePageFragment: Fragment() {
         val adsAdapter = AdsAdapter(router)
         val businessArticlesAdapter = BusinessArticleAdapter(router)
         businessArticlesAdapter.submitList(emptyList())
+        val categoriesAdapter = CategoriesAdapter(router)
+        categoriesAdapter.submitList(CategoryProvider.getCategories(requireContext()))
 
         val warningMessage = SnackbarBuilder(binding.content, layoutInflater, Snackbar.LENGTH_LONG)
             .setType(SnackbarBuilder.Type.WARNING)
-            .setTitle("Ошибка")
-            .setText("Не удалось загрузить рекомендованные объявления")
+            .setTitle(getString(R.string.message_title_error))
+            .setText(getString(R.string.message_text_cannot_load_rec_ads))
         viewModel.state.observe(viewLifecycleOwner) {
             updateUiState(it, adsAdapter, businessArticlesAdapter)
         }
@@ -58,12 +64,17 @@ class HomePageFragment: Fragment() {
         }
 
         binding.apply {
-            homePageNewsList.layoutManager = LinearLayoutManager(requireContext(),
+            homePageCategoryList.adapter = categoriesAdapter
+            homePageCategoryList.layoutManager = LinearLayoutManager(requireContext(),
                 LinearLayoutManager.HORIZONTAL, false)
+            homePageNewsList.layoutManager = LinearLayoutManager(requireContext(),
+                LinearLayoutManager.HORIZONTAL, true)
             homePageNewsList.adapter = businessArticlesAdapter
             homePageRecommendationsList.layoutManager = LinearLayoutManager(requireContext(),
             LinearLayoutManager.VERTICAL, false)
             homePageRecommendationsList.adapter = adsAdapter
+
+            homePageUserName.text = viewModel.displayName()
         }
     }
 
@@ -71,5 +82,10 @@ class HomePageFragment: Fragment() {
     adsAdapter: AdsAdapter, businessArticleAdapter: BusinessArticleAdapter) {
         adsAdapter.submitList(state.recommendedAds)
         businessArticleAdapter.submitList(state.businessArticles)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as BottomNavigationActivity).showNavigation()
     }
 }

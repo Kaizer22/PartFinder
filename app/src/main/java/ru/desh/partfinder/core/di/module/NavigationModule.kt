@@ -7,9 +7,6 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Qualifier
 
-//@Qualifier
-//annotation class ActivityNavigation
-
 @Qualifier
 annotation class AppNavigation
 @Qualifier
@@ -17,43 +14,24 @@ annotation class RegistrationNavigation
 @Qualifier
 annotation class UserFormNavigation
 @Qualifier
-annotation class HomePageNavigation
+annotation class CreateAdNavigation
 
 @Module
 class NavigationModule {
-    //private val activityCicerone = Cicerone.create()
     private val appCicerone = Cicerone.create()
     private lateinit var registrationCicerone: Cicerone<Router>
     private lateinit var userFormCicerone: Cicerone<Router>
-    private lateinit var homePageCicerone: Cicerone<Router>
-
-//    @Provides
-//    @ActivityNavigation
-//    fun providesActivityNavigationRouter(): Router {
-//        return activityCicerone.router
-//    }
-//
-//    @Provides
-//    @ActivityNavigation
-//    fun providesActivityNavigatorHolder(): NavigatorHolder {
-//        return activityCicerone.getNavigatorHolder()
-//    }
+    private lateinit var createAdCicerone: Cicerone<Router>
 
     @Provides
     @AppNavigation
     fun providesAppRouter(): Router {
-//        if (!this::appCicerone.isInitialized) {
-//            appCicerone = Cicerone.create()
-//        }
         return appCicerone.router
     }
 
     @Provides
     @AppNavigation
     fun providesNavigatorHolder(): NavigatorHolder {
-//        if (!this::appCicerone.isInitialized) {
-//            appCicerone = Cicerone.create()
-//        }
         return appCicerone.getNavigatorHolder()
     }
 
@@ -94,20 +72,20 @@ class NavigationModule {
     }
 
     @Provides
-    @HomePageNavigation
-    fun providesHomePageRouter(): Router {
-        if (!this::homePageCicerone.isInitialized) {
-            homePageCicerone = Cicerone.create()
+    @CreateAdNavigation
+    fun providesCreateAdRouter(): Router {
+        if (!this::createAdCicerone.isInitialized) {
+            createAdCicerone = Cicerone.create()
         }
-        return homePageCicerone.router
+        return createAdCicerone.router
     }
 
     @Provides
-    @HomePageNavigation
-    fun providesHomePageNavigatorHolder(): NavigatorHolder {
-        if (!this::homePageCicerone.isInitialized) {
-            homePageCicerone = Cicerone.create()
+    @CreateAdNavigation
+    fun providesCreateAdNavigatorHolder(): NavigatorHolder {
+        if (!this::createAdCicerone.isInitialized) {
+            createAdCicerone = Cicerone.create()
         }
-        return homePageCicerone.getNavigatorHolder()
+        return createAdCicerone.getNavigatorHolder()
     }
 }

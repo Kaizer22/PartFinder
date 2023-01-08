@@ -8,14 +8,17 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.desh.partfinder.core.domain.model.Ad
 import ru.desh.partfinder.core.domain.model.BusinessArticle
+import ru.desh.partfinder.core.domain.model.search.AdsPagination
 import ru.desh.partfinder.core.domain.model.search.Pagination
 import ru.desh.partfinder.core.domain.repository.AdRepository
+import ru.desh.partfinder.core.domain.repository.AuthRepository
 import ru.desh.partfinder.core.domain.repository.BusinessNewsRepository
 import javax.inject.Inject
 
 class HomePageFragmentViewModel @Inject constructor(
     private val businessNewsRepository: BusinessNewsRepository,
     private val adRepository: AdRepository,
+    private val authRepository: AuthRepository
 ): ViewModel() {
 
     private var newsCurrentPage = 0
@@ -28,16 +31,24 @@ class HomePageFragmentViewModel @Inject constructor(
         _state.value = HomePageState()
     }
 
+    fun displayName(): String =
+        if (authRepository.getCurrentAccount()?.displayName.isNullOrEmpty()) "UserName" else
+            authRepository.getCurrentAccount()?.displayName!!
+
     fun requestRecommendedAdsNextPage(owner: LifecycleOwner,
         onFailureListener: (Exception) -> Unit = {}){
+        val lastUid = if (_state.value?.recommendedAds?.size!! > 0)
+            _state.value!!.recommendedAds.last().uid else null
+
         adRepository.getRecommendedAds(
-            Pagination(
-                Pagination.DEFAULT_PAGE_SIZE, ++recommendedAdsCurrentPage
+            AdsPagination(
+                Pagination.DEFAULT_PAGE_SIZE, ++recommendedAdsCurrentPage,
+                lastUid
             )
         ).observe(owner) { result ->
             if (!result.isException) {
                 val currentList = state.value?.recommendedAds.orEmpty()
-                val newList = currentList + (result.data as List<Ad>)
+                val newList = currentList + (result.data as List<Ad>).subtract(currentList)
                 _state.value = state.value!!.copy(
                     recommendedAds = newList
                 )

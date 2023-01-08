@@ -3,15 +3,12 @@ package ru.desh.partfinder
 import android.app.Application
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 
-// To do list
-// TODO Compound views for a survey questions
+// To do ideas list
+// TODO Compound views for a different types of survey questions
 // TODO Navigation animations
-// TODO Rename views ids
-// TODO Extract string resources
-// TODO Startups and investments news using API and Retrofit
 // TODO Master/Detail for chats in landscape orientation
-// TODO Unify validation process
-// TODO Human readable auth errors
+// TODO Unify input validation process
+// TODO Human readable errors in case of exceptions
 
 class PartFinderApplication: Application() {
     override fun onCreate() {

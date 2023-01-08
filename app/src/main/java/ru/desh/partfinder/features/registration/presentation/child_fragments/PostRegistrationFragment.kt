@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
-import ru.desh.partfinder.core.Screens.BottomNavigation
+import ru.desh.partfinder.core.Screens.Auth
 import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.databinding.FragmentPostRegistrationBinding
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
@@ -39,10 +39,9 @@ class PostRegistrationFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.apply {
             postRegistrationButtonFinish.setOnClickListener {
-                router.navigateTo(BottomNavigation())
+                router.navigateTo(Auth())
             }
         }
     }

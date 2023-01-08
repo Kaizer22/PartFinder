@@ -7,6 +7,7 @@ import com.github.terrakok.cicerone.androidx.FragmentScreen
 import ru.desh.partfinder.core.domain.model.Ad
 import ru.desh.partfinder.features.BottomNavigationActivity
 import ru.desh.partfinder.features.ads.presentation.AdDetailsFragment
+import ru.desh.partfinder.features.ads.presentation.CategorySearchFragment
 import ru.desh.partfinder.features.ads.presentation.CreateAdFragment
 import ru.desh.partfinder.features.ads.presentation.HomePageFragment
 import ru.desh.partfinder.features.auth.presentation.AuthFragment
@@ -24,10 +25,10 @@ import ru.desh.partfinder.features.start.presentation.WelcomeFragment
 object Screens {
 
     //region Activity
-    const val START_FRAGMENT = "start_fragment"
-    fun Main(startFragment: String) = ActivityScreen {
+    const val IS_ONBOARDING = "is_onboarding"
+    fun Main(isOnboarding: Boolean) = ActivityScreen {
         val i = Intent(it, MainActivity::class.java)
-        i.putExtra(START_FRAGMENT, startFragment)
+        i.putExtra(IS_ONBOARDING, isOnboarding)
     }
     fun BottomNavigation() = ActivityScreen {
         Intent(it, BottomNavigationActivity::class.java)
@@ -38,6 +39,11 @@ object Screens {
 
     fun NewsArticleSource(url: String) = ActivityScreen {
         Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    }
+
+    const val APP_PRIVACY_POLICY_URL = ""
+    fun PrivacyPolicySource() = ActivityScreen {
+        Intent(Intent.ACTION_VIEW, Uri.parse(APP_PRIVACY_POLICY_URL))
     }
 
     // endregion
@@ -110,8 +116,8 @@ object Screens {
     fun PhoneAuth() = FragmentScreen{
         PhoneAuthFragment()
     }
-    fun CodeEnter() = FragmentScreen {
-        CodeEnterFragment()
+    fun CodeEnter(phoneNumber: String) = FragmentScreen {
+        CodeEnterFragment(phoneNumber)
     }
     // endregion
 
@@ -119,6 +125,10 @@ object Screens {
 
     fun HomePage() = FragmentScreen {
         HomePageFragment()
+    }
+
+    fun CategorySearch(category: String) = FragmentScreen {
+        CategorySearchFragment(category)
     }
 
     fun AdDetails(ad: Ad) = FragmentScreen {

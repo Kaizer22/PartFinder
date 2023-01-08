@@ -3,6 +3,7 @@ package ru.desh.partfinder.features.start.presentation
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
@@ -33,14 +34,11 @@ class SplashScreenActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
 
-        GlobalScope.launch {
-            // TODO fix scope and do some preparation work
-            // - Get on boarding flag
-            // - Try to auth from cache, refresh token
-            // - Get data for main page
+        lifecycleScope.launch {
+            // TODO do preparation work:
+            // - Try to auth from with data from cache
             propertiesRepository.getOnBoardingFlag().collectLatest { onBoardingFlag ->
-                val startFragment = if (onBoardingFlag) "auth" else "onboarding"
-                router.navigateTo(Main(startFragment))
+                router.navigateTo(Main(onBoardingFlag))
                 finish()
             }
         }

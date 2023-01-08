@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
+import ru.desh.partfinder.R
 import ru.desh.partfinder.core.Screens.Auth
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.di.module.AppNavigation
@@ -58,11 +59,11 @@ class PasswordResetFragment: Fragment() {
         binding.apply {
             val warningMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.WARNING)
-                .setTitle("Ошибка")
-                .setText("Проверьте корректность ввода email")
+                .setTitle(getString(R.string.message_title_error))
+                .setText(getString(R.string.message_text_pasword_reset_incorrect_email))
             val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.DANGER)
-                .setTitle("Ошибка при отправке")
+                .setTitle(getString(R.string.message_title_sending_error))
             passwordResetButtonConfirm.setOnClickListener {
                 val email = passwordResetEmailInput.editText?.text.toString()
                 if (isValidData(email)) {
@@ -71,7 +72,7 @@ class PasswordResetFragment: Fragment() {
                             isEmailSent = true
                             transform()
                         } else {
-                            dangerMessage.setText(result.exception.toString())
+                            dangerMessage.setText(result.exception?.message ?: "")
                         }
                     }
                 } else {
@@ -90,10 +91,8 @@ class PasswordResetFragment: Fragment() {
             passwordResetInputHint.visibility = View.GONE
 
             passwordResetSentAnimation.visibility = View.VISIBLE
-            passwordResetInfo.text = "Мы выслали письмо на указанный адрес. Доставка письма может " +
-                    "занимать от нескольких секунд до минут. Если письмо не приходит, не забудьте " +
-                    "проверить “Спам”"
-            passwordResetButtonConfirm.text = "Вернуться"
+            passwordResetInfo.text = getString(R.string.password_reset_sent_letter_info)
+            passwordResetButtonConfirm.text = getString(R.string.button_go_back)
             passwordResetButtonConfirm.setOnClickListener {
                  router.navigateTo(Auth())
             }

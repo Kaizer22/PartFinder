@@ -32,7 +32,7 @@
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="12dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/example_ad_photo"
+                    android:src="@drawable/placeholder_image"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +91,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="4dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Tag Placeholder"
+                    android:text="@string/tag_placeholder"
                     android:textAppearance="@style/TextAppearance.PartFinder.Caption"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -110,7 +110,6 @@
             android:layout_marginEnd="12dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Выращивать клюкву в тайге"
             android:textAppearance="@style/TextAppearance.PartFinder.H7Header"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +125,6 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:minLines="3"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus faucibus sit sit facilisis dictumst. "
             android:textAppearance="@style/TextAppearance.PartFinder.Subtitle"
             android:textColor="?attr/bodyHintColor"
             app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +138,6 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             android:maxLines="1"
-            android:text="3 дня назад"
             android:textAppearance="@style/TextAppearance.PartFinder.Subtitle"
             android:textColor="?attr/bodyHintColor"
             app:layout_constraintStart_toStartOf="parent"
@@ -163,7 +160,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:text="999"
             android:textAppearance="@style/TextAppearance.PartFinder.Caption"
             android:textColor="?attr/bodyHintColor"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"
@@ -185,7 +181,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:text="999"
             android:textAppearance="@style/TextAppearance.PartFinder.Caption"
             android:textColor="?attr/bodyHintColor"
             app:layout_constraintBottom_toBottomOf="@+id/imageView3"
@@ -194,7 +189,7 @@
 
         <ImageButton
             style="@style/IconButton"
-            android:id="@+id/imageButton"
+            android:id="@+id/ad_card_button_dislike"
             android:src="@drawable/ic_thumb_dislike"
             android:padding="8dp"
             android:layout_width="40dp"
@@ -211,15 +206,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="-999"
             android:textAppearance="@style/TextAppearance.PartFinder.Body"
             android:textColor="?attr/bodyHintColor"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton"
-            app:layout_constraintTop_toTopOf="@+id/imageButton" />
+            app:layout_constraintBottom_toBottomOf="@+id/ad_card_button_dislike"
+            app:layout_constraintEnd_toStartOf="@+id/ad_card_button_dislike"
+            app:layout_constraintTop_toTopOf="@+id/ad_card_button_dislike" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/ad_card_button_like"
             style="@style/IconButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -227,9 +221,9 @@
             android:background="@drawable/like_button"
             app:icon="@drawable/ic_thumb_like"
             app:iconTint="@color/black"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButton"
+            app:layout_constraintBottom_toBottomOf="@+id/ad_card_button_dislike"
             app:layout_constraintEnd_toStartOf="@+id/ad_card_rating"
-            app:layout_constraintTop_toTopOf="@+id/imageButton" />
+            app:layout_constraintTop_toTopOf="@+id/ad_card_button_dislike" />
 
 
         <!--    Star inner shadow    android:padding="8dp"-->
@@ -238,6 +232,7 @@
         <!--    android:paddingLeft="4dp"-->
         <!--    android:paddingRight="4dp"-->
         <ImageButton
+            android:id="@+id/ad_card_button_add_favourite"
             android:padding="8dp"
             android:elevation="2dp"
             android:layout_width="40dp"

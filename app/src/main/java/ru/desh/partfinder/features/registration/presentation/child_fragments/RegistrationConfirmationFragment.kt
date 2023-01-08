@@ -66,11 +66,11 @@ class RegistrationConfirmationFragment(
         binding.apply {
             val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.DANGER)
-                .setTitle("Код не отправлен")
+                .setTitle(getString(R.string.message_title_code_doesnt_send))
             when (registrationType) {
                 RegistrationFragment.RegistrationType.PHONE -> {
-                    registrationConfirmationTitle.text = "Регистрация по номеру\nтелефона"
-                    registrationConfirmationInfo.text = "Введите 6-значный код из SMS"
+                    registrationConfirmationTitle.text = getString(R.string.registration_phone_title)
+                    registrationConfirmationInfo.text = getString(R.string.registration_confirmation_phone_info)
                     registrationConfirmationOtpInput.visibility = View.VISIBLE
                     registrationConfirmationButtonRepeatOtp.visibility = View.VISIBLE
                     registrationConfirmationButtonConfirmOtp.visibility = View.VISIBLE
@@ -85,15 +85,15 @@ class RegistrationConfirmationFragment(
                                 }
                             }
                         } else {
-                            dangerMessage.setText(result.exception.toString())
+                            dangerMessage.setText(result.exception?.message ?: "")
                                 .show()
                         }
                     }
 
                 }
                 RegistrationFragment.RegistrationType.EMAIL -> {
-                    registrationConfirmationTitle.text = "Регистрация по E-mail"
-                    registrationConfirmationInfo.text = "Мы выслали письмо на указанный адрес. Доставка письма может занимать от нескольких секунд до минут. Если письмо не приходит, не забудьте проверить “Спам”"
+                    registrationConfirmationTitle.text = getString(R.string.registration_email_title)
+                    registrationConfirmationInfo.text = getString(R.string.registration_confirmation_email_info)
                     registrationConfirmationEmailAnimation.visibility = View.VISIBLE
                     registrationConfirmationButtonEmailNext.visibility = View.VISIBLE
                 }
@@ -111,8 +111,8 @@ class RegistrationConfirmationFragment(
                     if (!result.isException) {
                         viewModel.notifyDataConfirmed()
                     } else {
-                        dangerMessage.setTitle("Неверный код")
-                            .setText(result.exception.toString()).show()
+                        dangerMessage.setTitle(getString(R.string.message_title_wrong_code))
+                            .setText(result.exception?.message ?: "").show()
                     }
                 }
             }
