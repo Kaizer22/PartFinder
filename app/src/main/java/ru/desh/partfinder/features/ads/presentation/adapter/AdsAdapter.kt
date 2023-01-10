@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import ru.desh.partfinder.R
 import ru.desh.partfinder.core.Screens.AdDetails
 import ru.desh.partfinder.core.domain.model.Ad
+import ru.desh.partfinder.core.domain.model.AdType
 import ru.desh.partfinder.core.ui.SnackbarBuilder
 import ru.desh.partfinder.core.utils.DateHelper
 import ru.desh.partfinder.databinding.ItemAdCardBinding
@@ -67,6 +68,19 @@ class AdViewHolder(
             adCardRating.text = ad.reputation.toString()
             adCardCommentsCounter.text = ad.commentsCount.toString()
             adCardFavouriteCounter.text = ad.favouritesCount.toString()
+
+            val cardTypeColor = ResourcesCompat.getColor(itemView.resources,
+                when(ad.type) {
+                    AdType.LOOK_SUPPLIER.value -> R.color.secondary_20
+                    AdType.LOOK_INVESTMENTS.value -> R.color.secondary_10
+                    AdType.SUGGEST_SERVICES.value -> R.color.primary_10
+                    AdType.LOOK_BUSINESS_PARTNER.value -> R.color.primary_40
+                    AdType.SUGGEST_INVESTMENTS.value -> R.color.tertiary_40
+                    else -> R.color.black
+                }
+                , null)
+            adCardImageContainer.setBackgroundColor(cardTypeColor)
+            adCardTagContainer.setBackgroundColor(cardTypeColor)
 
             adCardButtonAddFavourite.setOnClickListener {
                 ad.favouritesCount = ad.favouritesCount + if (!isInFavourites) 1 else -1
