@@ -37,6 +37,6 @@
             android:layout_height="@dimen/bottom_bar_height"
             android:layout_gravity="bottom"
             android:backgroundTint="@color/white"
-            app:fabAlignmentMode="center" />
+            app:fabAlignmentMode="end" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

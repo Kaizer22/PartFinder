@@ -2,6 +2,7 @@ package ru.desh.partfinder.core.data.firebase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.CollectionReference
 import ru.desh.partfinder.core.di.module.AdDbReference
 import ru.desh.partfinder.core.domain.model.Ad
@@ -68,7 +69,13 @@ class FirebaseAdRepositoryImpl @Inject constructor(
     }
 
     override fun createAd(ad: Ad): LiveData<DataOrErrorResult<Boolean?, Exception?>> {
-        TODO("Not yet implemented")
+        val resultObserver = MutableLiveData<DataOrErrorResult<Boolean?, Exception?>>()
+        adDbReference.document(ad.uid).set(ad).addOnSuccessListener {
+            resultObserver.value = DataOrErrorResult(true, null)
+        }.addOnFailureListener {
+            resultObserver.value = DataOrErrorResult(false, it)
+        }
+        return resultObserver
     }
 
     override fun deleteAd(adUid: String): LiveData<DataOrErrorResult<Boolean?, Exception?>> {

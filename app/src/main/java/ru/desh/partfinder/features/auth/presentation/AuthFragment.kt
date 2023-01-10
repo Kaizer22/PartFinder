@@ -69,8 +69,8 @@ class AuthFragment: Fragment() {
                 .setTitle(getString(R.string.message_title_error))
                 .setText(getString(R.string.message_text_auth_incorrect_email_or_password))
             authButtonSignIn.setOnClickListener {
-                val email = authEmailInput.editText?.text.toString()
-                val password = authPasswordInput.editText?.text.toString()
+                val email = authEmailInput.text.toString()
+                val password = authPasswordInput.text.toString()
                 hideInput()
                 if (isValidInput(email, password)) {
                     //TODO show loading
@@ -110,7 +110,7 @@ class AuthFragment: Fragment() {
 
     private fun isValidInput(email: String, password: String): Boolean =
         email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
-                //&& password.length >= 8
+                && password.length >= 8
 
     private fun hideInput() {
         this@AuthFragment.activity?.currentFocus?.let {

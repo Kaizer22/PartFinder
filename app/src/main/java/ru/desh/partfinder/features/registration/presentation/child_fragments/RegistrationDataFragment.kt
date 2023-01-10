@@ -92,10 +92,10 @@ class RegistrationDataFragment(
             val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.DANGER)
                 .setTitle(getString(R.string.message_title_error))
-            registrationButtonSendData.setOnClickListener {
+            registrationDataButtonSend.setOnClickListener {
                 when(regMethod) {
                     RegistrationFragment.RegistrationType.PHONE -> {
-                        val phoneNumber = registrationDataPhoneInput.editText?.text.toString()
+                        val phoneNumber = registrationDataPhoneInput.text.toString()
                         if (isValidPhoneNumber(phoneNumber)) {
                             viewModel.notifyPhoneDataSent(phoneNumber)
 //                            viewModel.createUserWithPhoneNumber(phoneNumber).observe(viewLifecycleOwner) {
@@ -111,9 +111,9 @@ class RegistrationDataFragment(
                         }
                     }
                     RegistrationFragment.RegistrationType.EMAIL -> {
-                        val email = registrationDataEmailInput.editText?.text.toString()
-                        val password = registrationDataPasswordInput.editText?.text.toString()
-                        val password2 = registrationDataPasswordRepeatInput.editText?.text.toString()
+                        val email = registrationDataEmailInput.text.toString()
+                        val password = registrationDataPasswordInput.text.toString()
+                        val password2 = registrationDataPasswordRepeatInput.text.toString()
                         if (isValidEmailData(email, password, password2)) {
                             viewModel.createUserWithEmailAndPassword(email, password).observe(viewLifecycleOwner) {
                                 result ->

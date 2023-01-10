@@ -86,14 +86,13 @@ class CreateAdFragment: Fragment() {
     lateinit var createAdComponent: CreateAdComponent
         private set
 
-    private val buildingAd = Ad()
     private val _createAdState = MutableStateFlow<CreateAdState>(CreateAdState.InitState)
     val createAdState: StateFlow<CreateAdState> = _createAdState
 
     private val createAdTargetFragment = CreateAdTargetFragment()
-    private val createAdDescriptionFragment = CreateAdDescriptionFragment(buildingAd)
-    private val createAdFilesFragment = CreateAdFilesFragment(buildingAd)
-    private val createAdContactsFragment = CreateAdContactsFragment(buildingAd)
+    private val createAdDescriptionFragment = CreateAdDescriptionFragment()
+    private val createAdFilesFragment = CreateAdFilesFragment()
+    private val createAdContactsFragment = CreateAdContactsFragment()
     private val postCreateAdFragment = PostCreateAdFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,28 +114,36 @@ class CreateAdFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.apply {
             createAdButtonBack.setOnClickListener {
                 router.exit()
             }
         }
-        innerRouter.navigateTo(Screens.Registration_Method())
+
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 createAdState.collect { createAdState ->
                     when(createAdState) {
-                        is CreateAdState.InitState -> {}
+                        is CreateAdState.InitState -> {
+                            binding.createAdSteppedProgressBar.nextStep()
+                            innerRouter.navigateTo(CreateAd_Target())
+                        }
                         is CreateAdState.TargetSubmitted -> {
-
+                            binding.createAdSteppedProgressBar.nextStep()
+                            innerRouter.navigateTo(CreateAd_Description())
                         }
                         is CreateAdState.DescriptionSubmitted -> {
-
+                            binding.createAdSteppedProgressBar.nextStep()
+                            innerRouter.navigateTo(CreateAd_Files())
                         }
                         is CreateAdState.FilesSubmitted -> {
-
+                            binding.createAdSteppedProgressBar.nextStep()
+                            innerRouter.navigateTo(CreateAd_Contacts())
                         }
                         is CreateAdState.AdPublished -> {
-
+                            binding.createAdSteppedProgressBar.nextStep()
+                            innerRouter.navigateTo(Post_CreateAd())
                         }
                     }
                 }

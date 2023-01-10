@@ -61,7 +61,7 @@
     <string name="create_ad_target_type_5">Предлагаю услуги бизнесу</string>
     <string name="create_ad_target_input_hint">Цель объявления</string>
     <string name="next_step">Далее</string>
-    <string name="settings">Настройки</string>
+    <string name="app_settings">Приложение</string>
     <string name="account">Аккаунт</string>
     <string name="sign_out">Выйти из аккаунта</string>
     <string name="delete_account">Удалить аккаунт</string>
@@ -131,4 +131,6 @@
     <string name="password_reset_sent_letter_info">Мы выслали письмо на указанный адрес. Доставка письма может занимать от нескольких секунд до минут. Если письмо не приходит, не забудьте проверить “Спам”</string>
     <string name="button_go_back">Вернуться</string>
     <string name="message_text_invalid_name">Имя и фамилия не должны быть пустыми или содержать цифры или спец. знаки</string>
+    <string name="settings">Настройки</string>
+    <string name="button_publish">Опубликовать</string>
 </resources>

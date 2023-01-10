@@ -6,8 +6,7 @@ import ru.desh.partfinder.core.utils.DataOrErrorResult
 
 interface AuthRepository {
     fun getCurrentAccount(): Account?
-    // Using LiveData because there is no need to have initial state,
-    // just needs a simple observable result, which is independent from specific libs and frameworks
+
     fun createAccountWithEmailAndPassword(email:String, password:String): LiveData<DataOrErrorResult<Boolean, Exception?>>
     fun sendVerificationEmail(): LiveData<DataOrErrorResult<Boolean, Exception?>>
     fun sendPasswordResetEmail(email: String): LiveData<DataOrErrorResult<Boolean, Exception?>>
@@ -24,4 +23,6 @@ interface AuthRepository {
 
     fun createAccountWithFacebook()
     fun signInWithFacebook()
+
+    fun signOut()
 }

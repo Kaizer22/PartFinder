@@ -25,7 +25,7 @@ class FirebaseUserRepositoryImpl @Inject constructor(
                 )?.addOnSuccessListener {
                     resultObserver.value = DataOrErrorResult(true, null)
                 }?.addOnFailureListener {
-                        resultObserver.value = DataOrErrorResult(false, it)
+                    resultObserver.value = DataOrErrorResult(false, it)
                 }
         }.addOnFailureListener {
             resultObserver.value = DataOrErrorResult(false, it)

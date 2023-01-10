@@ -1,6 +1,7 @@
 package ru.desh.partfinder
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 
 // To do ideas list
@@ -13,6 +14,9 @@ import ru.desh.partfinder.core.di.SingleApplicationComponent
 class PartFinderApplication: Application() {
     override fun onCreate() {
         super.onCreate()
+        // Because app doesn't fully ready to dark/light theming
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         INSTANCE = this
         SingleApplicationComponent
             .initApplicationComponent(this)

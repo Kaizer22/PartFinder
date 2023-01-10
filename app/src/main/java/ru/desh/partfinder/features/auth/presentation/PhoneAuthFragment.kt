@@ -56,7 +56,9 @@ class PhoneAuthFragment: Fragment() {
                         .show()
                 }
             }
-
+            phoneAuthButtonBack.setOnClickListener {
+                router.exit()
+            }
             hintRegisterBlock.authButtonToRegister.setOnClickListener {
                 router.navigateTo(Screens.Registration())
             }

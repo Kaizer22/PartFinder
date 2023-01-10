@@ -179,4 +179,8 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     override fun signInWithFacebook() {
         TODO("Not yet implemented")
     }
+
+    override fun signOut() {
+        auth.signOut()
+    }
 }

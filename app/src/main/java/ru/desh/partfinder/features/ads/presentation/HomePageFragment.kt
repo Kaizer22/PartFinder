@@ -5,8 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
 import ru.desh.partfinder.R
@@ -26,8 +28,27 @@ class HomePageFragment: Fragment() {
     @AppNavigation
     lateinit var router: Router
 
+
     @Inject
     lateinit var viewModel: HomePageFragmentViewModel
+
+    private lateinit var infoMessage: SnackbarBuilder
+    private lateinit var warningMessage: SnackbarBuilder
+    private val onFailureListener = fun(exception: Exception) {
+        warningMessage.show()
+        Log.d("HOME_PAGE_FRAGMENT", exception.toString())
+    }
+
+    private val onRecommendedAdsScrollListener = object: RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if (!recyclerView.canScrollVertically(1) && dy > 0)
+            {
+                infoMessage.show()
+                viewModel.requestRecommendedAdsNextPage(viewLifecycleOwner, onFailureListener)
+            }
+        }
+    }
 
     private lateinit var binding: FragmentHomePageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +71,15 @@ class HomePageFragment: Fragment() {
         val categoriesAdapter = CategoriesAdapter(router)
         categoriesAdapter.submitList(CategoryProvider.getCategories(requireContext()))
 
-        val warningMessage = SnackbarBuilder(binding.content, layoutInflater, Snackbar.LENGTH_LONG)
+        infoMessage = SnackbarBuilder(binding.content, layoutInflater, Snackbar.LENGTH_LONG)
+            .setType(SnackbarBuilder.Type.PRIMARY)
+            .setTitle("Инфо")
+            .setText("Загрузка следующей страницы объявлений...")
+        val todoMessage = SnackbarBuilder(binding.content, layoutInflater, Snackbar.LENGTH_LONG)
+            .setType(SnackbarBuilder.Type.PRIMARY)
+            .setTitle(getString(R.string.message_title_todo))
+            .setText(getString(R.string.message_text_todo))
+        warningMessage = SnackbarBuilder(binding.content, layoutInflater, Snackbar.LENGTH_LONG)
             .setType(SnackbarBuilder.Type.WARNING)
             .setTitle(getString(R.string.message_title_error))
             .setText(getString(R.string.message_text_cannot_load_rec_ads))
@@ -58,10 +87,7 @@ class HomePageFragment: Fragment() {
             updateUiState(it, adsAdapter, businessArticlesAdapter)
         }
         viewModel.requestBusinessNewsNextPage()
-        viewModel.requestRecommendedAdsNextPage(viewLifecycleOwner) { exception ->
-            warningMessage.show()
-            Log.d("HOME_PAGE_FRAGMENT", exception.toString())
-        }
+        viewModel.requestRecommendedAdsNextPage(viewLifecycleOwner, onFailureListener)
 
         binding.apply {
             homePageCategoryList.adapter = categoriesAdapter
@@ -73,8 +99,14 @@ class HomePageFragment: Fragment() {
             homePageRecommendationsList.layoutManager = LinearLayoutManager(requireContext(),
             LinearLayoutManager.VERTICAL, false)
             homePageRecommendationsList.adapter = adsAdapter
-
+            homePageRecommendationsList.addOnScrollListener(onRecommendedAdsScrollListener)
+            homePageRecommendationsList.updateLayoutParams {
+                height = resources.displayMetrics.heightPixels
+            }
             homePageUserName.text = viewModel.displayName()
+
+            homePageButtonSearch.setOnClickListener { todoMessage.show() }
+            homePageButtonSearchOptions.setOnClickListener { todoMessage.show() }
         }
     }
 

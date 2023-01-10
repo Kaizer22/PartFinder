@@ -8,7 +8,7 @@
     <!-- Registration data input -->
     <!-- Content depends on registration type - phone or email -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/registration_button_send_data"
+        android:id="@+id/registration_data_button_send"
         style="@style/ButtonPrimaryColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/registration_data_info">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/registration_data_phone_input"
+            android:id="@+id/registration_data_phone_input_layout"
             style="@style/PartFinder.InputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -66,6 +66,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:startIconDrawable="@drawable/ic_phone_20">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registration_data_phone_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone" />
@@ -79,8 +80,8 @@
             android:text="@string/phone_input_example_hint"
             android:textAppearance="@style/TextAppearance.PartFinder.Subtitle"
             android:textColor="?attr/bodyHintColor"
-            app:layout_constraintStart_toStartOf="@+id/registration_data_phone_input"
-            app:layout_constraintTop_toBottomOf="@+id/registration_data_phone_input" />
+            app:layout_constraintStart_toStartOf="@+id/registration_data_phone_input_layout"
+            app:layout_constraintTop_toBottomOf="@+id/registration_data_phone_input_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -93,7 +94,7 @@
         app:layout_constraintTop_toBottomOf="@+id/registration_data_info">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/registration_data_email_input"
+            android:id="@+id/registration_data_email_input_layout"
             style="@style/PartFinder.InputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -106,6 +107,7 @@
             app:startIconDrawable="@drawable/ic_baseline_email">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registration_data_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress" />
@@ -120,11 +122,11 @@
             android:text="@string/email_input_example_hint"
             android:textAppearance="@style/TextAppearance.PartFinder.Subtitle"
             android:textColor="?attr/bodyHintColor"
-            app:layout_constraintStart_toStartOf="@+id/registration_data_email_input"
-            app:layout_constraintTop_toBottomOf="@+id/registration_data_email_input" />
+            app:layout_constraintStart_toStartOf="@+id/registration_data_email_input_layout"
+            app:layout_constraintTop_toBottomOf="@+id/registration_data_email_input_layout" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/registration_data_password_input"
+            android:id="@+id/registration_data_password_input_layout"
             style="@style/PartFinder.InputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -138,13 +140,14 @@
             app:startIconDrawable="@drawable/ic_password_input">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registration_data_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/registration_data_password_repeat_input"
+            android:id="@+id/registration_data_password_repeat_input_layout"
             style="@style/PartFinder.InputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -154,10 +157,11 @@
             android:hint="@string/registration_repeat_password_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/registration_data_password_input"
+            app:layout_constraintTop_toBottomOf="@id/registration_data_password_input_layout"
             app:startIconDrawable="@drawable/ic_password_input">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registration_data_password_repeat_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
@@ -174,8 +178,8 @@
             android:textAppearance="@style/TextAppearance.PartFinder.Subtitle"
             android:textColor="?attr/bodyHintColor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/registration_data_password_repeat_input"
-            app:layout_constraintTop_toBottomOf="@+id/registration_data_password_repeat_input" />
+            app:layout_constraintStart_toStartOf="@+id/registration_data_password_repeat_input_layout"
+            app:layout_constraintTop_toBottomOf="@+id/registration_data_password_repeat_input_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

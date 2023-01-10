@@ -106,6 +106,9 @@ class CodeEnterFragment(
                     }
                 }
             }
+            enterSmsCodeButtonBack.setOnClickListener {
+                router.exit()
+            }
             hintRegisterBlock.authButtonToRegister.setOnClickListener {
                 router.navigateTo(Screens.Registration())
             }

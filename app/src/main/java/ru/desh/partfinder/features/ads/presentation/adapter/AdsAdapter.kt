@@ -14,7 +14,7 @@ import ru.desh.partfinder.core.domain.model.Ad
 import ru.desh.partfinder.core.ui.SnackbarBuilder
 import ru.desh.partfinder.core.utils.DateHelper
 import ru.desh.partfinder.databinding.ItemAdCardBinding
-import java.util.Date
+import java.util.*
 
 class AdsAdapter(
     private val router: Router
@@ -63,13 +63,15 @@ class AdViewHolder(
             adCardTitle.text = ad.title
             adCardTarget.text = ad.target
             adCardDate.text = DateHelper.dateToText(Date(
-                ad.creationTimestamp * 1000))
+                ad.creationTimestamp * 1000), Locale.getDefault())
             adCardRating.text = ad.reputation.toString()
             adCardCommentsCounter.text = ad.commentsCount.toString()
             adCardFavouriteCounter.text = ad.favouritesCount.toString()
 
             adCardButtonAddFavourite.setOnClickListener {
+                ad.favouritesCount = ad.favouritesCount + if (!isInFavourites) 1 else -1
                 isInFavourites = !isInFavourites
+                adCardFavouriteCounter.text = ad.favouritesCount.toString()
                 setFavouritesButtonSrc()
                 todoMessage.show()
             }

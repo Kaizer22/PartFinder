@@ -77,9 +77,9 @@ class RegistrationNameFragment: Fragment(){
                 .setType(SnackbarBuilder.Type.DANGER)
                 .setTitle(getString(R.string.message_title_error))
             nameFormButtonSend.setOnClickListener {
-                val name = nameFormNameInput.editText?.text.toString()
-                val surname = nameFormSurnameInput.editText?.text.toString()
-                val thirdName = nameFormThirdNameInput.editText?.text.toString()
+                val name = nameFormNameInput.text.toString()
+                val surname = nameFormSurnameInput.text.toString()
+                val thirdName = nameFormThirdNameInput.text.toString()
                 if (isValidInput(name, surname, thirdName)) {
                     viewModel.createUser(name, surname, thirdName).observe(viewLifecycleOwner) { result ->
                         if (!result.isException) {

@@ -12,6 +12,7 @@ import ru.desh.partfinder.core.Screens.NewsArticleSource
 import ru.desh.partfinder.core.domain.model.BusinessArticle
 import ru.desh.partfinder.core.utils.DateHelper
 import ru.desh.partfinder.databinding.ItemBusinessNewsCardBinding
+import java.util.Locale
 
 class BusinessArticleAdapter(
     private val router: Router
@@ -43,7 +44,7 @@ class BusinessArticleViewHolder(
                 .load(businessArticle.urlToImage)
                 .into(itemBusinessNewsImage)
             itemBusinessNewsTitle.text = businessArticle.title
-            itemBusinessNewsDate.text = DateHelper.dateToText(businessArticle.publishedAt)
+            itemBusinessNewsDate.text = DateHelper.dateToText(businessArticle.publishedAt, Locale.getDefault())
         }
     }
 }

@@ -14,6 +14,7 @@ import ru.desh.partfinder.features.auth.presentation.CodeEnterFragment
 import ru.desh.partfinder.features.auth.presentation.PasswordResetFragment
 import ru.desh.partfinder.features.auth.presentation.PhoneAuthFragment
 import ru.desh.partfinder.features.registration.di.RegistrationComponent
+import ru.desh.partfinder.features.settings.presentation.AppSettingsFragment
 import ru.desh.partfinder.features.start.presentation.PrivacyPolicyFragment
 import ru.desh.partfinder.features.start.presentation.SplashScreenActivity
 import ru.desh.partfinder.features.start.presentation.WelcomeFragment
@@ -47,6 +48,7 @@ interface ApplicationComponent {
     fun inject(codeEnterFragment: CodeEnterFragment)
     fun inject(passwordResetFragment: PasswordResetFragment)
     fun inject(homePageFragment: HomePageFragment)
+    fun inject(settingsFragment: AppSettingsFragment)
 
 }
 

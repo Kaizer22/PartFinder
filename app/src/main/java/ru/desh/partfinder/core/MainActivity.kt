@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         SingleApplicationComponent.getInstance().inject(this)
-        val isOnboardingFinished = intent.getBooleanExtra(Screens.IS_ONBOARDING, false)
+        val isOnboardingFinished = intent.getBooleanExtra(Screens.IS_ONBOARDING_FINISHED, false)
         if (!isOnboardingFinished) router.navigateTo(Welcome())
         else router.navigateTo(Auth())
     }
