@@ -21,11 +21,11 @@
 - Поделиться объявлением в соц. сетях
 
 Технологии и подходы:
-Android SDK, Kotlin, Firebase (Authentication, Storage, Firestore и, возможно, Analytics), Retrofit2 + FirebaseSDK, Room, Material Components, Glide, Dagger2, RxKotlin, LiveData, Moshi, Cicerone
+Android SDK, Kotlin, Firebase (Authentication, Firestore), Retrofit2 + FirebaseSDK, Room, Material Components, Glide, Dagger2, LiveData, Flow API Moshi, Cicerone
 
-Single Activity, Clean Architecture, MVVM, DI, Unit тесты - JUnit, UI тесты - Espresso
+Single Activity, Clean Architecture, MVVM, DI, Unit тесты - JUnit, Robolectric, UI тесты - Espresso
 
-Планируемые экраны:
+Реализованные экраны:
 - Splash-screen
 - Онбординг
 - Регистрация
@@ -33,6 +33,7 @@ Single Activity, Clean Architecture, MVVM, DI, Unit тесты - JUnit, UI те�
 - Сброс пароля
 - Главный экран с поисковой строкой, лентой рекомендованных объявлений, поиском по категориям
 - Экран создания объявления (форма с полями ввода и возможностью прикреплять файлы)
+TODO: 
 - Профиль пользователя (данные пользователя и история объявлений)
 - Избранные объявления пользователя
 - Экран объявления (подробное описание объявления, файлы, контакты автора, комментарии)
