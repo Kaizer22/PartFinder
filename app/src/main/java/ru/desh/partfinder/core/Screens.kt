@@ -45,7 +45,7 @@ object Screens {
         Intent(Intent.ACTION_VIEW, Uri.parse(url))
     }
 
-    const val APP_PRIVACY_POLICY_URL = ""
+    const val APP_PRIVACY_POLICY_URL = "https://github.com/Kaizer22/PartFinder/blob/master/privacy-policy.md"
     fun PrivacyPolicySource() = ActivityScreen {
         Intent(Intent.ACTION_VIEW, Uri.parse(APP_PRIVACY_POLICY_URL))
     }

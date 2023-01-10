@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.launch
 import ru.desh.partfinder.core.Screens.Auth
+import ru.desh.partfinder.core.Screens.PrivacyPolicySource
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.data.properties.PropertiesRepository
@@ -49,6 +50,9 @@ class PrivacyPolicyFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply{
+            privacyPolicyButtonSource.setOnClickListener {
+                router.navigateTo(PrivacyPolicySource())
+            }
             privacyPolicyButtonAccept.setOnClickListener {
                 lifecycleScope.launch {
                     viewModel.finishOnboarding()
