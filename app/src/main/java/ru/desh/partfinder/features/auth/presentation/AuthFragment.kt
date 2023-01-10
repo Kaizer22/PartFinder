@@ -11,12 +11,13 @@ import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
-import ru.desh.partfinder.core.Screens.HomePage
+import ru.desh.partfinder.R
+import ru.desh.partfinder.core.Screens.BottomNavigation
 import ru.desh.partfinder.core.Screens.PasswordReset
 import ru.desh.partfinder.core.Screens.PhoneAuth
 import ru.desh.partfinder.core.Screens.Registration
-import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
+import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.ui.SnackbarBuilder
 import ru.desh.partfinder.databinding.FragmentAuthBinding
 import javax.inject.Inject
@@ -31,6 +32,7 @@ class AuthFragment: Fragment() {
     @Inject
     @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder
+
 
     private lateinit var binding: FragmentAuthBinding
 
@@ -53,34 +55,34 @@ class AuthFragment: Fragment() {
         binding.apply {
             val infoMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.SECONDARY)
-                .setTitle("TODO")
-                .setText("Реализация функционала запланирована в будущем")
+                .setTitle(getString(R.string.message_title_todo))
+                .setText(getString(R.string.message_text_todo))
             val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.DANGER)
-                .setTitle("Ошибка авторизации")
+                .setTitle(getString(R.string.message_title_auth_error))
             val successMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.PRIMARY)
-                .setTitle("Добро пожаловать!")
-                .setText("Вы успешно вошли")
+                .setTitle(getString(R.string.message_title_sign_in_success))
+                .setText(getString(R.string.message_text_sign_in_success))
             val warningMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.WARNING)
-                .setTitle("Ошибка")
-                .setText("Проверьте корректность ввода email и пароля")
+                .setTitle(getString(R.string.message_title_error))
+                .setText(getString(R.string.message_text_auth_incorrect_email_or_password))
             authButtonSignIn.setOnClickListener {
-                val email = authEmailInput.editText?.text.toString()
-                val password = authPasswordInput.editText?.text.toString()
+                val email = authEmailInput.text.toString()
+                val password = authPasswordInput.text.toString()
                 hideInput()
                 if (isValidInput(email, password)) {
                     //TODO show loading
-                    //lifecycleScope.launchWhenCreated {
                     viewModel.authWithEmailAndPassword(email, password).observe(viewLifecycleOwner) { result ->
                         // TODO hide loading
                         if (!result.isException){
+                            // TODO check if current user has confirmed email
                             successMessage.show()
-                            router.navigateTo(HomePage())
+                            router.navigateTo(BottomNavigation())
                         } else {
                             dangerMessage
-                                .setText(result.exception.toString())
+                                .setText(result.exception?.message ?: "")
                                 .show()
                         }
                     }
@@ -108,7 +110,7 @@ class AuthFragment: Fragment() {
 
     private fun isValidInput(email: String, password: String): Boolean =
         email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
-                //&& password.length >= 8
+                && password.length >= 8
 
     private fun hideInput() {
         this@AuthFragment.activity?.currentFocus?.let {

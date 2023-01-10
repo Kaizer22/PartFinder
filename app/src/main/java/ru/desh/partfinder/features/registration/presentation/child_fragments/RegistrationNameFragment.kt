@@ -11,7 +11,8 @@ import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.MutableStateFlow
-import ru.desh.partfinder.core.di.RegistrationNavigation
+import ru.desh.partfinder.R
+import ru.desh.partfinder.core.di.module.RegistrationNavigation
 import ru.desh.partfinder.core.domain.model.User
 import ru.desh.partfinder.core.domain.repository.UserRepository
 import ru.desh.partfinder.core.ui.SnackbarBuilder
@@ -27,10 +28,11 @@ class RegistrationNameViewModel @Inject constructor(
     private val userRepository: UserRepository
 ): ViewModel() {
     fun createUser(name: String, surname: String, thirdName: String)
-    : LiveData<DataOrErrorResult<Boolean,Exception>>{
+    : LiveData<DataOrErrorResult<Boolean, Exception>>{
         val user = User(UUID.randomUUID().toString(),
         "",
-        name, surname, thirdName, "")
+        name, surname, thirdName, "", emptyList()
+        )
         return userRepository.createUser(user)
     }
     fun notifyUserCreated() {
@@ -70,14 +72,14 @@ class RegistrationNameFragment: Fragment(){
         binding.apply {
             val warningMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.WARNING)
-                .setTitle("Неверный ввод")
+                .setTitle(getString(R.string.message_title_wrong_input))
             val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.DANGER)
-                .setTitle("Ошибка")
+                .setTitle(getString(R.string.message_title_error))
             nameFormButtonSend.setOnClickListener {
-                val name = nameFormNameInput.editText?.text.toString()
-                val surname = nameFormSurnameInput.editText?.text.toString()
-                val thirdName = nameFormThirdNameInput.editText?.text.toString()
+                val name = nameFormNameInput.text.toString()
+                val surname = nameFormSurnameInput.text.toString()
+                val thirdName = nameFormThirdNameInput.text.toString()
                 if (isValidInput(name, surname, thirdName)) {
                     viewModel.createUser(name, surname, thirdName).observe(viewLifecycleOwner) { result ->
                         if (!result.isException) {
@@ -88,8 +90,7 @@ class RegistrationNameFragment: Fragment(){
                         }
                     }
                 } else {
-                    warningMessage.setText("Имя и фамилия не должны быть пустыми " +
-                            "или содержать цифры или спец. знаки")
+                    warningMessage.setText(getString(R.string.message_text_invalid_name))
                         .show()
                 }
             }

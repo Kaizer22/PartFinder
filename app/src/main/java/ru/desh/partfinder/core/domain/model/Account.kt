@@ -8,6 +8,7 @@ data class Account(
     val isActive: Boolean,
     val phone: String,
     val email: String,
+    val displayName: String
 ) {
     enum class RegistrationType{
         PHONE, EMAIL, GOOGLE
@@ -20,7 +21,8 @@ data class Account(
                 RegistrationType.EMAIL,
                 isActive = false,
                 "+78001234567",
-                "q@q.com"
+                "q@q.com",
+                "Ivan"
             )
         }
     }

@@ -11,7 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.MutableStateFlow
-import ru.desh.partfinder.core.domain.model.Account
+import ru.desh.partfinder.R
 import ru.desh.partfinder.core.ui.SnackbarBuilder
 import ru.desh.partfinder.databinding.FragmentRegistrationDataBinding
 import ru.desh.partfinder.core.domain.repository.AuthRepository
@@ -35,7 +35,7 @@ class RegistrationDataViewModel @Inject constructor(
     // TODO encode password
 
     fun createUserWithEmailAndPassword(email: String, password: String):
-            LiveData<DataOrErrorResult<Account?, Exception?>> {
+            LiveData<DataOrErrorResult<Boolean, Exception?>> {
         return authRepository.createAccountWithEmailAndPassword(email, password)
     }
 
@@ -43,7 +43,7 @@ class RegistrationDataViewModel @Inject constructor(
         authRepository.sendVerificationEmail()
     }
 
-    fun createUserWithPhoneNumber(phoneNumber: String): LiveData<DataOrErrorResult<Account?, Exception?>> {
+    fun createUserWithPhoneNumber(phoneNumber: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
         return authRepository.createAccountWithPhone(phoneNumber)
     }
 }
@@ -76,24 +76,26 @@ class RegistrationDataFragment(
             when(regMethod) {
                 RegistrationFragment.RegistrationType.PHONE -> {
                     // TODO
-                    registrationDataTitle.text = "Регистрация по номеру\nтелефона"
-                    registrationDataInfo.text = "На указанный номер будет выслано SMS с кодом подтвержения"
+                    registrationDataTitle.text = getString(R.string.registration_phone_title)
+                    registrationDataInfo.text = getString(R.string.registration_data_phone_info)
                     registrationDataPhoneBlock.visibility = View.VISIBLE
                 }
                 RegistrationFragment.RegistrationType.EMAIL -> {
-                    registrationDataTitle.text = "Регистрация по Email"
-                    registrationDataInfo.text = "На указанный адрес будет выслано письмо для подтверждения"
+                    registrationDataTitle.text = getString(R.string.registration_email_title)
+                    registrationDataInfo.text = getString(R.string.registration_data_email_info)
                     registrationDataEmailBlock.visibility = View.VISIBLE
                 }
             }
             val warningMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
-                .setType(SnackbarBuilder.Type.WARNING).setTitle("Неверный ввод")
+                .setType(SnackbarBuilder.Type.WARNING)
+                .setTitle(getString(R.string.message_title_wrong_input))
             val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
-                .setType(SnackbarBuilder.Type.DANGER).setTitle("Ошибка")
-            registrationButtonSendData.setOnClickListener {
+                .setType(SnackbarBuilder.Type.DANGER)
+                .setTitle(getString(R.string.message_title_error))
+            registrationDataButtonSend.setOnClickListener {
                 when(regMethod) {
                     RegistrationFragment.RegistrationType.PHONE -> {
-                        val phoneNumber = registrationDataPhoneInput.editText?.text.toString()
+                        val phoneNumber = registrationDataPhoneInput.text.toString()
                         if (isValidPhoneNumber(phoneNumber)) {
                             viewModel.notifyPhoneDataSent(phoneNumber)
 //                            viewModel.createUserWithPhoneNumber(phoneNumber).observe(viewLifecycleOwner) {
@@ -105,14 +107,13 @@ class RegistrationDataFragment(
 //                                }
 //                            }
                         } else {
-                            warningMessage.setText("Пожалуйста, перепроверьте введенные значения. " +
-                                    "Некорректный номер телефона").show()
+                            warningMessage.setText(getString(R.string.message_text_wrong_phone_number)).show()
                         }
                     }
                     RegistrationFragment.RegistrationType.EMAIL -> {
-                        val email = registrationDataEmailInput.editText?.text.toString()
-                        val password = registrationDataPasswordInput.editText?.text.toString()
-                        val password2 = registrationDataPasswordRepeatInput.editText?.text.toString()
+                        val email = registrationDataEmailInput.text.toString()
+                        val password = registrationDataPasswordInput.text.toString()
+                        val password2 = registrationDataPasswordRepeatInput.text.toString()
                         if (isValidEmailData(email, password, password2)) {
                             viewModel.createUserWithEmailAndPassword(email, password).observe(viewLifecycleOwner) {
                                 result ->
@@ -120,20 +121,16 @@ class RegistrationDataFragment(
                                     viewModel.sendVerificationEmail()
                                     viewModel.notifyEmailDataSent()
                                 } else {
-                                    dangerMessage.setText(result.exception.toString())
+                                    dangerMessage.setText(result.exception?.message ?: "")
                                 }
                             }
                         } else if (password != password2){
                             warningMessage.setText(
-                                    "Пожалуйста, перепроверьте введенные значения. " +
-                                            "Пароли не совпадают"
+                                    getString(R.string.warning_text_passwords_not_same)
                                 ).show()
                         } else {
-                            warningMessage.setText(
-                                    "Пожалуйста, перепроверьте введенные значения. " +
-                                            "Email должен быть корректным, а пароль соответствовать " +
-                                            "требованиям"
-                                ).show()
+                            warningMessage.setText(getString(
+                                R.string.message_text_registration_wrong_email_or_password)).show()
                         }
                     }
                 }

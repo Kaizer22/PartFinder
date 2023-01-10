@@ -1,17 +1,27 @@
 package ru.desh.partfinder.core
 
 import android.content.Intent
+import android.net.Uri
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import ru.desh.partfinder.features.ads.HomePageFragment
+import ru.desh.partfinder.core.domain.model.Ad
+import ru.desh.partfinder.features.BottomNavigationActivity
+import ru.desh.partfinder.features.ads.presentation.AdDetailsFragment
+import ru.desh.partfinder.features.ads.presentation.CategorySearchFragment
+import ru.desh.partfinder.features.ads.presentation.CreateAdFragment
+import ru.desh.partfinder.features.ads.presentation.HomePageFragment
+import ru.desh.partfinder.features.ads.presentation.child_fragments.*
 import ru.desh.partfinder.features.auth.presentation.AuthFragment
 import ru.desh.partfinder.features.auth.presentation.CodeEnterFragment
 import ru.desh.partfinder.features.auth.presentation.PhoneAuthFragment
 import ru.desh.partfinder.features.auth.presentation.PasswordResetFragment
+import ru.desh.partfinder.features.chat.presentation.ChatsFragment
+import ru.desh.partfinder.features.favourites.presentation.FavouriteAdsFragment
 import ru.desh.partfinder.features.registration.presentation.child_fragments.RegistrationNameFragment
 import ru.desh.partfinder.features.registration.presentation.UserFormFragment
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
 import ru.desh.partfinder.features.registration.presentation.child_fragments.*
+import ru.desh.partfinder.features.settings.presentation.AppSettingsFragment
 import ru.desh.partfinder.features.start.presentation.OnBoardingFragment
 import ru.desh.partfinder.features.start.presentation.PrivacyPolicyFragment
 import ru.desh.partfinder.features.start.presentation.WelcomeFragment
@@ -19,14 +29,30 @@ import ru.desh.partfinder.features.start.presentation.WelcomeFragment
 object Screens {
 
     //region Activity
-    const val START_FRAGMENT = "start_fragment"
-    fun Main(startFragment: String) = ActivityScreen {
+    const val IS_ONBOARDING_FINISHED = "is_onboarding_finished"
+    fun Main(isOnboardingFinished: Boolean) = ActivityScreen {
         val i = Intent(it, MainActivity::class.java)
-        i.putExtra(START_FRAGMENT, startFragment)
+        i.putExtra(IS_ONBOARDING_FINISHED, isOnboardingFinished)
+    }
+    fun BottomNavigation() = ActivityScreen {
+        Intent(it, BottomNavigationActivity::class.java)
     }
     //endregion
 
-    //region Fragment
+    // region External
+
+    fun NewsArticleSource(url: String) = ActivityScreen {
+        Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    }
+
+    const val APP_PRIVACY_POLICY_URL = ""
+    fun PrivacyPolicySource() = ActivityScreen {
+        Intent(Intent.ACTION_VIEW, Uri.parse(APP_PRIVACY_POLICY_URL))
+    }
+
+    // endregion
+
+    // region Fragment
 
     // region Start
     fun Welcome() = FragmentScreen {
@@ -94,8 +120,8 @@ object Screens {
     fun PhoneAuth() = FragmentScreen{
         PhoneAuthFragment()
     }
-    fun CodeEnter() = FragmentScreen {
-        CodeEnterFragment()
+    fun CodeEnter(phoneNumber: String) = FragmentScreen {
+        CodeEnterFragment(phoneNumber)
     }
     // endregion
 
@@ -104,8 +130,64 @@ object Screens {
     fun HomePage() = FragmentScreen {
         HomePageFragment()
     }
+
+    fun CategorySearch(category: String) = FragmentScreen {
+        CategorySearchFragment(category)
+    }
+
+    fun AdDetails(ad: Ad) = FragmentScreen {
+        AdDetailsFragment(ad)
+    }
+
+    fun CreateAd() = FragmentScreen {
+        CreateAdFragment()
+    }
+
+    fun CreateAd_Target() = FragmentScreen {
+        CreateAdTargetFragment()
+    }
+
+    fun CreateAd_Description() = FragmentScreen {
+        CreateAdDescriptionFragment()
+    }
+
+    fun CreateAd_Files() = FragmentScreen {
+        CreateAdFilesFragment()
+    }
+
+    fun CreateAd_Contacts() = FragmentScreen {
+        CreateAdContactsFragment()
+    }
+
+    fun Post_CreateAd() = FragmentScreen {
+        PostCreateAdFragment()
+    }
     // endregion
 
-    //endregion
+    // region Settings
+
+    fun Settings() = FragmentScreen {
+        AppSettingsFragment()
+    }
+
+    // endregion
+
+    // region Chats
+
+    fun Chats() = FragmentScreen {
+        ChatsFragment()
+    }
+
+    // endregion
+
+    // region Favourites
+
+    fun Favourites() = FragmentScreen {
+        FavouriteAdsFragment()
+    }
+
+    // endregion
+
+    // endregion
 
 }

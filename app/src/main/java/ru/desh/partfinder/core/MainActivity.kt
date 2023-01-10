@@ -1,6 +1,5 @@
 package ru.desh.partfinder.core
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.github.terrakok.cicerone.Navigator
@@ -10,8 +9,8 @@ import com.github.terrakok.cicerone.androidx.AppNavigator
 import ru.desh.partfinder.R
 import ru.desh.partfinder.core.Screens.Auth
 import ru.desh.partfinder.core.Screens.Welcome
-import ru.desh.partfinder.core.di.AppNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
+import ru.desh.partfinder.core.di.module.AppNavigation
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -29,12 +28,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         SingleApplicationComponent.getInstance().inject(this)
-        val startFr = intent.getStringExtra(Screens.START_FRAGMENT)
-        when (startFr) {
-            //TODO
-            "onboarding" -> router.navigateTo(Welcome())
-            "auth" -> router.navigateTo(Auth())
-        }
+        val isOnboardingFinished = intent.getBooleanExtra(Screens.IS_ONBOARDING_FINISHED, false)
+        if (!isOnboardingFinished) router.navigateTo(Welcome())
+        else router.navigateTo(Auth())
     }
 
     override fun onResume() {

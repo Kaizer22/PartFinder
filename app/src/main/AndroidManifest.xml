@@ -23,6 +23,12 @@
             tools:ignore="LockedOrientationActivity">
         </activity>
         <activity
+            android:name=".features.BottomNavigationActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
+        <activity
             android:name=".features.start.presentation.SplashScreenActivity"
             android:theme="@style/PartFinderSplashScreen"
             android:exported="true">

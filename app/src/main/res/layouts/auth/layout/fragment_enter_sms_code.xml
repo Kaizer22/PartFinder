@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/content">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/enter_sms_code_button_back"
@@ -21,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="196dp"
-            android:text="Ввод кода"
+            android:text="@string/enter_sms_code_title"
             android:textAppearance="@style/TextAppearance.PartFinder.H5Header"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,21 +36,22 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
         android:gravity="center"
-        android:text="На указанный номер выслано SMS. Введите 6-значный код из SMS"
+        android:text="@string/enter_sms_code_info"
         android:textAppearance="@style/TextAppearance.PartFinder.Body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <ru.desh.library.ui.CustomOtpInputView
-        android:id="@+id/view"
-        android:layout_width="315dp"
-        android:layout_height="45dp"
+    <ru.desh.library.ui.OtpInputView
+        android:id="@+id/enter_sms_code_otp_input"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
         app:inputFocusBackground="?attr/otpInputFocusColor"
         app:inputBackground="?attr/otpInputBgColor"
         android:textAppearance="@style/TextAppearance.PartFinder.H5Header"
-        app:inputType="numberPassword"
+        app:inputType="number"
+        app:digitsCount="6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -59,11 +61,11 @@
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginTop="24dp"
-        android:text="Запомнить меня"
+        android:text="@string/remember_me"
         android:textAppearance="@style/TextAppearance.PartFinder.Body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toBottomOf="@+id/enter_sms_code_otp_input" />
 
     <com.google.android.material.button.MaterialButton
         android:visibility="gone"
@@ -75,7 +77,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:text="@string/button_sign_in"
-        app:layout_constraintBottom_toTopOf="@+id/include"
+        app:layout_constraintBottom_toTopOf="@+id/hint_register_block"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -95,17 +97,18 @@
 
     <com.google.android.material.button.MaterialButton
         style="@style/ButtonInactive"
+        android:id="@+id/enter_sms_code_button_repeat_otp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:text="@string/button_repeat_after_1_min"
-        app:layout_constraintBottom_toTopOf="@+id/materialButton5"
+        app:layout_constraintBottom_toTopOf="@+id/enter_sms_code_button_confirm_otp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/materialButton5"
+        android:id="@+id/enter_sms_code_button_confirm_otp"
         style="@style/ButtonInactive"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -113,12 +116,12 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:text="@string/button_sign_in"
-        app:layout_constraintBottom_toTopOf="@+id/include"
+        app:layout_constraintBottom_toTopOf="@+id/hint_register_block"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/hint_register_block"
         layout="@layout/text_button_register_block"
         tools:layout_editor_absoluteX="106dp"
         tools:layout_editor_absoluteY="851dp" />

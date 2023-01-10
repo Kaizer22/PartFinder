@@ -1,7 +1,6 @@
 package ru.desh.partfinder.features.registration.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +18,9 @@ import ru.desh.partfinder.core.Screens.Registration_Confirmation
 import ru.desh.partfinder.core.Screens.Registration_Data
 import ru.desh.partfinder.core.Screens.Registration_Method
 import ru.desh.partfinder.core.Screens.Registration_Name
-import ru.desh.partfinder.core.di.AppNavigation
-import ru.desh.partfinder.core.di.RegistrationNavigation
 import ru.desh.partfinder.core.di.SingleApplicationComponent
+import ru.desh.partfinder.core.di.module.AppNavigation
+import ru.desh.partfinder.core.di.module.RegistrationNavigation
 import ru.desh.partfinder.databinding.FragmentRegistrationBinding
 import ru.desh.partfinder.features.registration.di.RegistrationComponent
 import ru.desh.partfinder.features.registration.presentation.child_fragments.*
@@ -45,6 +44,8 @@ class RegistrationFragment: Fragment() {
 
     lateinit var registrationComponent: RegistrationComponent
         private set
+
+    // Registration state, shared with child fragments
     private val _registrationState = MutableStateFlow<RegistrationState>(RegistrationState.InitState)
     val registrationState: StateFlow<RegistrationState> = _registrationState
 
@@ -115,9 +116,6 @@ class RegistrationFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             registrationButtonBack.setOnClickListener {
-                registrationSteppedProgressBar.previousStep()
-            }
-            registrationButtonBack.setOnClickListener {
                 router.exit()
             }
         }
@@ -127,10 +125,6 @@ class RegistrationFragment: Fragment() {
                 registrationState.collect{ regState ->
                     when (regState){
                         is RegistrationState.RegistrationMethodSelected -> {
-                            when(regState.registrationType) {
-                                RegistrationType.PHONE -> Log.d("TEST", "PHONE")
-                                RegistrationType.EMAIL -> Log.d("TEST", "EMAIL")
-                            }
                             //TODO refactor
                             binding.registrationSteppedProgressBar.nextStep()
                             registrationDataFragment = RegistrationDataFragment(regState.registrationType)

@@ -9,8 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.flow.MutableStateFlow
-import ru.desh.partfinder.core.di.RegistrationNavigation
-import ru.desh.partfinder.core.di.SingleApplicationComponent
+import ru.desh.partfinder.core.di.module.RegistrationNavigation
 import ru.desh.partfinder.databinding.FragmentRegistrationMethodBinding
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
 import ru.desh.partfinder.features.registration.presentation.RegistrationState

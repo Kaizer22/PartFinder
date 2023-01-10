@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="CustomOtpInputView">
+    <declare-styleable name="OtpInputView">
         <attr name="inputSpacing" format="dimension"/>
         <attr name="inputBackground" format="color"/>
         <attr name="inputFocusBackground" format="color"/>

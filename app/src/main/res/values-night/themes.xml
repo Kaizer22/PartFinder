@@ -14,24 +14,60 @@
         <!-- Customize your theme here. -->
         <item name="linkColor">@color/primary_40</item>
 
+        <!-- Custom attributes. -->
+
+        <!-- region Buttons -->
         <item name="buttonPrimaryColor">@color/primary</item>
         <item name="buttonPrimaryColorLight">@color/primary_20</item>
         <item name="buttonSecondaryColor">@color/secondary</item>
         <item name="buttonSecondaryColorLight">@color/secondary_20</item>
         <item name="buttonPrimaryTextColor">@color/black</item>
         <item name="outlinedButtonColor">@color/primary</item>
+        <item name="buttonInactiveColor">@color/gray</item>
+        <item name="buttonInactiveTextColor">@color/primary_10</item>
+        <item name="buttonTertiaryColor">@color/tertiary</item>
+        <!-- endregion -->
+
+        <!-- region Text -->
+        <item name="textAccentColor">@color/secondary</item>
         <item name="bodyHintColor">@color/gray</item>
+        <!-- endregion -->
+
+        <!-- region Input -->
         <item name="inputFieldBgColor">@color/primary_10</item>
         <item name="inputFieldIconsTint">@color/black</item>
         <item name="inputFieldBoxStrokeColor">@color/primary_40</item>
         <item name="inputFieldHintTextColor">@color/primary_40</item>
-        <item name="buttonInactiveColor">@color/gray</item>
-        <item name="buttonInactiveTextColor">@color/primary_10</item>
         <item name="otpInputBgColor">@color/light_gray</item>
         <item name="otpInputFocusColor">@color/primary</item>
+        <!-- endregion -->
+
+        <!-- region Custom Views -->
         <item name="steppedProgressBarProgressColor">@color/primary_40</item>
         <item name="steppedProgressBarEmptyColor">@color/light_gray</item>
-        <item name="buttonTertiaryColor">@color/tertiary</item>
+        <!-- endregion -->
+
+        <!-- region Snackbar -->
+        <item name="primaryIconTint">@color/primary_40</item>
+        <item name="primaryTextColor">@color/primary_40</item>
+        <item name="primaryAccentColor">@color/primary</item>
+        <item name="primaryBgColor">@color/primary_20</item>
+
+        <item name="warningIconTint">@color/tertiary_40</item>
+        <item name="warningTextColor">@color/tertiary_40</item>
+        <item name="warningAccentColor">@color/tertiary</item>
+        <item name="warningBgColor">@color/tertiary_20</item>
+
+        <item name="dangerIconTint">@color/secondary_40</item>
+        <item name="dangerTextColor">@color/secondary_40</item>
+        <item name="dangerAccentColor">@color/secondary</item>
+        <item name="dangerBgColor">@color/secondary_20</item>
+
+        <item name="secondaryIconTint">@color/black</item>
+        <item name="secondaryTextColor">@color/black</item>
+        <item name="secondaryAccentColor">@color/gray</item>
+        <item name="secondaryBgColor">@color/light_gray</item>
+        <!-- endregion -->
     </style>
 
     <style name="PartFinderSplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">

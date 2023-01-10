@@ -5,6 +5,10 @@ plugins {
     id 'kotlin-kapt'
 }
 
+def aksFile = project.file("aks.properties")
+def aksProperties = new Properties()
+aksProperties.load(new FileInputStream(aksFile))
+
 android {
     compileSdk 33
 
@@ -20,6 +24,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "QHZV_DSL_NHB", aksProperties['QHZV_DSL_NHB'])
     }
 
     buildTypes {
@@ -34,6 +40,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
     }
 
     sourceSets {
@@ -69,6 +79,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation 'com.airbnb.android:lottie:3.5.0'
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
 
     // Navigation
     implementation 'com.github.terrakok:cicerone:7.1'
@@ -80,15 +91,33 @@ dependencies {
     // Data
     implementation "androidx.datastore:datastore-preferences:1.1.0-alpha01"
 
+    //Network API
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.okhttp3:okhttp:4.9.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
+    implementation "com.squareup.moshi:moshi:1.13.0"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.13.0"
+
     // Firebase
     implementation 'com.google.firebase:firebase-auth:19.3.2'
     implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
     implementation 'com.google.firebase:firebase-firestore:24.4.1'
 
     // Tests
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.5.1'
+    implementation 'joda-time:joda-time:2.12.2'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.0.2'
+    testImplementation "org.robolectric:robolectric:4.4"
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.3.0"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+
 
     implementation 'androidx.browser:browser:1.4.0'
 }

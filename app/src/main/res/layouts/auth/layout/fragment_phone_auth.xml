@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/content">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/phone_auth_button_back"
@@ -38,14 +39,14 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
         android:gravity="center"
-        android:text="На указанный номер будет выслано SMS с кодом подтвержения"
+        android:text="@string/phone_auth_info"
         android:textAppearance="@style/TextAppearance.PartFinder.Body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/password_reset_email_input"
+        android:id="@+id/phone_auth_input"
         style="@style/PartFinder.InputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -60,7 +61,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="51dp"
+            android:layout_height="wrap_content"
             android:inputType="phone" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,11 +70,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="8dp"
-        android:text="Например, +78001234567"
+        android:text="@string/phone_input_example_hint"
         android:textAppearance="@style/TextAppearance.PartFinder.Subtitle"
         android:textColor="?attr/bodyHintColor"
-        app:layout_constraintStart_toStartOf="@+id/password_reset_email_input"
-        app:layout_constraintTop_toBottomOf="@+id/password_reset_email_input" />
+        app:layout_constraintStart_toStartOf="@+id/phone_auth_input"
+        app:layout_constraintTop_toBottomOf="@+id/phone_auth_input" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/phone_auth_button_send"
@@ -83,13 +84,13 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:text="Отправить"
-        app:layout_constraintBottom_toTopOf="@+id/include"
+        android:text="@string/button_send"
+        app:layout_constraintBottom_toTopOf="@+id/hint_register_block"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/hint_register_block"
         layout="@layout/text_button_register_block"
         tools:layout_editor_absoluteX="106dp"
         tools:layout_editor_absoluteY="851dp" />

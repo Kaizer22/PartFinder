@@ -6,5 +6,6 @@ data class User(
     val name: String,
     val surname: String,
     val lastName: String,
-    val avatar: String
+    val avatar: String,
+    val contacts: List<UserContact>
 )

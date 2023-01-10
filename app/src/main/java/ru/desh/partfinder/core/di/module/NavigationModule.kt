@@ -5,15 +5,23 @@ import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import dagger.Module
 import dagger.Provides
-import ru.desh.partfinder.core.di.AppNavigation
-import ru.desh.partfinder.core.di.RegistrationNavigation
-import ru.desh.partfinder.core.di.UserFormNavigation
+import javax.inject.Qualifier
+
+@Qualifier
+annotation class AppNavigation
+@Qualifier
+annotation class RegistrationNavigation
+@Qualifier
+annotation class UserFormNavigation
+@Qualifier
+annotation class CreateAdNavigation
 
 @Module
 class NavigationModule {
     private val appCicerone = Cicerone.create()
     private lateinit var registrationCicerone: Cicerone<Router>
     private lateinit var userFormCicerone: Cicerone<Router>
+    private lateinit var createAdCicerone: Cicerone<Router>
 
     @Provides
     @AppNavigation
@@ -38,7 +46,7 @@ class NavigationModule {
 
     @Provides
     @RegistrationNavigation
-    fun providesRegistrationNavigationHolder(): NavigatorHolder {
+    fun providesRegistrationNavigatorHolder(): NavigatorHolder {
         if (!this::registrationCicerone.isInitialized) {
             registrationCicerone = Cicerone.create()
         }
@@ -56,10 +64,28 @@ class NavigationModule {
 
     @Provides
     @UserFormNavigation
-    fun providesUserFormNavigationHolder(): NavigatorHolder {
+    fun providesUserFormNavigatorHolder(): NavigatorHolder {
         if (!this::userFormCicerone.isInitialized) {
             userFormCicerone = Cicerone.create()
         }
         return userFormCicerone.getNavigatorHolder()
+    }
+
+    @Provides
+    @CreateAdNavigation
+    fun providesCreateAdRouter(): Router {
+        if (!this::createAdCicerone.isInitialized) {
+            createAdCicerone = Cicerone.create()
+        }
+        return createAdCicerone.router
+    }
+
+    @Provides
+    @CreateAdNavigation
+    fun providesCreateAdNavigatorHolder(): NavigatorHolder {
+        if (!this::createAdCicerone.isInitialized) {
+            createAdCicerone = Cicerone.create()
+        }
+        return createAdCicerone.getNavigatorHolder()
     }
 }
