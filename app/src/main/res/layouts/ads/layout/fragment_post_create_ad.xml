@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,7 +12,7 @@
         android:layout_marginTop="70dp"
         android:layout_marginEnd="32dp"
         android:gravity="center"
-        android:text="Объявление опубликовано!"
+        android:text="@string/post_create_ad_title"
         android:textAppearance="@style/TextAppearance.PartFinder.H5Header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +26,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
         android:gravity="center"
-        android:text="Отредактировать объявление или снять с публикации можно из профиля"
+        android:text="@string/post_create_ad_info"
         android:textAppearance="@style/TextAppearance.PartFinder.Body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

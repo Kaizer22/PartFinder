@@ -133,4 +133,25 @@
     <string name="message_text_invalid_name">Имя и фамилия не должны быть пустыми или содержать цифры или спец. знаки</string>
     <string name="settings">Настройки</string>
     <string name="button_publish">Опубликовать</string>
+    <string name="todo">TODO</string>
+    <string name="category_search">Поиск объявлений по категориям</string>
+    <string name="create_ad_contacts_info">Выберете контакты, которые отобразятся в объявлении. Если Вы не укажете никакие контакты, то пользователи смогут связаться с Вами только через мессенджер приложения</string>
+    <string name="create_ad_contacts_info2">Настроить список контактов можно в профиле</string>
+    <string name="create_ad_title">Контакты</string>
+    <string name="create_ad_description_info_region">Выберете регион для объявления. Если территориальный фактор не имеет значения, выберете “Любой”</string>
+    <string name="create_ad_description_info_tags">Выберете теги для объявления. Это поможет другим пользователям найти Ваше объявление</string>
+    <string name="create_ad_description_info">Описание идеи. Можете не ограничивать себя и обстоятельно все описать, но самые мелкие подробности и расчеты лучше вынести в прикрепляемые файлы</string>
+    <string name="button_select">Выбрать</string>
+    <string name="post_create_ad_title">Объявление опубликовано!</string>
+    <string name="post_create_ad_info">Отредактировать объявление или снять с публикации можно из профиля</string>
+    <string name="ad_details">Просмотр деталей объявления</string>
+    <string name="create_ad_files_info">Чтобы сделать Ваше объявление более наглядным и заметным, добавьте фото- и видеоматериалы, описывающие суть. Видео может быть питчем идеи, описанием прибора, демонстрацией ключевых показателей и т.д. Фотографии могут, например, содержать фото продукции, демонстрацию изделия или графики и диаграммы</string>
+    <string name="create_ad_files_youtube_link">Чтобы прикрепить к объявлению видеоролик, добавьте ссылку на видео с YouTube</string>
+    <string name="create_ad_files_info_video_content">Опишите содержание ролика. Такой заголовок видео увидят пользователи при просмотре объявления</string>
+    <string name="create_ad_files_info_media">Добавьте изображения или фото. Они будут отображены сразу после видео в порядке добавления</string>
+    <string name="create_ad_files_info_select">Добавьте дополнительные файлы, описывающие суть объявления</string>
+    <string name="create_ad_description_title">Описание объявления</string>
+    <string name="create_ad_files_title">Файлы и медиа</string>
+    <string name="create_ad_description_input_hint">Описание</string>
+    <string name="create_ad_description_title_input_hint">Заголовок объявления</string>
 </resources>
