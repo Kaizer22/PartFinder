@@ -14,6 +14,8 @@ import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import com.google.android.material.card.MaterialCardView
 import ru.desh.library.R
 
@@ -45,7 +47,7 @@ open class OtpInputView: LinearLayout {
     private var hintText = ""
     private var hintColor = -1
 
-    private lateinit var mOtpText: String
+    private var mOtpText: String = ""
     fun getText(): String {
         return mListOfDigits.joinToString(separator = "") {
             it.text.toString()
@@ -88,6 +90,8 @@ open class OtpInputView: LinearLayout {
         init(context, attrs)
     }
 
+    private var onChanged: (inputComplete: Boolean, otpText: String) -> Unit =
+        {_,_ ->}
     private fun init(context: Context, attrs: AttributeSet?) {
         inflate(context, R.layout.custom_otp_input, this)
         if (attrs != null) {
@@ -125,10 +129,13 @@ open class OtpInputView: LinearLayout {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(s: Editable) {
+                    mOtpText = getText()
                     if (s.isNotEmpty()) {
                         moveToNext(editText)
+                        onChanged(mOtpText.length == digitsCount, mOtpText)
                     } else {
                         moveBackward(editText)
+                        onChanged(mOtpText.length == digitsCount, mOtpText)
                     }
                 }
             })
@@ -291,5 +298,26 @@ open class OtpInputView: LinearLayout {
             val v = mListOfDigits[currentInput]
             v.demandFocus()
         }
+    }
+
+    fun onInputFinishedListener(onInputFinished: (String) -> Unit) {
+        mListOfDigits.last().addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                if (mOtpText.length == digitsCount) {
+                    onInputFinished(mOtpText)
+                }
+            }
+        })
+    }
+
+    fun setInputChangedListener(onCh: (inputComplete: Boolean, otpText: String) -> Unit) {
+        onChanged = onCh
+//        mListOfDigits.forEach {
+//            it.doOnTextChanged { text, start, count, after ->
+//                    onChanged(mOtpText.length == digitsCount, mOtpText)
+//            }
+//        }
     }
 }

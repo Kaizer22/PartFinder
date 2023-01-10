@@ -91,13 +91,18 @@ class CodeEnterFragment(
                         .show()
                 }
             }
+            enterSmsCodeOtpInput.setInputChangedListener { complete, text ->
+                if (complete) {
+                    otp = text
+                    activateConfirmationButton()
+                }
+            }
             // TODO run timer on button
             enterSmsCodeButtonRepeatOtp.setOnClickListener {
 
             }
             enterSmsCodeButtonConfirmOtp.setOnClickListener {
-                viewModel.signInWithCode(otp).observe(viewLifecycleOwner) {
-                        result ->
+                viewModel.signInWithCode(otp).observe(viewLifecycleOwner) { result ->
                     if (!result.isException) {
                         router.navigateTo(BottomNavigation())
                     } else {
