@@ -2,7 +2,7 @@ package ru.desh.partfinder.core.data.api.business_news.model.mapper
 
 import ru.desh.partfinder.core.data.api.business_news.model.ApiPaginatedNews
 import ru.desh.partfinder.core.domain.model.BusinessArticle
-import ru.desh.partfinder.core.domain.utils.BaseMapper
+import ru.desh.partfinder.core.utils.BaseMapper
 import javax.inject.Inject
 
 class ApiPaginatedNewsMapper @Inject constructor(

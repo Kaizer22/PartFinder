@@ -65,21 +65,22 @@ class HomePageFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adsAdapter = AdsAdapter(router)
+        val adsAdapter = AdsAdapter(requireActivity(), router)
         val businessArticlesAdapter = BusinessArticleAdapter(router)
         businessArticlesAdapter.submitList(emptyList())
         val categoriesAdapter = CategoriesAdapter(router)
         categoriesAdapter.submitList(CategoryProvider.getCategories(requireContext()))
 
-        infoMessage = SnackbarBuilder(binding.content, layoutInflater, Snackbar.LENGTH_LONG)
+        val parentActivityContent = requireActivity().findViewById<ViewGroup>(R.id.content)
+        infoMessage = SnackbarBuilder(parentActivityContent, layoutInflater, Snackbar.LENGTH_LONG)
             .setType(SnackbarBuilder.Type.PRIMARY)
             .setTitle("Инфо")
             .setText("Загрузка следующей страницы объявлений...")
-        val todoMessage = SnackbarBuilder(binding.content, layoutInflater, Snackbar.LENGTH_LONG)
-            .setType(SnackbarBuilder.Type.PRIMARY)
+        val todoMessage = SnackbarBuilder(parentActivityContent, layoutInflater, Snackbar.LENGTH_LONG)
+            .setType(SnackbarBuilder.Type.SECONDARY)
             .setTitle(getString(R.string.message_title_todo))
             .setText(getString(R.string.message_text_todo))
-        warningMessage = SnackbarBuilder(binding.content, layoutInflater, Snackbar.LENGTH_LONG)
+        warningMessage = SnackbarBuilder(parentActivityContent, layoutInflater, Snackbar.LENGTH_LONG)
             .setType(SnackbarBuilder.Type.WARNING)
             .setTitle(getString(R.string.message_title_error))
             .setText(getString(R.string.message_text_cannot_load_rec_ads))

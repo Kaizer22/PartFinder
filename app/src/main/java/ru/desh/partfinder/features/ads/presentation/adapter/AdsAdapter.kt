@@ -1,5 +1,6 @@
 package ru.desh.partfinder.features.ads.presentation.adapter
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
@@ -18,13 +19,14 @@ import ru.desh.partfinder.databinding.ItemAdCardBinding
 import java.util.*
 
 class AdsAdapter(
+    private val activity: Activity,
     private val router: Router
 ) : ListAdapter<Ad, AdViewHolder>
     (AdDiffUtilCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemAdCardBinding.inflate(layoutInflater, parent, false)
-        return AdViewHolder(binding, router, layoutInflater)
+        return AdViewHolder(activity, binding, router, layoutInflater)
     }
 
     override fun onBindViewHolder(holder: AdViewHolder, position: Int) {
@@ -33,13 +35,14 @@ class AdsAdapter(
 }
 
 class AdViewHolder(
+    private val activity: Activity,
     private val itemAdCardBinding: ItemAdCardBinding,
     private val router: Router,
     layoutInflater: LayoutInflater
-    ): ViewHolder(itemAdCardBinding.root) {
+): ViewHolder(itemAdCardBinding.root) {
 
     private val todoMessage: SnackbarBuilder = SnackbarBuilder(
-        itemAdCardBinding.root,
+        activity.findViewById(R.id.content) as ViewGroup,
         layoutInflater, Snackbar.LENGTH_LONG
     )
         .setType(SnackbarBuilder.Type.SECONDARY)

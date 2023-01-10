@@ -1,4 +1,4 @@
-package ru.desh.partfinder.core.utils.exception.properties
+package ru.desh.partfinder.core.data.properties
 
 import kotlinx.coroutines.flow.Flow
 

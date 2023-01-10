@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import ru.desh.partfinder.core.data.api.business_news.BusinessNewsRepositoryImpl
 import ru.desh.partfinder.core.data.firebase.FirebaseAdRepositoryImpl
-import ru.desh.partfinder.core.utils.exception.properties.PropertiesRepository
-import ru.desh.partfinder.core.utils.exception.properties.PropertiesRepositoryDataStoreImpl
+import ru.desh.partfinder.core.data.properties.PropertiesRepository
+import ru.desh.partfinder.core.data.properties.PropertiesRepositoryDataStoreImpl
 import ru.desh.partfinder.core.domain.repository.AuthRepository
 import ru.desh.partfinder.core.data.firebase.FirebaseAuthRepositoryImpl
 import ru.desh.partfinder.core.data.firebase.FirebaseUserRepositoryImpl

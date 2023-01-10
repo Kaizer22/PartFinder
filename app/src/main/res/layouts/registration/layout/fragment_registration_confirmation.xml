@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registration_confirmation_title" />
 
-    <ru.desh.library.ui.CustomOtpInputView
+    <ru.desh.library.ui.OtpInputView
         android:id="@+id/registration_confirmation_otp_input"
         android:visibility="gone"
         android:layout_width="360dp"
@@ -42,7 +42,7 @@
         android:textAppearance="@style/TextAppearance.PartFinder.H5Header"
         app:inputBackground="?attr/otpInputBgColor"
         app:inputFocusBackground="?attr/otpInputFocusColor"
-        app:inputType="numberPassword"
+        app:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registration_confirmation_info"/>

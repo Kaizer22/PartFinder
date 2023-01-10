@@ -5,7 +5,7 @@ import ru.desh.partfinder.R
 import ru.desh.partfinder.core.data.api.business_news.ApiUtils
 import ru.desh.partfinder.core.data.api.business_news.model.ApiArticle
 import ru.desh.partfinder.core.domain.model.BusinessArticle
-import ru.desh.partfinder.core.domain.utils.BaseMapper
+import ru.desh.partfinder.core.utils.BaseMapper
 import java.util.*
 import javax.inject.Inject
 

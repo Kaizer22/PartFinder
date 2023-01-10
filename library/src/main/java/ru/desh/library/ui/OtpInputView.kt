@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
-import androidx.annotation.ColorInt
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
@@ -19,8 +18,8 @@ import com.google.android.material.card.MaterialCardView
 import ru.desh.library.R
 
 // TODO show last input digit in hidden mode
-open class CustomOtpInputView: LinearLayout {
-    internal enum class CustomOptInputType(val type: Int) {
+open class OtpInputView: LinearLayout {
+    internal enum class OptInputType(val type: Int) {
         NUMBER(1),
         NUMBER_HIDDEN(2)
     }
@@ -112,11 +111,11 @@ open class CustomOtpInputView: LinearLayout {
             editText.hint = hintText.getOrNull(i)?.toString() ?: "_"
 
             when (inputType) {
-                CustomOptInputType.NUMBER.type -> {
+                OptInputType.NUMBER.type -> {
                     editText.inputType =
                         InputType.TYPE_CLASS_NUMBER
                 }
-                CustomOptInputType.NUMBER_HIDDEN.type -> {
+                OptInputType.NUMBER_HIDDEN.type -> {
                     editText.inputType =
                         InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
                 }
@@ -167,21 +166,21 @@ open class CustomOtpInputView: LinearLayout {
 
     private fun initAttrs(attrs: AttributeSet) {
         val typedArray = context.theme
-            .obtainStyledAttributes(attrs, R.styleable.CustomOtpInputView, 0, 0)
+            .obtainStyledAttributes(attrs, R.styleable.OtpInputView, 0, 0)
 
-        digitsCount = typedArray.getInt(R.styleable.CustomOtpInputView_digitsCount, 6)
+        digitsCount = typedArray.getInt(R.styleable.OtpInputView_digitsCount, 6)
         inputBackgroundColor = typedArray.getColor(
-            R.styleable.CustomOtpInputView_inputBackground,
+            R.styleable.OtpInputView_inputBackground,
             ContextCompat.getColor(context, android.R.color.transparent)
         )
 
         inputFocusColor = typedArray.getColor(
-            R.styleable.CustomOtpInputView_inputFocusBackground,
+            R.styleable.OtpInputView_inputFocusBackground,
             ContextCompat.getColor(context, android.R.color.transparent)
         )
 
         inputSpacing = typedArray.getDimensionPixelSize(
-            R.styleable.CustomOtpInputView_inputSpacing,
+            R.styleable.OtpInputView_inputSpacing,
             20,
         )
 
@@ -191,12 +190,12 @@ open class CustomOtpInputView: LinearLayout {
         ).toInt()
 
         cornerRadius = typedArray.getDimensionPixelSize(
-            R.styleable.CustomOtpInputView_inputRadius,
+            R.styleable.OtpInputView_inputRadius,
             defaultRadius
         )
 
         textColor = typedArray.getColor(
-            R.styleable.CustomOtpInputView_android_textColor,
+            R.styleable.OtpInputView_android_textColor,
             ContextCompat.getColor(context, android.R.color.black)
         )
 
@@ -206,46 +205,46 @@ open class CustomOtpInputView: LinearLayout {
         ).toInt()
 
         textSize = typedArray.getDimensionPixelSize(
-            R.styleable.CustomOtpInputView_android_textSize,
+            R.styleable.OtpInputView_android_textSize,
             defaultTextSize
         )
 
         textStyle = typedArray.getInt(
-            R.styleable.CustomOtpInputView_android_textStyle,
+            R.styleable.OtpInputView_android_textStyle,
             0
         )
 
         textAppearance = typedArray.getResourceId(
-            R.styleable.CustomOtpInputView_android_textAppearance,
+            R.styleable.OtpInputView_android_textAppearance,
             0
         )
 
         inputType = typedArray.getInt(
-            R.styleable.CustomOtpInputView_inputType,
-            CustomOptInputType.NUMBER.type
+            R.styleable.OtpInputView_inputType,
+            OptInputType.NUMBER.type
         )
 
         borderColor = typedArray.getColor(
-            R.styleable.CustomOtpInputView_borderColor,
+            R.styleable.OtpInputView_borderColor,
             -1
         )
 
         borderWidth = typedArray.getDimensionPixelSize(
-            R.styleable.CustomOtpInputView_borderWidth,
+            R.styleable.OtpInputView_borderWidth,
             0
         )
 
         hintText = typedArray.getString(
-            R.styleable.CustomOtpInputView_android_hint
+            R.styleable.OtpInputView_android_hint
         ) ?: ""
 
         hintColor = typedArray.getColor(
-            R.styleable.CustomOtpInputView_android_textColorHint,
+            R.styleable.OtpInputView_android_textColorHint,
             -1
         )
 
         cursorVisibility = typedArray.getBoolean(
-            R.styleable.CustomOtpInputView_android_cursorVisible,
+            R.styleable.OtpInputView_android_cursorVisible,
             true
         )
         typedArray.recycle()
@@ -291,70 +290,6 @@ open class CustomOtpInputView: LinearLayout {
         if (currentInput >= 0) {
             val v = mListOfDigits[currentInput]
             v.demandFocus()
-        }
-    }
-
-    fun focusOtpInput() {
-        val firstInput = mListOfDigits.first()
-        firstInput.postDelayed({
-            firstInput.clearFocus()
-            firstInput.demandFocus()
-        }, 100)
-    }
-
-    /*Takes a function which accepts the {inputComplete} boolean and current {otpText}*/
-    fun inputChangedListener(onChanged: (inputComplete: Boolean, otpText: String) -> Unit) {
-        mListOfDigits.forEach {
-            it.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun afterTextChanged(s: Editable) {
-                    onChanged(mOtpText.length == digitsCount, mOtpText)
-                }
-            })
-        }
-    }
-
-    fun onInputFinishedListener(onInputFinished: (String) -> Unit) {
-        mListOfDigits.last().addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                if (mOtpText.length == digitsCount) {
-                    onInputFinished(mOtpText)
-                }
-            }
-        })
-    }
-
-    fun reset() {
-        mListOfDigits.forEach {
-            it.setText("")
-        }
-        mListOfDigits.firstOrNull()?.requestFocus()
-    }
-
-    fun setHint(hintText: String) {
-        mListOfDigits.forEachIndexed { index, editText ->
-            editText.hint = hintText.getOrNull(index)?.toString() ?: ""
-        }
-    }
-
-    fun setStrokeColor(@ColorInt color: Int) {
-        mListOfDigits.forEach { editText ->
-            val parent = editText.parent
-            if(parent is MaterialCardView) {
-                parent.strokeColor = color
-            }
-        }
-    }
-
-    fun setStrokeWidth(width: Int) {
-        mListOfDigits.forEach { editText ->
-            val parent = editText.parent
-            if(parent is MaterialCardView) {
-                parent.strokeWidth = width
-            }
         }
     }
 }

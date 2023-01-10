@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import ru.desh.partfinder.core.Screens.Auth
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.di.module.AppNavigation
-import ru.desh.partfinder.core.utils.exception.properties.PropertiesRepository
+import ru.desh.partfinder.core.data.properties.PropertiesRepository
 import ru.desh.partfinder.databinding.FragmentPrivacyPolicyBinding
 import javax.inject.Inject
 
