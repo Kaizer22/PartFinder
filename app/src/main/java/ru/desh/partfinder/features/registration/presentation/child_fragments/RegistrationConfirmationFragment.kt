@@ -75,6 +75,12 @@ class RegistrationConfirmationFragment(
                     registrationConfirmationButtonRepeatOtp.visibility = View.VISIBLE
                     registrationConfirmationButtonConfirmOtp.visibility = View.VISIBLE
 
+                    registrationConfirmationOtpInput.setInputChangedListener { complete, text ->
+                        if (complete) {
+                            otp = text
+                            activateConfirmationButton()
+                        }
+                    }
                     viewModel.sendVerificationCode(phoneNumber).observe(viewLifecycleOwner){
                         result -> if (!result.isException) {
                             result.data?.let {
