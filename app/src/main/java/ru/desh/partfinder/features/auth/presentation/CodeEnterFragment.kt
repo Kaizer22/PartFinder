@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModel
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.MutableStateFlow
 import ru.desh.partfinder.R
 import ru.desh.partfinder.core.Screens
 import ru.desh.partfinder.core.Screens.BottomNavigation
@@ -27,10 +26,11 @@ import javax.inject.Inject
 
 class CodeEnterViewModel @Inject constructor(
     private val authRepository: AuthRepository
-): ViewModel() {
+) : ViewModel() {
     fun sendVerificationCode(phoneNumber: String): LiveData<DataOrErrorResult<String, Exception?>> {
         return authRepository.sendVerificationCode(phoneNumber)
     }
+
     fun signInWithCode(code: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
         return authRepository.verifyCode(code)
     }
@@ -39,7 +39,7 @@ class CodeEnterViewModel @Inject constructor(
 // TODO unify with RegistrationConfirmationFragment and reuse
 class CodeEnterFragment(
     private val phoneNumber: String
-): Fragment() {
+) : Fragment() {
 
     @Inject
     lateinit var viewModel: CodeEnterViewModel
@@ -47,6 +47,7 @@ class CodeEnterFragment(
     @Inject
     @AppNavigation
     lateinit var router: Router
+
     @Inject
     @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder
@@ -57,14 +58,11 @@ class CodeEnterFragment(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        SingleApplicationComponent.getInstance()
-            .inject(this)
+        SingleApplicationComponent.getInstance().inject(this)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentEnterSmsCodeBinding.inflate(inflater, container, false)
         return binding.root
@@ -73,9 +71,10 @@ class CodeEnterFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
-                .setType(SnackbarBuilder.Type.DANGER)
-                .setTitle(getString(R.string.message_title_code_doesnt_send))
+            val dangerMessage =
+                SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG).setType(
+                        SnackbarBuilder.Type.DANGER
+                    ).setTitle(getString(R.string.message_title_code_doesnt_send))
 
             viewModel.sendVerificationCode(phoneNumber).observe(viewLifecycleOwner) { result ->
                 if (!result.isException) {
@@ -87,8 +86,7 @@ class CodeEnterFragment(
                         }
                     }
                 } else {
-                    dangerMessage.setText(result.exception?.message ?: "")
-                        .show()
+                    dangerMessage.setText(result.exception?.message ?: "").show()
                 }
             }
             enterSmsCodeOtpInput.setInputChangedListener { complete, text ->
@@ -124,13 +122,13 @@ class CodeEnterFragment(
     private fun activateConfirmationButton() {
         val theme = requireActivity().theme.obtainStyledAttributes(
             arrayOf(
-                R.attr.buttonPrimaryColor,
-                R.attr.buttonPrimaryTextColor).toIntArray()
+                R.attr.buttonPrimaryColor, R.attr.buttonPrimaryTextColor
+            ).toIntArray()
         )
         binding.apply {
             enterSmsCodeButtonConfirmOtp.apply {
                 isClickable = true
-                backgroundTintList = ColorStateList.valueOf(theme.getColor(0,0))
+                backgroundTintList = ColorStateList.valueOf(theme.getColor(0, 0))
                 setTextColor(theme.getColor(1, 0))
             }
         }

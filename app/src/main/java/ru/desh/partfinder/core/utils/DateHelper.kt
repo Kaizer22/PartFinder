@@ -17,12 +17,12 @@ class DateHelper {
         fun dateToText(date: Date, locale: Locale): String {
             val currentDate = DateTime.now().toDate()
             val diff = currentDate.time - date.time
-            val days = diff / 1000 / 60 / 60 / 24
-            return when  {
+            val days = diff / DAY_MS
+            return when {
                 days == 0L -> SimpleDateFormat(LAST_DAY_PATTERN, locale).format(date.time)
-                days < 7   -> SimpleDateFormat(LAST_WEEK_PATTERN, locale).format(date.time)
+                days < 7 -> SimpleDateFormat(LAST_WEEK_PATTERN, locale).format(date.time)
                 days < 365 -> SimpleDateFormat(LAST_YEAR_PATTERN, locale).format(date.time)
-                else       -> SimpleDateFormat(DISTANT_PAST_PATTERN, locale).format(date.time)
+                else -> SimpleDateFormat(DISTANT_PAST_PATTERN, locale).format(date.time)
             }
         }
     }

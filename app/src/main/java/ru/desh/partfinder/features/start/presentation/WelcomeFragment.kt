@@ -14,7 +14,7 @@ import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.databinding.FragmentWelcomeBinding
 import javax.inject.Inject
 
-class WelcomeFragment: Fragment() {
+class WelcomeFragment : Fragment() {
     //TODO
     @Inject
     lateinit var propertiesRepository: PropertiesRepository
@@ -22,6 +22,7 @@ class WelcomeFragment: Fragment() {
     @Inject
     @AppNavigation
     lateinit var router: Router
+
     @Inject
     @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder

@@ -24,10 +24,11 @@ import javax.inject.Inject
 class RegistrationDataViewModel @Inject constructor(
     private val registrationState: MutableStateFlow<RegistrationState>,
     private val authRepository: AuthRepository
-): ViewModel() {
+) : ViewModel() {
     fun notifyPhoneDataSent(phoneNumber: String) {
         registrationState.value = RegistrationState.PhoneInputFinished(phoneNumber)
     }
+
     fun notifyEmailDataSent() {
         registrationState.value = RegistrationState.EmailInputFinished
     }
@@ -50,7 +51,7 @@ class RegistrationDataViewModel @Inject constructor(
 
 class RegistrationDataFragment(
     private val regMethod: RegistrationFragment.RegistrationType
-): Fragment() {
+) : Fragment() {
     @Inject
     lateinit var viewModel: RegistrationDataViewModel
 
@@ -73,7 +74,7 @@ class RegistrationDataFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            when(regMethod) {
+            when (regMethod) {
                 RegistrationFragment.RegistrationType.PHONE -> {
                     // TODO
                     registrationDataTitle.text = getString(R.string.registration_phone_title)
@@ -93,7 +94,7 @@ class RegistrationDataFragment(
                 .setType(SnackbarBuilder.Type.DANGER)
                 .setTitle(getString(R.string.message_title_error))
             registrationDataButtonSend.setOnClickListener {
-                when(regMethod) {
+                when (regMethod) {
                     RegistrationFragment.RegistrationType.PHONE -> {
                         val phoneNumber = registrationDataPhoneInput.text.toString()
                         if (isValidPhoneNumber(phoneNumber)) {
@@ -107,7 +108,8 @@ class RegistrationDataFragment(
 //                                }
 //                            }
                         } else {
-                            warningMessage.setText(getString(R.string.message_text_wrong_phone_number)).show()
+                            warningMessage.setText(getString(R.string.message_text_wrong_phone_number))
+                                .show()
                         }
                     }
                     RegistrationFragment.RegistrationType.EMAIL -> {
@@ -115,22 +117,25 @@ class RegistrationDataFragment(
                         val password = registrationDataPasswordInput.text.toString()
                         val password2 = registrationDataPasswordRepeatInput.text.toString()
                         if (isValidEmailData(email, password, password2)) {
-                            viewModel.createUserWithEmailAndPassword(email, password).observe(viewLifecycleOwner) {
-                                result ->
-                                if (!result.isException) {
-                                    viewModel.sendVerificationEmail()
-                                    viewModel.notifyEmailDataSent()
-                                } else {
-                                    dangerMessage.setText(result.exception?.message ?: "")
+                            viewModel.createUserWithEmailAndPassword(email, password)
+                                .observe(viewLifecycleOwner) { result ->
+                                    if (!result.isException) {
+                                        viewModel.sendVerificationEmail()
+                                        viewModel.notifyEmailDataSent()
+                                    } else {
+                                        dangerMessage.setText(result.exception?.message ?: "")
+                                    }
                                 }
-                            }
-                        } else if (password != password2){
+                        } else if (password != password2) {
                             warningMessage.setText(
-                                    getString(R.string.warning_text_passwords_not_same)
-                                ).show()
+                                getString(R.string.warning_text_passwords_not_same)
+                            ).show()
                         } else {
-                            warningMessage.setText(getString(
-                                R.string.message_text_registration_wrong_email_or_password)).show()
+                            warningMessage.setText(
+                                getString(
+                                    R.string.message_text_registration_wrong_email_or_password
+                                )
+                            ).show()
                         }
                     }
                 }
@@ -146,6 +151,6 @@ class RegistrationDataFragment(
     private val pattern = Pattern.compile(passwordPattern)
     private fun isValidEmailData(email: String, password: String, password2: String): Boolean =
         email.isNotEmpty() && password.isNotEmpty() &&
-        password == password2 && password.length >= 8 //&& pattern.matcher(password).matches()
+                password == password2 && password.length >= 8 //&& pattern.matcher(password).matches()
                 && Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }

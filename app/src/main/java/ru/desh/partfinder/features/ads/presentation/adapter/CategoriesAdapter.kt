@@ -15,7 +15,7 @@ import ru.desh.partfinder.databinding.ItemCategoryCardBinding
 // ListAdapter and DiffUtil are used in case of future dynamic categories list
 class CategoriesAdapter(
     private val router: Router
-): ListAdapter<Pair<AdCategory, Int>,
+) : ListAdapter<Pair<AdCategory, Int>,
         CategoryViewHolder>(CategoryDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val binding = ItemCategoryCardBinding.inflate(
@@ -33,23 +33,32 @@ class CategoriesAdapter(
 class CategoryViewHolder(
     private val itemCategoryCardBinding: ItemCategoryCardBinding,
     private val router: Router
-): ViewHolder(itemCategoryCardBinding.root) {
-    fun bind(category: AdCategory, @DrawableRes bg:  Int) {
+) : ViewHolder(itemCategoryCardBinding.root) {
+    fun bind(category: AdCategory, @DrawableRes bg: Int) {
         itemView.setOnClickListener {
             router.navigateTo(CategorySearch(category.name))
         }
         itemCategoryCardBinding.apply {
             itemCategoryHeader.text = category.name
             itemCategoryDescription.text = category.description
-            itemCategoryBg.background = ResourcesCompat.getDrawable(itemView.resources,
-            bg, null)
+            itemCategoryBg.background = ResourcesCompat.getDrawable(
+                itemView.resources,
+                bg, null
+            )
         }
     }
 }
 
-class CategoryDiffUtil: DiffUtil.ItemCallback<Pair<AdCategory, Int>>(){
-    override fun areItemsTheSame(oldItem: Pair<AdCategory, Int>, newItem: Pair<AdCategory, Int>): Boolean =
+class CategoryDiffUtil : DiffUtil.ItemCallback<Pair<AdCategory, Int>>() {
+    override fun areItemsTheSame(
+        oldItem: Pair<AdCategory, Int>,
+        newItem: Pair<AdCategory, Int>
+    ): Boolean =
         oldItem == newItem
-    override fun areContentsTheSame(oldItem: Pair<AdCategory, Int>, newItem: Pair<AdCategory, Int>): Boolean =
+
+    override fun areContentsTheSame(
+        oldItem: Pair<AdCategory, Int>,
+        newItem: Pair<AdCategory, Int>
+    ): Boolean =
         oldItem.first.name == newItem.first.name
 }

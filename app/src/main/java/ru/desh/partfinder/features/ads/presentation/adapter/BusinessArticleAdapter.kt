@@ -16,7 +16,7 @@ import java.util.Locale
 
 class BusinessArticleAdapter(
     private val router: Router
-): ListAdapter<BusinessArticle,
+) : ListAdapter<BusinessArticle,
         BusinessArticleViewHolder>(BusinessArticleDiffUtilCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BusinessArticleViewHolder {
         val binding = ItemBusinessNewsCardBinding.inflate(
@@ -33,7 +33,8 @@ class BusinessArticleAdapter(
 
 class BusinessArticleViewHolder(
     private val itemBusinessNewsCardBinding: ItemBusinessNewsCardBinding,
-    private val router: Router) :
+    private val router: Router
+) :
     ViewHolder(itemBusinessNewsCardBinding.root) {
     fun bind(businessArticle: BusinessArticle) {
         itemBusinessNewsCardBinding.apply {
@@ -44,12 +45,13 @@ class BusinessArticleViewHolder(
                 .load(businessArticle.urlToImage)
                 .into(itemBusinessNewsImage)
             itemBusinessNewsTitle.text = businessArticle.title
-            itemBusinessNewsDate.text = DateHelper.dateToText(businessArticle.publishedAt, Locale.getDefault())
+            itemBusinessNewsDate.text =
+                DateHelper.dateToText(businessArticle.publishedAt, Locale.getDefault())
         }
     }
 }
 
-class BusinessArticleDiffUtilCallback: DiffUtil.ItemCallback<BusinessArticle>() {
+class BusinessArticleDiffUtilCallback : DiffUtil.ItemCallback<BusinessArticle>() {
     override fun areItemsTheSame(oldItem: BusinessArticle, newItem: BusinessArticle): Boolean =
         oldItem == newItem
 

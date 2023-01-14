@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class PropertiesRepositoryDataStoreImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
-): PropertiesRepository {
+) : PropertiesRepository {
 
 
     override fun getOnBoardingFlag(): Flow<Boolean> {
@@ -27,8 +27,10 @@ class PropertiesRepositoryDataStoreImpl @Inject constructor(
     override fun getLanguage(): Flow<PropertyLanguage> {
         // TODO system language by default
         return dataStore.data.map { prefs ->
-            PropertyLanguage.valueOf(prefs[PropertiesUtils.KEY_SELECTED_LANGUAGE]
-                ?: PropertyLanguage.ENG.name)
+            PropertyLanguage.valueOf(
+                prefs[PropertiesUtils.KEY_SELECTED_LANGUAGE]
+                    ?: PropertyLanguage.ENG.name
+            )
         }
     }
 
@@ -40,8 +42,10 @@ class PropertiesRepositoryDataStoreImpl @Inject constructor(
 
     override fun getUiMode(): Flow<PropertyUiMode> {
         return dataStore.data.map { prefs ->
-            PropertyUiMode.valueOf(prefs[PropertiesUtils.KEY_UI_MODE]
-                ?: PropertyUiMode.SYSTEM.name)
+            PropertyUiMode.valueOf(
+                prefs[PropertiesUtils.KEY_UI_MODE]
+                    ?: PropertyUiMode.SYSTEM.name
+            )
         }
     }
 
@@ -59,7 +63,7 @@ class PropertiesRepositoryDataStoreImpl @Inject constructor(
 
     override suspend fun setIsNotificationsEnabled(isEnabled: Boolean) {
         dataStore.edit { prefs ->
-            prefs[PropertiesUtils.KEY_NOTIFICATIONS_ENABLED]  = isEnabled
+            prefs[PropertiesUtils.KEY_NOTIFICATIONS_ENABLED] = isEnabled
         }
     }
 }

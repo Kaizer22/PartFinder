@@ -9,9 +9,12 @@ import javax.inject.Inject
 
 class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository
-): ViewModel() {
+) : ViewModel() {
 
-    fun authWithEmailAndPassword(email: String, password: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
+    fun authWithEmailAndPassword(
+        email: String,
+        password: String
+    ): LiveData<DataOrErrorResult<Boolean, Exception?>> {
         Log.d("TAG", "$email $password")
         return authRepository.signInWithEmailAndPassword(email, password)
     }

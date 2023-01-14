@@ -3,14 +3,14 @@ package ru.desh.partfinder.core.utils
 import ru.desh.partfinder.core.utils.exception.EmptySetException
 import ru.desh.partfinder.core.utils.exception.IncorrectDataOrErrorResultException
 
-class DataOrErrorResult<T, E: Exception?>() {
+class DataOrErrorResult<T, E : Exception?>() {
     var data: T? = null
         set(value) {
             if (value != null) {
                 field = value
                 exception = null
                 isException = false
-            } else if(exception == null) throw EmptySetException()
+            } else if (exception == null) throw EmptySetException()
         }
     var exception: E? = null
         set(value) {

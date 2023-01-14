@@ -26,27 +26,31 @@ import javax.inject.Inject
 class RegistrationNameViewModel @Inject constructor(
     private val registrationState: MutableStateFlow<RegistrationState>,
     private val userRepository: UserRepository
-): ViewModel() {
+) : ViewModel() {
     fun createUser(name: String, surname: String, thirdName: String)
-    : LiveData<DataOrErrorResult<Boolean, Exception>>{
-        val user = User(UUID.randomUUID().toString(),
-        "",
-        name, surname, thirdName, "", emptyList()
+            : LiveData<DataOrErrorResult<Boolean, Exception>> {
+        val user = User(
+            UUID.randomUUID().toString(),
+            "",
+            name, surname, thirdName, "", emptyList()
         )
         return userRepository.createUser(user)
     }
+
     fun notifyUserCreated() {
         registrationState.value = RegistrationState.RegistrationFinished
     }
 }
 
-class RegistrationNameFragment: Fragment(){
+class RegistrationNameFragment : Fragment() {
     @Inject
     @RegistrationNavigation
     lateinit var router: Router
+
     @Inject
     @RegistrationNavigation
     lateinit var navigatorHolder: NavigatorHolder
+
     @Inject
     lateinit var viewModel: RegistrationNameViewModel
 
@@ -81,14 +85,15 @@ class RegistrationNameFragment: Fragment(){
                 val surname = nameFormSurnameInput.text.toString()
                 val thirdName = nameFormThirdNameInput.text.toString()
                 if (isValidInput(name, surname, thirdName)) {
-                    viewModel.createUser(name, surname, thirdName).observe(viewLifecycleOwner) { result ->
-                        if (!result.isException) {
-                            viewModel.notifyUserCreated()
-                        } else {
-                            dangerMessage.setText(result.exception.toString())
-                                .show()
+                    viewModel.createUser(name, surname, thirdName)
+                        .observe(viewLifecycleOwner) { result ->
+                            if (!result.isException) {
+                                viewModel.notifyUserCreated()
+                            } else {
+                                dangerMessage.setText(result.exception.toString())
+                                    .show()
+                            }
                         }
-                    }
                 } else {
                     warningMessage.setText(getString(R.string.message_text_invalid_name))
                         .show()

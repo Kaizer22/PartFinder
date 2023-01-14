@@ -11,22 +11,20 @@ import ru.desh.partfinder.core.Screens.Main
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.domain.repository.AuthRepository
-import ru.desh.partfinder.databinding.FragmentPostCreateAdBinding
 import ru.desh.partfinder.databinding.FragmentSettingsBinding
 import ru.desh.partfinder.features.BottomNavigationActivity
-import ru.desh.partfinder.features.ads.presentation.CreateAdFragment
 import javax.inject.Inject
 
 class AppSettingsFragmentViewModel @Inject constructor(
     private val authRepository: AuthRepository
-): ViewModel() {
+) : ViewModel() {
 
     fun signOut() {
         authRepository.signOut()
     }
 }
 
-class AppSettingsFragment: Fragment() {
+class AppSettingsFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: AppSettingsFragmentViewModel

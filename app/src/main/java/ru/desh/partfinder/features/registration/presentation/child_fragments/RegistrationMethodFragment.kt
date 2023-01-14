@@ -17,12 +17,13 @@ import javax.inject.Inject
 
 class RegistrationMethodViewModel @Inject constructor(
     private val registrationState: MutableStateFlow<RegistrationState>
-): ViewModel() {
+) : ViewModel() {
     fun setMethodEmail() {
         registrationState.value = RegistrationState.RegistrationMethodSelected(
             RegistrationFragment.RegistrationType.EMAIL
         )
     }
+
     fun setMethodPhone() {
         registrationState.value = RegistrationState.RegistrationMethodSelected(
             RegistrationFragment.RegistrationType.PHONE
@@ -30,13 +31,14 @@ class RegistrationMethodViewModel @Inject constructor(
     }
 }
 
-class RegistrationMethodFragment: Fragment() {
+class RegistrationMethodFragment : Fragment() {
     @Inject
     lateinit var viewModel: RegistrationMethodViewModel
 
     @Inject
     @RegistrationNavigation
     lateinit var router: Router
+
     @Inject
     @RegistrationNavigation
     lateinit var navigatorHolder: NavigatorHolder
@@ -47,6 +49,7 @@ class RegistrationMethodFragment: Fragment() {
         (parentFragment as RegistrationFragment).registrationComponent
             .inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

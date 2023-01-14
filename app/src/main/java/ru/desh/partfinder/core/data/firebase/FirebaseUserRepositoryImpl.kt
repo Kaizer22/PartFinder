@@ -14,19 +14,19 @@ import javax.inject.Inject
 class FirebaseUserRepositoryImpl @Inject constructor(
     @UserDbReference private val database: CollectionReference,
     private val auth: FirebaseAuth
-): UserRepository {
+) : UserRepository {
     override fun createUser(user: User): LiveData<DataOrErrorResult<Boolean, Exception>> {
         val resultObserver = MutableLiveData<DataOrErrorResult<Boolean, Exception>>()
         database.document(user.uid).set(user).addOnSuccessListener {
-                auth.currentUser?.updateProfile(
-                    UserProfileChangeRequest.Builder()
-                        .setDisplayName("${user.name} ${user.lastName}")
-                        .build()
-                )?.addOnSuccessListener {
-                    resultObserver.value = DataOrErrorResult(true, null)
-                }?.addOnFailureListener {
-                    resultObserver.value = DataOrErrorResult(false, it)
-                }
+            auth.currentUser?.updateProfile(
+                UserProfileChangeRequest.Builder()
+                    .setDisplayName("${user.name} ${user.lastName}")
+                    .build()
+            )?.addOnSuccessListener {
+                resultObserver.value = DataOrErrorResult(true, null)
+            }?.addOnFailureListener {
+                resultObserver.value = DataOrErrorResult(false, it)
+            }
         }.addOnFailureListener {
             resultObserver.value = DataOrErrorResult(false, it)
         }

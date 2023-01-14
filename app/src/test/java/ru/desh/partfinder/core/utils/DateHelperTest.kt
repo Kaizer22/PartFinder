@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Assertions
 import java.util.*
 
 class DateHelperTest {
-    companion object{
+    companion object {
         // 10.01.2023 12:00
         private const val FIXED_TIMESTAMP_MS = 1673341200000
 
-        private const val _2_DAYS   = DateHelper.DAY_MS * 2
+        private const val _2_DAYS = DateHelper.DAY_MS * 2
         private const val _128_DAYS = DateHelper.DAY_MS * 128
         private const val _370_DAYS = DateHelper.DAY_MS * 370
     }
@@ -24,12 +24,12 @@ class DateHelperTest {
     }
 
     @After
-    fun after(){
+    fun after() {
         DateTimeUtils.setCurrentMillisSystem()
     }
 
     @Test
-    fun `should return valid date string`(){
+    fun `should return valid date string`() {
         val duringLastDayExample = DateTime.now().toDate()
         val duringLastWeekExample = Date(duringLastDayExample.time - _2_DAYS)
         val duringLastYearExample = Date(duringLastDayExample.time - _128_DAYS)

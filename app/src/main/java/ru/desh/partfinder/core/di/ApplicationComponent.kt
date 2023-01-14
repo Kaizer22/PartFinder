@@ -21,14 +21,15 @@ import ru.desh.partfinder.features.start.presentation.WelcomeFragment
 import javax.inject.Singleton
 
 
-
-@Component(modules = [AppSubcomponents::class,
-    NavigationModule::class, DataModule::class, RepositoryModule::class,
-FirebaseModule::class, ApiModule::class])
+@Component(
+    modules = [AppSubcomponents::class,
+        NavigationModule::class, DataModule::class, RepositoryModule::class,
+        FirebaseModule::class, ApiModule::class]
+)
 @Singleton
 interface ApplicationComponent {
     @Component.Factory
-    interface Factory{
+    interface Factory {
         fun create(
             @BindsInstance context: Context
         ): ApplicationComponent

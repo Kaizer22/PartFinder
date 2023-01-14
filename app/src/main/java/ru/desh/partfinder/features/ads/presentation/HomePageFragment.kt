@@ -23,11 +23,10 @@ import ru.desh.partfinder.features.ads.presentation.adapter.CategoriesAdapter
 import ru.desh.partfinder.features.ads.data.CategoryProvider
 import javax.inject.Inject
 
-class HomePageFragment: Fragment() {
+class HomePageFragment : Fragment() {
     @Inject
     @AppNavigation
     lateinit var router: Router
-
 
     @Inject
     lateinit var viewModel: HomePageFragmentViewModel
@@ -39,11 +38,10 @@ class HomePageFragment: Fragment() {
         Log.d("HOME_PAGE_FRAGMENT", exception.toString())
     }
 
-    private val onRecommendedAdsScrollListener = object: RecyclerView.OnScrollListener() {
+    private val onRecommendedAdsScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            if (!recyclerView.canScrollVertically(1) && dy > 0)
-            {
+            if (!recyclerView.canScrollVertically(1) && dy > 0) {
                 infoMessage.show()
                 viewModel.requestRecommendedAdsNextPage(viewLifecycleOwner, onFailureListener)
             }
@@ -55,6 +53,7 @@ class HomePageFragment: Fragment() {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -76,14 +75,16 @@ class HomePageFragment: Fragment() {
             .setType(SnackbarBuilder.Type.PRIMARY)
             .setTitle("Инфо")
             .setText("Загрузка следующей страницы объявлений...")
-        val todoMessage = SnackbarBuilder(parentActivityContent, layoutInflater, Snackbar.LENGTH_LONG)
-            .setType(SnackbarBuilder.Type.SECONDARY)
-            .setTitle(getString(R.string.message_title_todo))
-            .setText(getString(R.string.message_text_todo))
-        warningMessage = SnackbarBuilder(parentActivityContent, layoutInflater, Snackbar.LENGTH_LONG)
-            .setType(SnackbarBuilder.Type.WARNING)
-            .setTitle(getString(R.string.message_title_error))
-            .setText(getString(R.string.message_text_cannot_load_rec_ads))
+        val todoMessage =
+            SnackbarBuilder(parentActivityContent, layoutInflater, Snackbar.LENGTH_LONG)
+                .setType(SnackbarBuilder.Type.SECONDARY)
+                .setTitle(getString(R.string.message_title_todo))
+                .setText(getString(R.string.message_text_todo))
+        warningMessage =
+            SnackbarBuilder(parentActivityContent, layoutInflater, Snackbar.LENGTH_LONG)
+                .setType(SnackbarBuilder.Type.WARNING)
+                .setTitle(getString(R.string.message_title_error))
+                .setText(getString(R.string.message_text_cannot_load_rec_ads))
         viewModel.state.observe(viewLifecycleOwner) {
             updateUiState(it, adsAdapter, businessArticlesAdapter)
         }
@@ -92,13 +93,19 @@ class HomePageFragment: Fragment() {
 
         binding.apply {
             homePageCategoryList.adapter = categoriesAdapter
-            homePageCategoryList.layoutManager = LinearLayoutManager(requireContext(),
-                LinearLayoutManager.HORIZONTAL, false)
-            homePageNewsList.layoutManager = LinearLayoutManager(requireContext(),
-                LinearLayoutManager.HORIZONTAL, true)
+            homePageCategoryList.layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL, false
+            )
+            homePageNewsList.layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL, true
+            )
             homePageNewsList.adapter = businessArticlesAdapter
-            homePageRecommendationsList.layoutManager = LinearLayoutManager(requireContext(),
-            LinearLayoutManager.VERTICAL, false)
+            homePageRecommendationsList.layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.VERTICAL, false
+            )
             homePageRecommendationsList.adapter = adsAdapter
             homePageRecommendationsList.addOnScrollListener(onRecommendedAdsScrollListener)
             homePageRecommendationsList.updateLayoutParams {
@@ -111,8 +118,10 @@ class HomePageFragment: Fragment() {
         }
     }
 
-    private fun updateUiState(state: HomePageState,
-    adsAdapter: AdsAdapter, businessArticleAdapter: BusinessArticleAdapter) {
+    private fun updateUiState(
+        state: HomePageState,
+        adsAdapter: AdsAdapter, businessArticleAdapter: BusinessArticleAdapter
+    ) {
         adsAdapter.submitList(state.recommendedAds)
         businessArticleAdapter.submitList(state.businessArticles)
     }

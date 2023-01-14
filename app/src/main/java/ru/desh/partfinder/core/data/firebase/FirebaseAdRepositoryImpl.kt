@@ -2,7 +2,6 @@ package ru.desh.partfinder.core.data.firebase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.CollectionReference
 import ru.desh.partfinder.core.di.module.AdDbReference
 import ru.desh.partfinder.core.domain.model.Ad
@@ -14,11 +13,12 @@ import javax.inject.Inject
 
 class FirebaseAdRepositoryImpl @Inject constructor(
     @AdDbReference private val adDbReference: CollectionReference
-): AdRepository {
+) : AdRepository {
     companion object {
         const val ORDER_BY_FIELD = "creationTimestamp"
         const val UID_FIELD = "uid"
     }
+
     override fun getRecommendedAds(pagination: AdsPagination): LiveData<DataOrErrorResult<List<Ad>?, Exception?>> {
         val resultObserver = MutableLiveData<DataOrErrorResult<List<Ad>?, Exception?>>()
         val res = DataOrErrorResult<List<Ad>?, Exception?>()
@@ -30,7 +30,7 @@ class FirebaseAdRepositoryImpl @Inject constructor(
                 .limit(pagination.pageSize.toLong())
                 .get().addOnSuccessListener { result ->
                     val ads = mutableListOf<Ad>()
-                    for(document in result) {
+                    for (document in result) {
                         val ad = document.toObject(Ad::class.java)
                         ads.add(ad)
                     }
@@ -46,7 +46,7 @@ class FirebaseAdRepositoryImpl @Inject constructor(
                     .startAfter(it.documents[0])
                     .limit(pagination.pageSize.toLong()).get().addOnSuccessListener { result ->
                         val ads = mutableListOf<Ad>()
-                        for(document in result) {
+                        for (document in result) {
                             val ad = document.toObject(Ad::class.java)
                             ads.add(ad)
                         }

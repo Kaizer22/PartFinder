@@ -5,15 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.terrakok.cicerone.NavigatorHolder
-import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.flow.MutableStateFlow
 import ru.desh.partfinder.R
-import ru.desh.partfinder.core.Screens.CreateAd_Description
-import ru.desh.partfinder.core.di.SingleApplicationComponent
-import ru.desh.partfinder.core.di.module.CreateAdNavigation
 import ru.desh.partfinder.core.domain.model.Ad
 import ru.desh.partfinder.core.domain.model.AdType
 import ru.desh.partfinder.databinding.FragmentCreateAdTargetBinding
@@ -40,7 +34,7 @@ class CreateAdTargetViewModel @Inject constructor(
     }
 }
 
-class CreateAdTargetFragment: Fragment() {
+class CreateAdTargetFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: CreateAdTargetViewModel

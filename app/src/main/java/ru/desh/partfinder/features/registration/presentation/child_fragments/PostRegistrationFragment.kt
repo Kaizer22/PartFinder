@@ -13,7 +13,7 @@ import ru.desh.partfinder.databinding.FragmentPostRegistrationBinding
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
 import javax.inject.Inject
 
-class PostRegistrationFragment: Fragment() {
+class PostRegistrationFragment : Fragment() {
     @Inject
     @AppNavigation
     lateinit var router: Router
@@ -29,6 +29,7 @@ class PostRegistrationFragment: Fragment() {
         (parentFragment as RegistrationFragment).registrationComponent
             .inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

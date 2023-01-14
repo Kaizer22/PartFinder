@@ -31,6 +31,7 @@ interface CreateAdComponent {
 
 @Qualifier
 annotation class BufferAd
+
 @Module
 class CreateAdModule {
     private val bufferAd = Ad()

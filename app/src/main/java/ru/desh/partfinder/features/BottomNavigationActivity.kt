@@ -45,7 +45,8 @@ class BottomNavigationActivity: AppCompatActivity() {
         }
     }
 
-
+    // TODO There is no need in special navigation activity
+    // https://stackoverflow.com/a/73080607/13910689
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.bottom_app_bar_menu, menu)
         return true

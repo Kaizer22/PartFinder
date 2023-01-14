@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ru.desh.partfinder.R
 
-class OnBoardingFragment: Fragment() {
+class OnBoardingFragment : Fragment() {
 
     // https://androidexample365.com/tab-animations-that-sync-with-the-scrolling-progress-of-viewpager/
     override fun onCreateView(
@@ -17,6 +17,7 @@ class OnBoardingFragment: Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_onboarding, container, false)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //SingleApplicationComponent.getInstance().inject()

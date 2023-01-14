@@ -7,7 +7,11 @@ import ru.desh.partfinder.core.utils.DataOrErrorResult
 interface AuthRepository {
     fun getCurrentAccount(): Account?
 
-    fun createAccountWithEmailAndPassword(email:String, password:String): LiveData<DataOrErrorResult<Boolean, Exception?>>
+    fun createAccountWithEmailAndPassword(
+        email: String,
+        password: String
+    ): LiveData<DataOrErrorResult<Boolean, Exception?>>
+
     fun sendVerificationEmail(): LiveData<DataOrErrorResult<Boolean, Exception?>>
     fun sendPasswordResetEmail(email: String): LiveData<DataOrErrorResult<Boolean, Exception?>>
 
@@ -19,7 +23,10 @@ interface AuthRepository {
 
     fun signInWithGoogle(): LiveData<DataOrErrorResult<Account?, Exception?>>
 
-    fun signInWithEmailAndPassword(email: String, password: String): LiveData<DataOrErrorResult<Boolean, Exception?>>
+    fun signInWithEmailAndPassword(
+        email: String,
+        password: String
+    ): LiveData<DataOrErrorResult<Boolean, Exception?>>
 
     fun createAccountWithFacebook()
     fun signInWithFacebook()

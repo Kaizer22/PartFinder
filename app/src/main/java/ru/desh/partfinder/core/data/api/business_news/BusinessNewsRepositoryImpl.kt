@@ -9,13 +9,15 @@ import javax.inject.Inject
 class BusinessNewsRepositoryImpl @Inject constructor(
     private val newsApi: NewsApi,
     private val apiPaginatedNewsMapper: ApiPaginatedNewsMapper
-): BusinessNewsRepository {
+) : BusinessNewsRepository {
 
     private val CATEGORY = "business"
-    override suspend fun getLatestBusinessNews(pagination: Pagination): List<BusinessArticle>  {
-        val articles = newsApi.getTopHeadlines(country = "ru",
+    override suspend fun getLatestBusinessNews(pagination: Pagination): List<BusinessArticle> {
+        val articles = newsApi.getTopHeadlines(
+            country = "ru",
             category = CATEGORY,
-            pageSize = pagination.pageSize, page = pagination.pageNumber)
+            pageSize = pagination.pageSize, page = pagination.pageNumber
+        )
         return apiPaginatedNewsMapper.mapToDomain(articles)
     }
 

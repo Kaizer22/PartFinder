@@ -9,10 +9,13 @@ import javax.inject.Qualifier
 
 @Qualifier
 annotation class AppNavigation
+
 @Qualifier
 annotation class RegistrationNavigation
+
 @Qualifier
 annotation class UserFormNavigation
+
 @Qualifier
 annotation class CreateAdNavigation
 
@@ -57,7 +60,7 @@ class NavigationModule {
     @UserFormNavigation
     fun providesUserFormRouter(): Router {
         if (!this::userFormCicerone.isInitialized) {
-           userFormCicerone = Cicerone.create()
+            userFormCicerone = Cicerone.create()
         }
         return userFormCicerone.router
     }

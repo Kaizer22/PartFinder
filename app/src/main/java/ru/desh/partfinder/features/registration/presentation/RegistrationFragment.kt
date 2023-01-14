@@ -26,10 +26,11 @@ import ru.desh.partfinder.features.registration.di.RegistrationComponent
 import ru.desh.partfinder.features.registration.presentation.child_fragments.*
 import javax.inject.Inject
 
-class RegistrationFragment: Fragment() {
+class RegistrationFragment : Fragment() {
     @Inject
     @AppNavigation
     lateinit var router: Router
+
     @Inject
     @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder
@@ -37,6 +38,7 @@ class RegistrationFragment: Fragment() {
     @Inject
     @RegistrationNavigation
     lateinit var innerRouter: Router
+
     @Inject
     @RegistrationNavigation
     lateinit var innerNavigatorHolder: NavigatorHolder
@@ -46,7 +48,8 @@ class RegistrationFragment: Fragment() {
         private set
 
     // Registration state, shared with child fragments
-    private val _registrationState = MutableStateFlow<RegistrationState>(RegistrationState.InitState)
+    private val _registrationState =
+        MutableStateFlow<RegistrationState>(RegistrationState.InitState)
     val registrationState: StateFlow<RegistrationState> = _registrationState
 
     private val registrationMethodFragment = RegistrationMethodFragment()
@@ -55,7 +58,7 @@ class RegistrationFragment: Fragment() {
     private val registrationNameFragment = RegistrationNameFragment()
     private val postRegistrationFragment = PostRegistrationFragment()
 
-    enum class RegistrationType{
+    enum class RegistrationType {
         PHONE, EMAIL
     }
 
@@ -66,10 +69,10 @@ class RegistrationFragment: Fragment() {
         }
 
         private fun applyCommand(command: Command) {
-            when(command){
+            when (command) {
                 is Back -> {}
                 is Forward -> {
-                    when(command.screen.screenKey) {
+                    when (command.screen.screenKey) {
                         Post_Registration().screenKey -> changeStage(
                             postRegistrationFragment
                         )
@@ -79,7 +82,10 @@ class RegistrationFragment: Fragment() {
                         Registration_Data(RegistrationType.EMAIL).screenKey -> changeStage(
                             registrationDataFragment
                         )
-                        Registration_Confirmation(RegistrationType.EMAIL, "").screenKey -> changeStage(
+                        Registration_Confirmation(
+                            RegistrationType.EMAIL,
+                            ""
+                        ).screenKey -> changeStage(
                             registrationConfirmationFragment
                         )
                         Registration_Name().screenKey -> changeStage(
@@ -89,6 +95,7 @@ class RegistrationFragment: Fragment() {
                 }
             }
         }
+
         private fun changeStage(fragment: Fragment) {
             childFragmentManager.beginTransaction()
                 .replace(R.id.registration_container, fragment).commit()
@@ -112,6 +119,7 @@ class RegistrationFragment: Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
@@ -122,25 +130,37 @@ class RegistrationFragment: Fragment() {
         innerRouter.navigateTo(Registration_Method())
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                registrationState.collect{ regState ->
-                    when (regState){
+                registrationState.collect { regState ->
+                    when (regState) {
                         is RegistrationState.RegistrationMethodSelected -> {
                             //TODO refactor
                             binding.registrationSteppedProgressBar.nextStep()
-                            registrationDataFragment = RegistrationDataFragment(regState.registrationType)
+                            registrationDataFragment =
+                                RegistrationDataFragment(regState.registrationType)
                             innerRouter.navigateTo(Registration_Data(regState.registrationType))
                         }
                         is RegistrationState.PhoneInputFinished -> {
                             registrationConfirmationFragment = RegistrationConfirmationFragment(
-                                RegistrationType.PHONE, regState.phoneNumber)
-                            innerRouter.navigateTo(Registration_Confirmation(RegistrationType.PHONE, regState.phoneNumber))
+                                RegistrationType.PHONE, regState.phoneNumber
+                            )
+                            innerRouter.navigateTo(
+                                Registration_Confirmation(
+                                    RegistrationType.PHONE,
+                                    regState.phoneNumber
+                                )
+                            )
                             binding.registrationSteppedProgressBar.nextStep()
                         }
                         is RegistrationState.EmailInputFinished -> {
                             registrationConfirmationFragment = RegistrationConfirmationFragment(
                                 RegistrationType.EMAIL, ""
                             )
-                            innerRouter.navigateTo(Registration_Confirmation(RegistrationType.EMAIL, ""))
+                            innerRouter.navigateTo(
+                                Registration_Confirmation(
+                                    RegistrationType.EMAIL,
+                                    ""
+                                )
+                            )
                             binding.registrationSteppedProgressBar.nextStep()
                         }
                         is RegistrationState.DataConfirmed -> {
@@ -157,6 +177,7 @@ class RegistrationFragment: Fragment() {
             }
         }
     }
+
     override fun onResume() {
         super.onResume()
         innerNavigatorHolder.setNavigator(navigator)

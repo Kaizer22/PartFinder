@@ -9,12 +9,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.github.terrakok.cicerone.*
-import com.github.terrakok.cicerone.androidx.AppNavigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.desh.partfinder.R
-import ru.desh.partfinder.core.Screens
 import ru.desh.partfinder.core.Screens.CreateAd_Contacts
 import ru.desh.partfinder.core.Screens.CreateAd_Description
 import ru.desh.partfinder.core.Screens.CreateAd_Files
@@ -23,7 +21,6 @@ import ru.desh.partfinder.core.Screens.Post_CreateAd
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.di.module.CreateAdNavigation
-import ru.desh.partfinder.core.domain.model.Ad
 import ru.desh.partfinder.databinding.FragmentCreateAdBinding
 import ru.desh.partfinder.features.BottomNavigationActivity
 import ru.desh.partfinder.features.ads.di.CreateAdComponent
@@ -31,11 +28,12 @@ import ru.desh.partfinder.features.ads.presentation.child_fragments.*
 import javax.inject.Inject
 
 
-class CreateAdFragment: Fragment() {
+class CreateAdFragment : Fragment() {
 
     @Inject
     @AppNavigation
     lateinit var router: Router
+
     @Inject
     @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder
@@ -43,6 +41,7 @@ class CreateAdFragment: Fragment() {
     @Inject
     @CreateAdNavigation
     lateinit var innerRouter: Router
+
     @Inject
     @CreateAdNavigation
     lateinit var innerNavigatorHolder: NavigatorHolder
@@ -51,11 +50,12 @@ class CreateAdFragment: Fragment() {
         override fun applyCommands(commands: Array<out Command>) {
             for (command in commands) applyCommand(command)
         }
+
         private fun applyCommand(command: Command) {
-            when(command){
+            when (command) {
                 is Back -> {}
                 is Forward -> {
-                    when(command.screen.screenKey) {
+                    when (command.screen.screenKey) {
                         Post_CreateAd().screenKey -> changeStage(
                             postCreateAdFragment
                         )
@@ -75,9 +75,10 @@ class CreateAdFragment: Fragment() {
                 }
             }
         }
+
         private fun changeStage(fragment: Fragment) {
-            childFragmentManager.beginTransaction()
-                .replace(R.id.create_ad_container, fragment).commit()
+            childFragmentManager.beginTransaction().replace(R.id.create_ad_container, fragment)
+                .commit()
         }
     }
 
@@ -97,16 +98,13 @@ class CreateAdFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        createAdComponent = SingleApplicationComponent.getInstance()
-            .createAdComponentFactory()
+        createAdComponent = SingleApplicationComponent.getInstance().createAdComponentFactory()
             .create(_createAdState)
         createAdComponent.inject(this)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateAdBinding.inflate(inflater, container, false)
         return binding.root
@@ -124,7 +122,7 @@ class CreateAdFragment: Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 createAdState.collect { createAdState ->
-                    when(createAdState) {
+                    when (createAdState) {
                         is CreateAdState.InitState -> {
                             binding.createAdSteppedProgressBar.nextStep()
                             innerRouter.navigateTo(CreateAd_Target())

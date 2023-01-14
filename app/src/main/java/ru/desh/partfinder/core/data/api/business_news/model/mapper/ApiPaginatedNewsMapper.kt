@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class ApiPaginatedNewsMapper @Inject constructor(
     val apiArticleMapper: ApiArticleMapper
-): BaseMapper<ApiPaginatedNews, List<BusinessArticle>> {
+) : BaseMapper<ApiPaginatedNews, List<BusinessArticle>> {
     override fun mapToDomain(entity: ApiPaginatedNews): List<BusinessArticle> {
         return entity.articles?.map { apiArticleMapper.mapToDomain(it) } ?: listOf()
     }

@@ -11,7 +11,7 @@ import ru.desh.partfinder.databinding.FragmentPostCreateAdBinding
 import ru.desh.partfinder.features.ads.presentation.CreateAdFragment
 import javax.inject.Inject
 
-class PostCreateAdFragment: Fragment() {
+class PostCreateAdFragment : Fragment() {
     @Inject
     @AppNavigation
     lateinit var router: Router

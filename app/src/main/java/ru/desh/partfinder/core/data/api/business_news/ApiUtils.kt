@@ -10,6 +10,7 @@ object ApiEndpoints {
 
 object ApiUtils {
     const val BASE_URL = "https://newsapi.org"
+
     //const val API_V2 = "/v2/"
     const val DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'"
     const val QHZV_DSL_NHB = BuildConfig.QHZV_DSL_NHB

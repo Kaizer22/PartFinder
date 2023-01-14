@@ -19,12 +19,13 @@ import javax.inject.Inject
 
 class PrivacyPolicyFragmentViewModel @Inject constructor(
     private val propertiesRepository: PropertiesRepository
-): ViewModel() {
-    suspend fun finishOnboarding(){
+) : ViewModel() {
+    suspend fun finishOnboarding() {
         propertiesRepository.setOnboardingFinished()
     }
 }
-class PrivacyPolicyFragment: Fragment() {
+
+class PrivacyPolicyFragment : Fragment() {
     @Inject
     lateinit var viewModel: PrivacyPolicyFragmentViewModel
 
@@ -38,6 +39,7 @@ class PrivacyPolicyFragment: Fragment() {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,7 +51,7 @@ class PrivacyPolicyFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply{
+        binding.apply {
             privacyPolicyButtonSource.setOnClickListener {
                 router.navigateTo(PrivacyPolicySource())
             }

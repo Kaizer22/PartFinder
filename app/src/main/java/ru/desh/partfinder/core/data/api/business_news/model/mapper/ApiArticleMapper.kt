@@ -9,7 +9,7 @@ import ru.desh.partfinder.core.utils.BaseMapper
 import java.util.*
 import javax.inject.Inject
 
-class ApiArticleMapper @Inject constructor(): BaseMapper<ApiArticle, BusinessArticle> {
+class ApiArticleMapper @Inject constructor() : BaseMapper<ApiArticle, BusinessArticle> {
     override fun mapToDomain(entity: ApiArticle): BusinessArticle {
         val publicationDate = SimpleDateFormat(ApiUtils.DATETIME_FORMAT, Locale.getDefault())
             .parse(entity.publishedAt.orEmpty())

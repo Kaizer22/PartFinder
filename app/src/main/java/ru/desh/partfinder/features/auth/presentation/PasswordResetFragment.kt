@@ -22,14 +22,14 @@ import javax.inject.Inject
 
 class PasswordResetViewModel @Inject constructor(
     val authRepository: AuthRepository
-): ViewModel() {
+) : ViewModel() {
     fun sendPasswordResetEmail(email: String):
             LiveData<DataOrErrorResult<Boolean, Exception?>> {
         return authRepository.sendPasswordResetEmail(email)
     }
 }
 
-class PasswordResetFragment: Fragment() {
+class PasswordResetFragment : Fragment() {
     @Inject
     @AppNavigation
     lateinit var router: Router
@@ -45,6 +45,7 @@ class PasswordResetFragment: Fragment() {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -94,7 +95,7 @@ class PasswordResetFragment: Fragment() {
             passwordResetInfo.text = getString(R.string.password_reset_sent_letter_info)
             passwordResetButtonConfirm.text = getString(R.string.button_go_back)
             passwordResetButtonConfirm.setOnClickListener {
-                 router.navigateTo(Auth())
+                router.navigateTo(Auth())
             }
         }
     }

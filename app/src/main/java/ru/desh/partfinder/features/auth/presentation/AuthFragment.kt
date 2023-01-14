@@ -22,13 +22,14 @@ import ru.desh.partfinder.core.ui.SnackbarBuilder
 import ru.desh.partfinder.databinding.FragmentAuthBinding
 import javax.inject.Inject
 
-class AuthFragment: Fragment() {
+class AuthFragment : Fragment() {
     @Inject
     lateinit var viewModel: AuthViewModel
 
     @Inject
     @AppNavigation
     lateinit var router: Router
+
     @Inject
     @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder
@@ -74,18 +75,19 @@ class AuthFragment: Fragment() {
                 hideInput()
                 if (isValidInput(email, password)) {
                     //TODO show loading
-                    viewModel.authWithEmailAndPassword(email, password).observe(viewLifecycleOwner) { result ->
-                        // TODO hide loading
-                        if (!result.isException){
-                            // TODO check if current user has confirmed email
-                            successMessage.show()
-                            router.navigateTo(BottomNavigation())
-                        } else {
-                            dangerMessage
-                                .setText(result.exception?.message ?: "")
-                                .show()
+                    viewModel.authWithEmailAndPassword(email, password)
+                        .observe(viewLifecycleOwner) { result ->
+                            // TODO hide loading
+                            if (!result.isException) {
+                                // TODO check if current user has confirmed email
+                                successMessage.show()
+                                router.navigateTo(BottomNavigation())
+                            } else {
+                                dangerMessage
+                                    .setText(result.exception?.message ?: "")
+                                    .show()
+                            }
                         }
-                    }
                 } else {
                     warningMessage.show()
                 }
@@ -114,8 +116,9 @@ class AuthFragment: Fragment() {
 
     private fun hideInput() {
         this@AuthFragment.activity?.currentFocus?.let {
-            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            imm?.hideSoftInputFromWindow(view?.windowToken,0)
+            val imm =
+                activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(view?.windowToken, 0)
         }
     }
 }

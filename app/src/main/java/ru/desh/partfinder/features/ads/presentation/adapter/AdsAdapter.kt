@@ -39,7 +39,7 @@ class AdViewHolder(
     private val itemAdCardBinding: ItemAdCardBinding,
     private val router: Router,
     layoutInflater: LayoutInflater
-): ViewHolder(itemAdCardBinding.root) {
+) : ViewHolder(itemAdCardBinding.root) {
 
     private val todoMessage: SnackbarBuilder = SnackbarBuilder(
         activity.findViewById(R.id.content) as ViewGroup,
@@ -66,22 +66,26 @@ class AdViewHolder(
 //                }
             adCardTitle.text = ad.title
             adCardTarget.text = ad.target
-            adCardDate.text = DateHelper.dateToText(Date(
-                ad.creationTimestamp * 1000), Locale.getDefault())
+            adCardDate.text = DateHelper.dateToText(
+                Date(
+                    ad.creationTimestamp
+                ), Locale("ru")
+            )
             adCardRating.text = ad.reputation.toString()
             adCardCommentsCounter.text = ad.commentsCount.toString()
             adCardFavouriteCounter.text = ad.favouritesCount.toString()
 
-            val cardTypeColor = ResourcesCompat.getColor(itemView.resources,
-                when(ad.type) {
+            val cardTypeColor = ResourcesCompat.getColor(
+                itemView.resources,
+                when (ad.type) {
                     AdType.LOOK_SUPPLIER.value -> R.color.secondary_20
                     AdType.LOOK_INVESTMENTS.value -> R.color.secondary_10
                     AdType.SUGGEST_SERVICES.value -> R.color.primary_10
                     AdType.LOOK_BUSINESS_PARTNER.value -> R.color.primary_40
                     AdType.SUGGEST_INVESTMENTS.value -> R.color.tertiary_40
                     else -> R.color.black
-                }
-                , null)
+                }, null
+            )
             adCardImageContainer.setBackgroundColor(cardTypeColor)
             adCardTagContainer.setBackgroundColor(cardTypeColor)
 
@@ -146,7 +150,7 @@ class AdViewHolder(
 }
 
 
-class AdDiffUtilCallback: DiffUtil.ItemCallback<Ad>() {
+class AdDiffUtilCallback : DiffUtil.ItemCallback<Ad>() {
     override fun areItemsTheSame(oldItem: Ad, newItem: Ad): Boolean = oldItem == newItem
     override fun areContentsTheSame(oldItem: Ad, newItem: Ad): Boolean =
         oldItem.uid == newItem.uid

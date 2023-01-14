@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class FirebaseAuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
-): AuthRepository {
+) : AuthRepository {
 
     private var currentUser: Account? = null
 
@@ -26,9 +26,12 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         return currentUser?.copy()
     }
 
-    override fun createAccountWithEmailAndPassword(email: String, password: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
+    override fun createAccountWithEmailAndPassword(
+        email: String,
+        password: String
+    ): LiveData<DataOrErrorResult<Boolean, Exception?>> {
         val dataOrException = MutableLiveData<DataOrErrorResult<Boolean, Exception?>>()
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{ task ->
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             val res = DataOrErrorResult<Boolean, Exception?>()
             if (task.isSuccessful) {
                 currentUser = getUser(auth.currentUser)
@@ -80,6 +83,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     companion object {
         private const val OTP_TIMEOUT = 60L
     }
+
     private var verificationId = ""
 
     override fun sendVerificationCode(phoneNumber: String): LiveData<DataOrErrorResult<String, Exception?>> {
@@ -96,6 +100,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
                     verificationId = vId
                     Log.d("FIREBASE_AUTH_REPOSITORY", "Verification code sent to $phoneNumber")
                 }
+
                 override fun onVerificationCompleted(pAC: PhoneAuthCredential) {
                     val code = pAC.smsCode
                     if (code != null) {
@@ -121,7 +126,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     override fun verifyCode(code: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
         val dataOrException = MutableLiveData<DataOrErrorResult<Boolean, Exception?>>()
         val credential = PhoneAuthProvider.getCredential(verificationId, code)
-        auth.signInWithCredential(credential).addOnCompleteListener {  result ->
+        auth.signInWithCredential(credential).addOnCompleteListener { result ->
             val res = DataOrErrorResult<Boolean, Exception?>()
             if (result.isSuccessful) {
                 currentUser = getUser(auth.currentUser)
@@ -139,7 +144,10 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun signInWithEmailAndPassword(email: String, password: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
+    override fun signInWithEmailAndPassword(
+        email: String,
+        password: String
+    ): LiveData<DataOrErrorResult<Boolean, Exception?>> {
         val dataOrException = MutableLiveData<DataOrErrorResult<Boolean, Exception?>>()
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             val res = DataOrErrorResult<Boolean, Exception?>()
@@ -159,7 +167,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
             val phone = currentUser.phoneNumber ?: ""
             val email = currentUser.email ?: ""
             val regType = if (phone.isEmpty()) Account.RegistrationType.EMAIL
-                else Account.RegistrationType.PHONE
+            else Account.RegistrationType.PHONE
             val name = currentUser.displayName ?: ""
             Account(
                 currentUser.uid, regType,

@@ -19,7 +19,7 @@ class HomePageFragmentViewModel @Inject constructor(
     private val businessNewsRepository: BusinessNewsRepository,
     private val adRepository: AdRepository,
     private val authRepository: AuthRepository
-): ViewModel() {
+) : ViewModel() {
 
     private var newsCurrentPage = 0
     private var recommendedAdsCurrentPage = 0
@@ -27,7 +27,7 @@ class HomePageFragmentViewModel @Inject constructor(
     val state: LiveData<HomePageState> get() = _state
     private val _state = MutableLiveData<HomePageState>()
 
-    init{
+    init {
         _state.value = HomePageState()
     }
 
@@ -35,8 +35,10 @@ class HomePageFragmentViewModel @Inject constructor(
         if (authRepository.getCurrentAccount()?.displayName.isNullOrEmpty()) "UserName" else
             authRepository.getCurrentAccount()?.displayName!!
 
-    fun requestRecommendedAdsNextPage(owner: LifecycleOwner,
-        onFailureListener: (Exception) -> Unit = {}){
+    fun requestRecommendedAdsNextPage(
+        owner: LifecycleOwner,
+        onFailureListener: (Exception) -> Unit = {}
+    ) {
         val lastUid = if (_state.value?.recommendedAds?.size!! > 0)
             _state.value!!.recommendedAds.last().uid else null
 
@@ -58,7 +60,7 @@ class HomePageFragmentViewModel @Inject constructor(
         }
     }
 
-    fun requestBusinessNewsNextPage(){
+    fun requestBusinessNewsNextPage() {
         viewModelScope.launch {
             val articles = businessNewsRepository.getLatestBusinessNews(
                 Pagination(Pagination.DEFAULT_PAGE_SIZE, ++newsCurrentPage)

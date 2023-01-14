@@ -9,8 +9,6 @@ import ru.desh.partfinder.core.data.api.business_news.model.ApiSourceList
 interface NewsApi {
     @GET(ApiEndpoints.EVERYTHING_ENDPOINT_V2)
     suspend fun getEverything(
-        // Required
-        //@Query(ApiParams.API_KEY) apiKey: String,
         // Optional
         @Query(ApiParams.QUERY) query: String? = null,
         @Query(ApiParams.SEARCH_IN) searchIn: String? = null,
@@ -27,8 +25,6 @@ interface NewsApi {
 
     @GET(ApiEndpoints.TOP_HEADLINES_ENDPOINT_V2)
     suspend fun getTopHeadlines(
-        // Required
-        //@Query(ApiParams.API_KEY) apiKey: String,
         // Optional
         @Query(ApiParams.COUNTRY) country: String? = null,
         @Query(ApiParams.CATEGORY) category: String? = null,
@@ -40,8 +36,6 @@ interface NewsApi {
 
     @GET(ApiEndpoints.SOURCES_ENDPOINT_V2)
     fun getSources(
-        // Required
-        //@Query(ApiParams.API_KEY) apiKey: String,
         // Optional
         @Query(ApiParams.COUNTRY) country: String? = null,
         @Query(ApiParams.CATEGORY) category: String? = null,

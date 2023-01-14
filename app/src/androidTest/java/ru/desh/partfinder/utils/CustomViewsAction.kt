@@ -45,11 +45,9 @@ fun waitForView(viewId: Int, timeout: Long): ViewAction {
                 // Control may not return immediately, instead it'll return after the provided delay has passed and the queue is in an idle state again.
                 uiController.loopMainThreadForAtLeast(100)
             } while (System.currentTimeMillis() < endTime) // in case of a timeout we throw an exception -> test fails
-            throw PerformException.Builder()
-                .withCause(TimeoutException())
+            throw PerformException.Builder().withCause(TimeoutException())
                 .withActionDescription(this.description)
-                .withViewDescription(HumanReadables.describe(rootView))
-                .build()
+                .withViewDescription(HumanReadables.describe(rootView)).build()
         }
     }
 }

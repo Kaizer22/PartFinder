@@ -19,15 +19,19 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun propertiesRepository(repo: PropertiesRepositoryDataStoreImpl): PropertiesRepository
+
     @Binds
     @Singleton
     abstract fun authRepository(repo: FirebaseAuthRepositoryImpl): AuthRepository
+
     @Binds
     @Singleton
     abstract fun userRepository(repo: FirebaseUserRepositoryImpl): UserRepository
+
     @Binds
     @Singleton
     abstract fun adRepository(repo: FirebaseAdRepositoryImpl): AdRepository
+
     @Binds
     @Singleton
     abstract fun businessNewsRepository(repo: BusinessNewsRepositoryImpl): BusinessNewsRepository

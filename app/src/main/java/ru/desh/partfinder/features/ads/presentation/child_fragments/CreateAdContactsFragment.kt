@@ -31,24 +31,24 @@ class CreateAdContactsViewModel @Inject constructor(
     @BufferAd private val bufferAd: Ad,
     private val creationState: MutableStateFlow<CreateAdState>,
     private val adRepository: AdRepository
-): ViewModel() {
+) : ViewModel() {
 
     fun createAd(): LiveData<DataOrErrorResult<
-            Boolean?, Exception?>>{
+            Boolean?, Exception?>> {
         bufferAd.creationTimestamp = Date().time
         return adRepository.createAd(bufferAd)
     }
 
-    fun setContacts(contacts: List<UserContact>){
+    fun setContacts(contacts: List<UserContact>) {
         bufferAd.userContacts = contacts
     }
 
-    fun notifyAdPublished(){
+    fun notifyAdPublished() {
         creationState.value = CreateAdState.AdPublished
     }
 }
 
-class CreateAdContactsFragment: Fragment() {
+class CreateAdContactsFragment : Fragment() {
     @Inject
     lateinit var viewModel: CreateAdContactsViewModel
 
@@ -74,7 +74,7 @@ class CreateAdContactsFragment: Fragment() {
                 .setType(SnackbarBuilder.Type.DANGER)
                 .setTitle(getString(R.string.message_title_error))
             createAdContactsButtonNext.setOnClickListener {
-                viewModel.createAd().observe(viewLifecycleOwner){
+                viewModel.createAd().observe(viewLifecycleOwner) {
                     if (!it.isException) {
                         viewModel.notifyAdPublished()
                     } else {
