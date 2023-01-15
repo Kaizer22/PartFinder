@@ -9,12 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
 import ru.desh.partfinder.R
-import ru.desh.partfinder.core.Screens
 import ru.desh.partfinder.core.Screens.BottomNavigation
+import ru.desh.partfinder.core.Screens.Registration
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.domain.repository.AuthRepository
@@ -25,8 +24,16 @@ import javax.inject.Inject
 
 
 class CodeEnterViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    @AppNavigation private val router: Router
 ) : ViewModel() {
+
+    fun back() = router.exit()
+
+    fun toBottomNavigation() = router.navigateTo(BottomNavigation())
+
+    fun toRegistration() = router.navigateTo(Registration())
+
     fun sendVerificationCode(phoneNumber: String): LiveData<DataOrErrorResult<String, Exception?>> {
         return authRepository.sendVerificationCode(phoneNumber)
     }
@@ -43,14 +50,6 @@ class CodeEnterFragment(
 
     @Inject
     lateinit var viewModel: CodeEnterViewModel
-
-    @Inject
-    @AppNavigation
-    lateinit var router: Router
-
-    @Inject
-    @AppNavigation
-    lateinit var navigatorHolder: NavigatorHolder
 
     private var otp: String = ""
 
@@ -73,8 +72,8 @@ class CodeEnterFragment(
         binding.apply {
             val dangerMessage =
                 SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG).setType(
-                        SnackbarBuilder.Type.DANGER
-                    ).setTitle(getString(R.string.message_title_code_doesnt_send))
+                    SnackbarBuilder.Type.DANGER
+                ).setTitle(getString(R.string.message_title_code_doesnt_send))
 
             viewModel.sendVerificationCode(phoneNumber).observe(viewLifecycleOwner) { result ->
                 if (!result.isException) {
@@ -102,7 +101,7 @@ class CodeEnterFragment(
             enterSmsCodeButtonConfirmOtp.setOnClickListener {
                 viewModel.signInWithCode(otp).observe(viewLifecycleOwner) { result ->
                     if (!result.isException) {
-                        router.navigateTo(BottomNavigation())
+                        viewModel.toBottomNavigation()
                     } else {
                         dangerMessage.setTitle(getString(R.string.message_title_wrong_code))
                             .setText(result.exception?.message ?: "").show()
@@ -110,10 +109,10 @@ class CodeEnterFragment(
                 }
             }
             enterSmsCodeButtonBack.setOnClickListener {
-                router.exit()
+                viewModel.back()
             }
             hintRegisterBlock.authButtonToRegister.setOnClickListener {
-                router.navigateTo(Screens.Registration())
+                viewModel.toRegistration()
             }
         }
     }

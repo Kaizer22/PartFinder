@@ -5,6 +5,7 @@ import android.net.Uri
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import ru.desh.partfinder.core.domain.model.Ad
+import ru.desh.partfinder.core.domain.model.AdCategory
 import ru.desh.partfinder.features.BottomNavigationActivity
 import ru.desh.partfinder.features.ads.presentation.AdDetailsFragment
 import ru.desh.partfinder.features.ads.presentation.CategorySearchFragment
@@ -152,8 +153,8 @@ object Screens {
         HomePageFragment()
     }
 
-    fun CategorySearch(category: String) = FragmentScreen {
-        CategorySearchFragment(category)
+    fun CategorySearch(adCategory: AdCategory) = FragmentScreen {
+        CategorySearchFragment(adCategory)
     }
 
     fun AdDetails(ad: Ad) = FragmentScreen {

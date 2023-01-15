@@ -7,15 +7,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
-import com.github.terrakok.cicerone.Router
-import ru.desh.partfinder.core.Screens.NewsArticleSource
 import ru.desh.partfinder.core.domain.model.BusinessArticle
 import ru.desh.partfinder.core.utils.DateHelper
 import ru.desh.partfinder.databinding.ItemBusinessNewsCardBinding
 import java.util.Locale
 
+interface BusinessArticlesActionListener {
+    fun onBusinessArticleSource(url: String)
+}
+
 class BusinessArticleAdapter(
-    private val router: Router
+    private val businessArticlesActionListener: BusinessArticlesActionListener
 ) : ListAdapter<BusinessArticle,
         BusinessArticleViewHolder>(BusinessArticleDiffUtilCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BusinessArticleViewHolder {
@@ -23,7 +25,7 @@ class BusinessArticleAdapter(
             LayoutInflater.from(parent.context),
             parent, false
         )
-        return BusinessArticleViewHolder(binding, router)
+        return BusinessArticleViewHolder(binding, businessArticlesActionListener)
     }
 
     override fun onBindViewHolder(holder: BusinessArticleViewHolder, position: Int) {
@@ -33,13 +35,14 @@ class BusinessArticleAdapter(
 
 class BusinessArticleViewHolder(
     private val itemBusinessNewsCardBinding: ItemBusinessNewsCardBinding,
-    private val router: Router
+    private val businessArticlesActionListener: BusinessArticlesActionListener
 ) :
     ViewHolder(itemBusinessNewsCardBinding.root) {
     fun bind(businessArticle: BusinessArticle) {
         itemBusinessNewsCardBinding.apply {
             itemView.setOnClickListener {
-                router.navigateTo(NewsArticleSource(businessArticle.url))
+                businessArticlesActionListener.onBusinessArticleSource(businessArticle.url)
+                //router.navigateTo(NewsArticleSource(businessArticle.url))
             }
             Glide.with(itemView)
                 .load(businessArticle.urlToImage)

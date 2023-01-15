@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 class RegistrationFragment : Fragment() {
     @Inject
-    lateinit var viewModel: RegistrationFragmentViewModel
+    lateinit var viewModel: RegistrationViewModel
 
     lateinit var registrationComponent: RegistrationComponent
         private set

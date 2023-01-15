@@ -4,9 +4,13 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
+import com.github.terrakok.cicerone.Router
+import ru.desh.partfinder.core.Screens.AdDetails
+import ru.desh.partfinder.core.Screens.CategorySearch
+import ru.desh.partfinder.core.Screens.NewsArticleSource
+import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.domain.model.Ad
+import ru.desh.partfinder.core.domain.model.AdCategory
 import ru.desh.partfinder.core.domain.model.BusinessArticle
 import ru.desh.partfinder.core.domain.model.search.AdsPagination
 import ru.desh.partfinder.core.domain.model.search.Pagination
@@ -15,7 +19,8 @@ import ru.desh.partfinder.core.domain.repository.AuthRepository
 import ru.desh.partfinder.core.domain.repository.BusinessNewsRepository
 import javax.inject.Inject
 
-class HomePageFragmentViewModel @Inject constructor(
+class HomePageViewModel @Inject constructor(
+    @AppNavigation private val router: Router,
     private val businessNewsRepository: BusinessNewsRepository,
     private val adRepository: AdRepository,
     private val authRepository: AuthRepository
@@ -30,6 +35,11 @@ class HomePageFragmentViewModel @Inject constructor(
     init {
         _state.value = HomePageState()
     }
+
+    fun toAdCategorySearch(adCategory: AdCategory) = router.navigateTo(CategorySearch(adCategory))
+    fun toAdDetails(ad: Ad) = router.navigateTo(AdDetails(ad))
+    fun toBusinessArticleSource(url: String) = router.navigateTo(NewsArticleSource(url))
+
 
     fun displayName(): String =
         if (authRepository.getCurrentAccount()?.displayName.isNullOrEmpty()) "UserName" else
@@ -60,8 +70,8 @@ class HomePageFragmentViewModel @Inject constructor(
         }
     }
 
-    fun requestBusinessNewsNextPage() {
-        viewModelScope.launch {
+    suspend fun requestBusinessNewsNextPage() {
+        //viewModelScope.launch {
             val articles = businessNewsRepository.getLatestBusinessNews(
                 Pagination(Pagination.DEFAULT_PAGE_SIZE, ++newsCurrentPage)
             )
@@ -70,7 +80,7 @@ class HomePageFragmentViewModel @Inject constructor(
             _state.value = state.value!!.copy(
                 businessArticles = newList
             )
-        }
+        //}
     }
 }
 

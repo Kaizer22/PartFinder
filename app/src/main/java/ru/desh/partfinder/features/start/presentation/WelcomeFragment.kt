@@ -5,30 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.github.terrakok.cicerone.NavigatorHolder
+import androidx.lifecycle.ViewModel
 import com.github.terrakok.cicerone.Router
 import ru.desh.partfinder.core.Screens.PrivacyPolicy
-import ru.desh.partfinder.core.data.properties.PropertiesRepository
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.databinding.FragmentWelcomeBinding
 import javax.inject.Inject
 
+class WelcomeViewModel @Inject constructor(
+    @AppNavigation private val router: Router
+) : ViewModel() {
+    fun toPrivacyPolicy() = router.navigateTo(PrivacyPolicy())
+}
+
 class WelcomeFragment : Fragment() {
-    //TODO
     @Inject
-    lateinit var propertiesRepository: PropertiesRepository
-
-    @Inject
-    @AppNavigation
-    lateinit var router: Router
-
-    @Inject
-    @AppNavigation
-    lateinit var navigatorHolder: NavigatorHolder
+    lateinit var viewModel: WelcomeViewModel
 
     private lateinit var binding: FragmentWelcomeBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
@@ -46,7 +41,7 @@ class WelcomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.welcomeButtonOk.setOnClickListener {
-            router.navigateTo(PrivacyPolicy())
+            viewModel.toPrivacyPolicy()
         }
     }
 }

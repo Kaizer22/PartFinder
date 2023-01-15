@@ -21,8 +21,13 @@ import ru.desh.partfinder.databinding.FragmentPasswordResetBinding
 import javax.inject.Inject
 
 class PasswordResetViewModel @Inject constructor(
-    val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    @AppNavigation private val router: Router
 ) : ViewModel() {
+
+    fun back() = router.exit()
+    fun toAuth() = router.navigateTo(Auth())
+
     fun sendPasswordResetEmail(email: String):
             LiveData<DataOrErrorResult<Boolean, Exception?>> {
         return authRepository.sendPasswordResetEmail(email)
@@ -30,10 +35,6 @@ class PasswordResetViewModel @Inject constructor(
 }
 
 class PasswordResetFragment : Fragment() {
-    @Inject
-    @AppNavigation
-    lateinit var router: Router
-
     @Inject
     lateinit var viewModel: PasswordResetViewModel
 
@@ -81,7 +82,7 @@ class PasswordResetFragment : Fragment() {
                 }
             }
             passwordResetButtonBack.setOnClickListener {
-                router.exit()
+                viewModel.back()
             }
         }
     }
@@ -95,7 +96,7 @@ class PasswordResetFragment : Fragment() {
             passwordResetInfo.text = getString(R.string.password_reset_sent_letter_info)
             passwordResetButtonConfirm.text = getString(R.string.button_go_back)
             passwordResetButtonConfirm.setOnClickListener {
-                router.navigateTo(Auth())
+                viewModel.toAuth()
             }
         }
     }

@@ -8,16 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import com.github.terrakok.cicerone.NavigatorHolder
-import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
 import ru.desh.partfinder.R
-import ru.desh.partfinder.core.Screens.BottomNavigation
-import ru.desh.partfinder.core.Screens.PasswordReset
-import ru.desh.partfinder.core.Screens.PhoneAuth
-import ru.desh.partfinder.core.Screens.Registration
 import ru.desh.partfinder.core.di.SingleApplicationComponent
-import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.ui.SnackbarBuilder
 import ru.desh.partfinder.databinding.FragmentAuthBinding
 import javax.inject.Inject
@@ -25,15 +18,6 @@ import javax.inject.Inject
 class AuthFragment : Fragment() {
     @Inject
     lateinit var viewModel: AuthViewModel
-
-    @Inject
-    @AppNavigation
-    lateinit var router: Router
-
-    @Inject
-    @AppNavigation
-    lateinit var navigatorHolder: NavigatorHolder
-
 
     private lateinit var binding: FragmentAuthBinding
 
@@ -81,7 +65,7 @@ class AuthFragment : Fragment() {
                             if (!result.isException) {
                                 // TODO check if current user has confirmed email
                                 successMessage.show()
-                                router.navigateTo(BottomNavigation())
+                                viewModel.toBottomNavigation()
                             } else {
                                 dangerMessage
                                     .setText(result.exception?.message ?: "")
@@ -93,10 +77,10 @@ class AuthFragment : Fragment() {
                 }
             }
             textButtonForgotPassword.setOnClickListener {
-                router.navigateTo(PasswordReset())
+                viewModel.toPasswordReset()
             }
             authButtonPhone.setOnClickListener {
-                router.navigateTo(PhoneAuth())
+                viewModel.toPhoneAuth()
             }
             authButtonGoogle.setOnClickListener {
                 infoMessage.show()
@@ -105,7 +89,7 @@ class AuthFragment : Fragment() {
                 infoMessage.show()
             }
             hintRegisterBlock.authButtonToRegister.setOnClickListener {
-                router.navigateTo(Registration())
+                viewModel.toRegistration()
             }
         }
     }

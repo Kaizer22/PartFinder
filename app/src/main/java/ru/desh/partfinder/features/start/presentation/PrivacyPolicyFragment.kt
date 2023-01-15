@@ -17,9 +17,14 @@ import ru.desh.partfinder.core.data.properties.PropertiesRepository
 import ru.desh.partfinder.databinding.FragmentPrivacyPolicyBinding
 import javax.inject.Inject
 
-class PrivacyPolicyFragmentViewModel @Inject constructor(
-    private val propertiesRepository: PropertiesRepository
+class PrivacyPolicyViewModel @Inject constructor(
+    private val propertiesRepository: PropertiesRepository,
+    @AppNavigation private val router: Router
 ) : ViewModel() {
+
+    fun toAuth() = router.navigateTo(Auth())
+    fun toPrivacyPolicySource() = router.navigateTo(PrivacyPolicySource())
+
     suspend fun finishOnboarding() {
         propertiesRepository.setOnboardingFinished()
     }
@@ -27,11 +32,7 @@ class PrivacyPolicyFragmentViewModel @Inject constructor(
 
 class PrivacyPolicyFragment : Fragment() {
     @Inject
-    lateinit var viewModel: PrivacyPolicyFragmentViewModel
-
-    @Inject
-    @AppNavigation
-    lateinit var router: Router
+    lateinit var viewModel: PrivacyPolicyViewModel
 
     private lateinit var binding: FragmentPrivacyPolicyBinding
 
@@ -53,13 +54,13 @@ class PrivacyPolicyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             privacyPolicyButtonSource.setOnClickListener {
-                router.navigateTo(PrivacyPolicySource())
+                viewModel.toPrivacyPolicySource()
             }
             privacyPolicyButtonAccept.setOnClickListener {
                 lifecycleScope.launch {
                     viewModel.finishOnboarding()
                 }.invokeOnCompletion {
-                    router.navigateTo(Auth())
+                    viewModel.toAuth()
                 }
             }
             privacyPolicyButtonDecline.setOnClickListener {

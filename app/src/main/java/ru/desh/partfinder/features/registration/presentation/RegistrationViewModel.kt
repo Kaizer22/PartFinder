@@ -15,17 +15,16 @@ import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.di.module.RegistrationNavigation
 import javax.inject.Inject
 
-class RegistrationFragmentViewModel @Inject constructor(
+class RegistrationViewModel @Inject constructor(
     @AppNavigation private val router: Router,
     @RegistrationNavigation private val innerRouter: Router,
     @RegistrationNavigation private val innerNavigatorHolder: NavigatorHolder,
-    private val _registrationState : MutableStateFlow<RegistrationState>,
+    private val _registrationState: MutableStateFlow<RegistrationState>,
 ) : ViewModel() {
-
-    fun back() = router.exit()
 
     fun observeRegistrationState(): StateFlow<RegistrationState> = _registrationState
 
+    fun back() = router.exit()
     fun toRegistrationMethod() = innerRouter.navigateTo(Registration_Method())
     fun toRegistrationData(registrationType: RegistrationFragment.RegistrationType) =
         innerRouter.navigateTo(

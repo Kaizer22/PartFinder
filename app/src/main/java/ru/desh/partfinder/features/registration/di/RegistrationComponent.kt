@@ -8,7 +8,7 @@ import ru.desh.partfinder.features.registration.presentation.RegistrationFragmen
 import ru.desh.partfinder.features.registration.presentation.RegistrationState
 import ru.desh.partfinder.features.registration.presentation.child_fragments.*
 
-@Subcomponent
+@Subcomponent(modules = [RegistrationModule::class])
 interface RegistrationComponent {
     @Subcomponent.Factory
     interface Factory {

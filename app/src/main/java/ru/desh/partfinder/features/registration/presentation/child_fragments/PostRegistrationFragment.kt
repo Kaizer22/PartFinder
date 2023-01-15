@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.github.terrakok.cicerone.NavigatorHolder
+import androidx.lifecycle.ViewModel
 import com.github.terrakok.cicerone.Router
 import ru.desh.partfinder.core.Screens.Auth
 import ru.desh.partfinder.core.di.module.AppNavigation
@@ -13,14 +13,15 @@ import ru.desh.partfinder.databinding.FragmentPostRegistrationBinding
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
 import javax.inject.Inject
 
+class PostRegistrationViewModel(
+    @AppNavigation private val router: Router
+) : ViewModel() {
+    fun toAuth() = router.navigateTo(Auth())
+}
+
 class PostRegistrationFragment : Fragment() {
     @Inject
-    @AppNavigation
-    lateinit var router: Router
-
-    @Inject
-    @AppNavigation
-    lateinit var navigatorHolder: NavigatorHolder
+    lateinit var viewModel: PostRegistrationViewModel
 
     private lateinit var binding: FragmentPostRegistrationBinding
 
@@ -42,7 +43,7 @@ class PostRegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.apply {
             postRegistrationButtonFinish.setOnClickListener {
-                router.navigateTo(Auth())
+                viewModel.toAuth()
             }
         }
     }

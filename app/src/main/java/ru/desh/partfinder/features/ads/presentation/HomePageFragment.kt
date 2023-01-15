@@ -7,29 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
 import ru.desh.partfinder.R
 import ru.desh.partfinder.core.di.SingleApplicationComponent
-import ru.desh.partfinder.core.di.module.AppNavigation
+import ru.desh.partfinder.core.domain.model.Ad
+import ru.desh.partfinder.core.domain.model.AdCategory
 import ru.desh.partfinder.core.ui.SnackbarBuilder
 import ru.desh.partfinder.databinding.FragmentHomePageBinding
+import ru.desh.partfinder.databinding.ItemAdCardBinding
 import ru.desh.partfinder.features.BottomNavigationActivity
-import ru.desh.partfinder.features.ads.presentation.adapter.AdsAdapter
-import ru.desh.partfinder.features.ads.presentation.adapter.BusinessArticleAdapter
-import ru.desh.partfinder.features.ads.presentation.adapter.CategoriesAdapter
 import ru.desh.partfinder.features.ads.data.CategoryProvider
+import ru.desh.partfinder.features.ads.presentation.adapter.*
 import javax.inject.Inject
 
 class HomePageFragment : Fragment() {
     @Inject
-    @AppNavigation
-    lateinit var router: Router
-
-    @Inject
-    lateinit var viewModel: HomePageFragmentViewModel
+    lateinit var viewModel: HomePageViewModel
 
     private lateinit var infoMessage: SnackbarBuilder
     private lateinit var warningMessage: SnackbarBuilder
@@ -63,13 +59,9 @@ class HomePageFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adsAdapter = AdsAdapter(requireActivity(), router)
-        val businessArticlesAdapter = BusinessArticleAdapter(router)
-        businessArticlesAdapter.submitList(emptyList())
-        val categoriesAdapter = CategoriesAdapter(router)
-        categoriesAdapter.submitList(CategoryProvider.getCategories(requireContext()))
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initRecyclerViews()
         val parentActivityContent = requireActivity().findViewById<ViewGroup>(R.id.content)
         infoMessage = SnackbarBuilder(parentActivityContent, layoutInflater, Snackbar.LENGTH_LONG)
             .setType(SnackbarBuilder.Type.PRIMARY)
@@ -88,11 +80,79 @@ class HomePageFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner) {
             updateUiState(it, adsAdapter, businessArticlesAdapter)
         }
-        viewModel.requestBusinessNewsNextPage()
+        lifecycleScope.launchWhenCreated {
+            viewModel.requestBusinessNewsNextPage()
+        }
         viewModel.requestRecommendedAdsNextPage(viewLifecycleOwner, onFailureListener)
 
         binding.apply {
-            homePageCategoryList.adapter = categoriesAdapter
+            homePageUserName.text = viewModel.displayName()
+
+            homePageButtonSearch.setOnClickListener { todoMessage.show() }
+            homePageButtonSearchOptions.setOnClickListener { todoMessage.show() }
+        }
+    }
+
+    private lateinit var adsAdapter: AdsAdapter
+    private lateinit var businessArticlesAdapter: BusinessArticleAdapter
+
+    private fun initRecyclerViews() {
+        binding.apply {
+            val todoMessage: SnackbarBuilder = SnackbarBuilder(
+                requireActivity().findViewById(R.id.content) as ViewGroup,
+                layoutInflater,
+                Snackbar.LENGTH_LONG
+            ).setType(SnackbarBuilder.Type.SECONDARY)
+                .setTitle(getString(R.string.message_title_todo))
+                .setText(getString(R.string.message_text_todo))
+
+            val adsActionListener = object : AdsActionListener {
+                override fun onAddFavourite(ad: Ad) {
+                    todoMessage.show()
+                }
+
+                override fun onPressLike(
+                    ad: Ad,
+                    binding: ItemAdCardBinding,
+                    isLiked: Boolean,
+                    isDisliked: Boolean
+                ) {
+                    todoMessage.show()
+                }
+
+                override fun onPressDislike(
+                    ad: Ad,
+                    binding: ItemAdCardBinding,
+                    isLiked: Boolean,
+                    isDisliked: Boolean
+                ) {
+                    todoMessage.show()
+                }
+
+                override fun onAdsDetails(ad: Ad) {
+                    viewModel.toAdDetails(ad)
+                }
+            }
+
+            val businessArticlesActionListener = object : BusinessArticlesActionListener {
+                override fun onBusinessArticleSource(url: String) {
+                    viewModel.toBusinessArticleSource(url)
+                }
+            }
+
+            val adCategoriesActionListener = object : AdCategoriesActionListener {
+                override fun onCategory(adCategory: AdCategory) {
+                    viewModel.toAdCategorySearch(adCategory)
+                }
+            }
+
+            adsAdapter = AdsAdapter(adsActionListener)
+            businessArticlesAdapter = BusinessArticleAdapter(businessArticlesActionListener)
+            businessArticlesAdapter.submitList(emptyList())
+            val adCategoriesAdapter = AdCategoriesAdapter(adCategoriesActionListener)
+            adCategoriesAdapter.submitList(CategoryProvider.getCategories(requireContext()))
+
+            homePageCategoryList.adapter = adCategoriesAdapter
             homePageCategoryList.layoutManager = LinearLayoutManager(
                 requireContext(),
                 LinearLayoutManager.HORIZONTAL, false
@@ -111,10 +171,6 @@ class HomePageFragment : Fragment() {
             homePageRecommendationsList.updateLayoutParams {
                 height = resources.displayMetrics.heightPixels
             }
-            homePageUserName.text = viewModel.displayName()
-
-            homePageButtonSearch.setOnClickListener { todoMessage.show() }
-            homePageButtonSearchOptions.setOnClickListener { todoMessage.show() }
         }
     }
 

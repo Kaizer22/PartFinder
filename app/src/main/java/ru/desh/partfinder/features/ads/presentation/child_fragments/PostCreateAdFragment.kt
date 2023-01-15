@@ -5,17 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import com.github.terrakok.cicerone.Router
 import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.databinding.FragmentPostCreateAdBinding
 import ru.desh.partfinder.features.ads.presentation.CreateAdFragment
 import javax.inject.Inject
 
+class PostCreateAdViewModel @Inject constructor(
+    @AppNavigation private val router: Router
+): ViewModel() {
+    fun back() = router.exit()
+}
+
 class PostCreateAdFragment : Fragment() {
     @Inject
-    @AppNavigation
-    lateinit var router: Router
-
+    lateinit var viewModel: PostCreateAdViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +41,7 @@ class PostCreateAdFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             postCreateAdButtonNext.setOnClickListener {
-                router.exit()
+                viewModel.back()
             }
         }
     }

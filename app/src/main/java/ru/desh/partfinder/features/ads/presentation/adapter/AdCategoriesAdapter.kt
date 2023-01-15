@@ -7,36 +7,38 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.github.terrakok.cicerone.Router
-import ru.desh.partfinder.core.Screens.CategorySearch
 import ru.desh.partfinder.core.domain.model.AdCategory
 import ru.desh.partfinder.databinding.ItemCategoryCardBinding
 
+interface AdCategoriesActionListener {
+    fun onCategory(adCategory: AdCategory)
+}
+
 // ListAdapter and DiffUtil are used in case of future dynamic categories list
-class CategoriesAdapter(
-    private val router: Router
+class AdCategoriesAdapter(
+    private val categoryActionListener: AdCategoriesActionListener
 ) : ListAdapter<Pair<AdCategory, Int>,
-        CategoryViewHolder>(CategoryDiffUtil()) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
+        AdCategoryViewHolder>(CategoryDiffUtil()) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdCategoryViewHolder {
         val binding = ItemCategoryCardBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false
         )
-        return CategoryViewHolder(binding, router)
+        return AdCategoryViewHolder(binding, categoryActionListener)
     }
 
-    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AdCategoryViewHolder, position: Int) {
         holder.bind(currentList[position].first, currentList[position].second)
     }
 }
 
-class CategoryViewHolder(
+class AdCategoryViewHolder(
     private val itemCategoryCardBinding: ItemCategoryCardBinding,
-    private val router: Router
+    private val adCategoriesActionListener: AdCategoriesActionListener
 ) : ViewHolder(itemCategoryCardBinding.root) {
     fun bind(category: AdCategory, @DrawableRes bg: Int) {
         itemView.setOnClickListener {
-            router.navigateTo(CategorySearch(category.name))
+            adCategoriesActionListener.onCategory(category)
         }
         itemCategoryCardBinding.apply {
             itemCategoryHeader.text = category.name
