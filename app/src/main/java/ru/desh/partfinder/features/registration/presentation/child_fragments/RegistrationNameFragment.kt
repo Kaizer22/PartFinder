@@ -7,12 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.github.terrakok.cicerone.NavigatorHolder
-import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.MutableStateFlow
 import ru.desh.partfinder.R
-import ru.desh.partfinder.core.di.module.RegistrationNavigation
 import ru.desh.partfinder.core.domain.model.User
 import ru.desh.partfinder.core.domain.repository.UserRepository
 import ru.desh.partfinder.core.ui.SnackbarBuilder
@@ -20,7 +17,7 @@ import ru.desh.partfinder.core.utils.DataOrErrorResult
 import ru.desh.partfinder.databinding.FragmentRegistrationNameFormBinding
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
 import ru.desh.partfinder.features.registration.presentation.RegistrationState
-import java.util.UUID
+import java.util.*
 import javax.inject.Inject
 
 class RegistrationNameViewModel @Inject constructor(
@@ -43,14 +40,6 @@ class RegistrationNameViewModel @Inject constructor(
 }
 
 class RegistrationNameFragment : Fragment() {
-    @Inject
-    @RegistrationNavigation
-    lateinit var router: Router
-
-    @Inject
-    @RegistrationNavigation
-    lateinit var navigatorHolder: NavigatorHolder
-
     @Inject
     lateinit var viewModel: RegistrationNameViewModel
 
