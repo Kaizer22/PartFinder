@@ -39,8 +39,11 @@ class RegistrationConfirmationViewModel @Inject constructor(
 
 class RegistrationConfirmationFragment(
     private val registrationType: RegistrationFragment.RegistrationType,
-    private val phoneNumber: String
 ) : Fragment() {
+    companion object {
+        const val PHONE_NUMBER_ARGUMENT = "phone_number"
+    }
+
     @Inject
     lateinit var viewModel: RegistrationConfirmationViewModel
 
@@ -60,6 +63,7 @@ class RegistrationConfirmationFragment(
     ): View {
         binding = FragmentRegistrationConfirmationBinding
             .inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -71,6 +75,8 @@ class RegistrationConfirmationFragment(
                 .setTitle(getString(R.string.message_title_code_doesnt_send))
             when (registrationType) {
                 RegistrationFragment.RegistrationType.PHONE -> {
+                    val phoneNumber = arguments?.getString(PHONE_NUMBER_ARGUMENT) ?: ""
+
                     registrationConfirmationTitle.text =
                         getString(R.string.registration_phone_title)
                     registrationConfirmationInfo.text =

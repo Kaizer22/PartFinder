@@ -94,10 +94,9 @@ object Screens {
         }
 
     fun Registration_Confirmation(
-        registrationState: RegistrationFragment.RegistrationType,
-        phoneNumber: String
+        registrationState: RegistrationFragment.RegistrationType
     ) = FragmentScreen {
-        RegistrationConfirmationFragment(registrationState, phoneNumber)
+        RegistrationConfirmationFragment(registrationState)
     }
 
     fun Post_Registration() = FragmentScreen {
