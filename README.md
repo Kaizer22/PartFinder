@@ -1,7 +1,7 @@
 # PartFinder
 💸 Приложение для быстрого поиска бизнес-партнеров и привлечения инвестиций
 
-Презентация: https://disk.yandex.ru/i/SOuL9Dh0lIu-xg
+Презентация: https://disk.yandex.ru/d/CZYLgmC2JiyY0g
 
 Макет Figma (work in progress): https://www.figma.com/file/kXv4oZQ20obstnkSyYB7Dt/Part-Finder?node-id=0:1&t=1oJEFJj6yhKsh7SW-1
 
