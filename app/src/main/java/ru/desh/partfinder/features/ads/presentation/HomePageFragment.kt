@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import ru.desh.partfinder.R
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.domain.model.Ad
@@ -29,17 +30,15 @@ class HomePageFragment : Fragment() {
 
     private lateinit var infoMessage: SnackbarBuilder
     private lateinit var warningMessage: SnackbarBuilder
-    private val onFailureListener = fun(exception: Exception) {
-        warningMessage.show()
-        Log.d("HOME_PAGE_FRAGMENT", exception.toString())
-    }
 
     private val onRecommendedAdsScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
             if (!recyclerView.canScrollVertically(1) && dy > 0) {
                 infoMessage.show()
-                viewModel.requestRecommendedAdsNextPage(viewLifecycleOwner, onFailureListener)
+                lifecycleScope.launch {
+                    viewModel.requestRecommendedAdsNextPage()
+                }
             }
         }
     }
@@ -82,12 +81,16 @@ class HomePageFragment : Fragment() {
         }
         lifecycleScope.launchWhenCreated {
             viewModel.requestBusinessNewsNextPage()
+            try {
+                viewModel.requestRecommendedAdsNextPage()
+            } catch (e: Exception) {
+                warningMessage.show()
+                Log.d("HOME_PAGE_FRAGMENT", e.toString())
+            }
         }
-        viewModel.requestRecommendedAdsNextPage(viewLifecycleOwner, onFailureListener)
 
         binding.apply {
             homePageUserName.text = viewModel.displayName()
-
             homePageButtonSearch.setOnClickListener { todoMessage.show() }
             homePageButtonSearchOptions.setOnClickListener { todoMessage.show() }
         }

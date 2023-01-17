@@ -8,7 +8,7 @@ import ru.desh.partfinder.core.utils.DataOrErrorResult
 
 interface AdRepository {
     // Remote
-    fun getRecommendedAds(pagination: AdsPagination): LiveData<DataOrErrorResult<List<Ad>?, Exception?>>
+    suspend fun getRecommendedAds(pageSize: Int, pageNumber: Int, lastAdUid: String?): DataOrErrorResult<List<Ad>?, Exception?>
     fun searchAds(
         adsFilter: AdsFilter,
         pagination: AdsPagination

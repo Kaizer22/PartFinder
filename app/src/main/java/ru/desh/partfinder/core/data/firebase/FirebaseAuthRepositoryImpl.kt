@@ -35,9 +35,9 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
             val res = DataOrErrorResult<Boolean, Exception?>()
             if (task.isSuccessful) {
                 currentUser = getUser(auth.currentUser)
-                res.data = true
+                res.setData(true)
             } else {
-                res.exception = task.exception
+                res.setException(task.exception)
             }
             dataOrException.value = res
         }
@@ -50,9 +50,9 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         user?.sendEmailVerification()?.addOnCompleteListener { task ->
             val res = DataOrErrorResult<Boolean, Exception?>()
             if (task.isSuccessful) {
-                res.data = true
+                res.setData(true)
             } else {
-                res.exception = task.exception
+                res.setException(task.exception)
             }
         }
         return dataOrException
@@ -63,9 +63,9 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         auth.sendPasswordResetEmail(email).addOnCompleteListener { result ->
             val res = DataOrErrorResult<Boolean, Exception?>()
             if (result.isSuccessful) {
-                res.data = true
+                res.setData(true)
             } else {
-                res.exception = result.exception
+                res.setException(result.exception)
             }
             dataOrException.value = res
         }
@@ -104,17 +104,19 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
                 override fun onVerificationCompleted(pAC: PhoneAuthCredential) {
                     val code = pAC.smsCode
                     if (code != null) {
-                        res.data = code
+                        res.setData(code)
                     } else {
-                        res.exception = java.lang.IllegalStateException(
-                            "Got empty code on verification completed"
+                        res.setException(
+                            java.lang.IllegalStateException(
+                                "Got empty code on verification completed"
+                            )
                         )
                     }
                     dataOrException.value = res
                 }
 
                 override fun onVerificationFailed(e: FirebaseException) {
-                    res.exception = e
+                    res.setException(e)
                     verificationId = ""
                     dataOrException.value = res
                 }
@@ -130,9 +132,9 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
             val res = DataOrErrorResult<Boolean, Exception?>()
             if (result.isSuccessful) {
                 currentUser = getUser(auth.currentUser)
-                res.data = true
+                res.setData(true)
             } else {
-                res.exception = result.exception
+                res.setException(result.exception)
             }
             dataOrException.value = res
         }
@@ -153,9 +155,9 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
             val res = DataOrErrorResult<Boolean, Exception?>()
             if (task.isSuccessful) {
                 currentUser = getUser(auth.currentUser)
-                res.data = true
+                res.setData(true)
             } else {
-                res.exception = task.exception
+                res.setException(task.exception)
             }
             dataOrException.value = res
         }

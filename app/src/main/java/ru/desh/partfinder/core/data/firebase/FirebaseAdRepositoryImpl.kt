@@ -3,6 +3,7 @@ package ru.desh.partfinder.core.data.firebase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
+import kotlinx.coroutines.tasks.await
 import ru.desh.partfinder.core.di.module.AdDbReference
 import ru.desh.partfinder.core.domain.model.Ad
 import ru.desh.partfinder.core.domain.model.search.AdsFilter
@@ -19,46 +20,47 @@ class FirebaseAdRepositoryImpl @Inject constructor(
         const val UID_FIELD = "uid"
     }
 
-    override fun getRecommendedAds(pagination: AdsPagination): LiveData<DataOrErrorResult<List<Ad>?, Exception?>> {
-        val resultObserver = MutableLiveData<DataOrErrorResult<List<Ad>?, Exception?>>()
+    override suspend fun getRecommendedAds(
+        pageSize: Int,
+        pageNumber: Int,
+        lastAdUid: String?
+    ): DataOrErrorResult<List<Ad>?, Exception?> {
         val res = DataOrErrorResult<List<Ad>?, Exception?>()
         // If there is no previous page just return first N
         // else get the DocumentReference of last Ad and get ads starting from it with limit
         // https://firebase.google.com/docs/firestore/query-data/query-cursors?hl=en&skip_cache=true%22#kotlin+ktx_3
-        if (pagination.lastUid.isNullOrEmpty()) {
-            adDbReference.orderBy(ORDER_BY_FIELD)
-                .limit(pagination.pageSize.toLong())
-                .get().addOnSuccessListener { result ->
-                    val ads = mutableListOf<Ad>()
-                    for (document in result) {
-                        val ad = document.toObject(Ad::class.java)
-                        ads.add(ad)
-                    }
-                    res.data = ads
-                    resultObserver.value = res
-                }.addOnFailureListener { exception ->
-                    res.exception = exception
-                    resultObserver.value = res
+        if (lastAdUid.isNullOrEmpty()) {
+            try {
+                val result = adDbReference.orderBy(ORDER_BY_FIELD)
+                    .limit(pageSize.toLong())
+                    .get().await()
+                val ads = mutableListOf<Ad>()
+                for (document in result) {
+                    val ad = document.toObject(Ad::class.java)
+                    ads.add(ad)
                 }
+                res.setData(ads)
+            } catch (e: Exception) {
+                res.setException(e)
+            }
         } else {
-            adDbReference.whereEqualTo(UID_FIELD, pagination.lastUid).get().addOnSuccessListener {
-                adDbReference.orderBy(ORDER_BY_FIELD)
-                    .startAfter(it.documents[0])
-                    .limit(pagination.pageSize.toLong()).get().addOnSuccessListener { result ->
-                        val ads = mutableListOf<Ad>()
-                        for (document in result) {
-                            val ad = document.toObject(Ad::class.java)
-                            ads.add(ad)
-                        }
-                        res.data = ads
-                        resultObserver.value = res
-                    }.addOnFailureListener { exception ->
-                        res.exception = exception
-                        resultObserver.value = res
-                    }
+            try {
+                val lastDocResult =
+                    adDbReference.whereEqualTo(UID_FIELD, lastAdUid).get().await()
+                val result = adDbReference.orderBy(ORDER_BY_FIELD)
+                    .startAfter(lastDocResult.documents[0])
+                    .limit(pageSize.toLong()).get().await()
+                val ads = mutableListOf<Ad>()
+                for (document in result) {
+                    val ad = document.toObject(Ad::class.java)
+                    ads.add(ad)
+                }
+                res.setData(ads)
+            } catch (e: Exception) {
+                res.setException(e)
             }
         }
-        return resultObserver
+        return res
     }
 
     override fun searchAds(

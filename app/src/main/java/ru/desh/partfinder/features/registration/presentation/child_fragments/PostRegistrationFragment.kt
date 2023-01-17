@@ -13,7 +13,7 @@ import ru.desh.partfinder.databinding.FragmentPostRegistrationBinding
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
 import javax.inject.Inject
 
-class PostRegistrationViewModel(
+class PostRegistrationViewModel @Inject constructor(
     @AppNavigation private val router: Router
 ) : ViewModel() {
     fun toAuth() = router.navigateTo(Auth())

@@ -1,6 +1,5 @@
 package ru.desh.partfinder.features.ads.presentation
 
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +11,6 @@ import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.domain.model.Ad
 import ru.desh.partfinder.core.domain.model.AdCategory
 import ru.desh.partfinder.core.domain.model.BusinessArticle
-import ru.desh.partfinder.core.domain.model.search.AdsPagination
 import ru.desh.partfinder.core.domain.model.search.Pagination
 import ru.desh.partfinder.core.domain.repository.AdRepository
 import ru.desh.partfinder.core.domain.repository.AuthRepository
@@ -45,42 +43,39 @@ class HomePageViewModel @Inject constructor(
         if (authRepository.getCurrentAccount()?.displayName.isNullOrEmpty()) "UserName" else
             authRepository.getCurrentAccount()?.displayName!!
 
-    fun requestRecommendedAdsNextPage(
-        owner: LifecycleOwner,
-        onFailureListener: (Exception) -> Unit = {}
-    ) {
+    suspend fun requestRecommendedAdsNextPage() {
         val lastUid = if (_state.value?.recommendedAds?.size!! > 0)
             _state.value!!.recommendedAds.last().uid else null
 
-        adRepository.getRecommendedAds(
-            AdsPagination(
-                Pagination.DEFAULT_PAGE_SIZE, ++recommendedAdsCurrentPage,
-                lastUid
+        val result = adRepository.getRecommendedAds(
+            Pagination.DEFAULT_PAGE_SIZE, ++recommendedAdsCurrentPage,
+            lastUid
+        )
+        if (!result.isException) {
+            val currentList = state.value?.recommendedAds.orEmpty()
+            val newList = currentList + (result.data as List<Ad>).subtract(currentList)
+            _state.value = state.value!!.copy(
+                recommendedAds = newList
             )
-        ).observe(owner) { result ->
-            if (!result.isException) {
-                val currentList = state.value?.recommendedAds.orEmpty()
-                val newList = currentList + (result.data as List<Ad>).subtract(currentList)
-                _state.value = state.value!!.copy(
-                    recommendedAds = newList
-                )
-            } else {
-                onFailureListener(result.exception!!)
-            }
+        } else {
+            //onFailureListener(exception)
         }
     }
 
     suspend fun requestBusinessNewsNextPage() {
-        //viewModelScope.launch {
-            val articles = businessNewsRepository.getLatestBusinessNews(
-                Pagination(Pagination.DEFAULT_PAGE_SIZE, ++newsCurrentPage)
-            )
+        val result = businessNewsRepository.getLatestBusinessNews(
+            Pagination.DEFAULT_PAGE_SIZE, ++newsCurrentPage
+        )
+
+        if (!result.isException) {
             val currentList = state.value?.businessArticles.orEmpty()
-            val newList = currentList + articles
+            val newList = currentList + result.data!!
             _state.value = state.value!!.copy(
                 businessArticles = newList
             )
-        //}
+        } else {
+            // onFailureListener(exception)
+        }
     }
 }
 

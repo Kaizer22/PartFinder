@@ -30,5 +30,4 @@ class AuthViewModel @Inject constructor(
         Log.d("TAG", "$email $password")
         return authRepository.signInWithEmailAndPassword(email, password)
     }
-
 }
