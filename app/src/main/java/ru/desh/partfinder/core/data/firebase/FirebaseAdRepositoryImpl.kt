@@ -1,7 +1,5 @@
 package ru.desh.partfinder.core.data.firebase
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.tasks.await
 import ru.desh.partfinder.core.di.module.AdDbReference
@@ -63,24 +61,25 @@ class FirebaseAdRepositoryImpl @Inject constructor(
         return res
     }
 
-    override fun searchAds(
+    override suspend fun searchAds(
         adsFilter: AdsFilter,
         pagination: AdsPagination
-    ): LiveData<DataOrErrorResult<List<Ad>?, Exception?>> {
+    ): DataOrErrorResult<List<Ad>?, Exception?> {
         TODO("Not yet implemented")
     }
 
-    override fun createAd(ad: Ad): LiveData<DataOrErrorResult<Boolean?, Exception?>> {
-        val resultObserver = MutableLiveData<DataOrErrorResult<Boolean?, Exception?>>()
-        adDbReference.document(ad.uid).set(ad).addOnSuccessListener {
-            resultObserver.value = DataOrErrorResult(true, null)
-        }.addOnFailureListener {
-            resultObserver.value = DataOrErrorResult(false, it)
+    override suspend fun createAd(ad: Ad): DataOrErrorResult<Boolean, Exception?> {
+        val res = DataOrErrorResult<Boolean, Exception?>()
+        try {
+            adDbReference.document(ad.uid).set(ad).await()
+            res.setData(true)
+        } catch (e: Exception) {
+            res.setException(e)
         }
-        return resultObserver
+        return res
     }
 
-    override fun deleteAd(adUid: String): LiveData<DataOrErrorResult<Boolean?, Exception?>> {
+    override suspend fun deleteAd(adUid: String): DataOrErrorResult<Boolean, Exception?> {
         TODO("Not yet implemented")
     }
 
@@ -88,7 +87,7 @@ class FirebaseAdRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getCachedAds(): LiveData<DataOrErrorResult<List<Ad>?, Exception?>> {
+    override suspend fun getCachedAds(): DataOrErrorResult<List<Ad>?, Exception?> {
         TODO("Not yet implemented")
     }
 }

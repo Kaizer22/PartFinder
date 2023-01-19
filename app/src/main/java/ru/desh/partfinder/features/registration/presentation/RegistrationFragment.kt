@@ -77,7 +77,7 @@ class RegistrationFragment : Fragment() {
                                 RegistrationConfirmationFragment.PHONE_NUMBER_ARGUMENT,
                                 regState.phoneNumber
                             )
-                            viewModel.toPhoneConfirmation()
+                            viewModel.toPhoneConfirmation(args)
                             binding.registrationSteppedProgressBar.nextStep()
                         }
                         is RegistrationState.EmailInputFinished -> {

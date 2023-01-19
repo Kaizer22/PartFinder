@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
+import kotlinx.coroutines.tasks.await
 import ru.desh.partfinder.core.domain.model.Account
 import ru.desh.partfinder.core.domain.repository.AuthRepository
 import ru.desh.partfinder.core.utils.DataOrErrorResult
@@ -26,57 +27,49 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         return currentUser?.copy()
     }
 
-    override fun createAccountWithEmailAndPassword(
+    override suspend fun createAccountWithEmailAndPassword(
         email: String,
         password: String
-    ): LiveData<DataOrErrorResult<Boolean, Exception?>> {
-        val dataOrException = MutableLiveData<DataOrErrorResult<Boolean, Exception?>>()
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            val res = DataOrErrorResult<Boolean, Exception?>()
-            if (task.isSuccessful) {
-                currentUser = getUser(auth.currentUser)
-                res.setData(true)
-            } else {
-                res.setException(task.exception)
-            }
-            dataOrException.value = res
+    ): DataOrErrorResult<Boolean, Exception?> {
+        val res = DataOrErrorResult<Boolean, Exception?>()
+        try {
+            auth.createUserWithEmailAndPassword(email, password).await()
+            currentUser = getUser(auth.currentUser)
+            res.setData(true)
+        } catch (e: Exception) {
+            res.setException(e)
         }
-        return dataOrException
+        return res
     }
 
-    override fun sendVerificationEmail(): LiveData<DataOrErrorResult<Boolean, Exception?>> {
+    override suspend fun sendVerificationEmail(): DataOrErrorResult<Boolean, Exception?> {
         val user = auth.currentUser
-        val dataOrException = MutableLiveData<DataOrErrorResult<Boolean, Exception?>>()
-        user?.sendEmailVerification()?.addOnCompleteListener { task ->
-            val res = DataOrErrorResult<Boolean, Exception?>()
-            if (task.isSuccessful) {
-                res.setData(true)
-            } else {
-                res.setException(task.exception)
-            }
+        val res = DataOrErrorResult<Boolean, Exception?>()
+        try {
+            user?.sendEmailVerification()?.await()
+            res.setData(true)
+        } catch (e: Exception) {
+            res.setException(e)
         }
-        return dataOrException
+        return res
     }
 
-    override fun sendPasswordResetEmail(email: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
-        val dataOrException = MutableLiveData<DataOrErrorResult<Boolean, Exception?>>()
-        auth.sendPasswordResetEmail(email).addOnCompleteListener { result ->
-            val res = DataOrErrorResult<Boolean, Exception?>()
-            if (result.isSuccessful) {
-                res.setData(true)
-            } else {
-                res.setException(result.exception)
-            }
-            dataOrException.value = res
+    override suspend fun sendPasswordResetEmail(email: String): DataOrErrorResult<Boolean, Exception?> {
+        val res = DataOrErrorResult<Boolean, Exception?>()
+        try {
+            auth.sendPasswordResetEmail(email).await()
+            res.setData(true)
+        } catch (e: Exception) {
+            res.setException(e)
         }
-        return dataOrException
+        return res
     }
 
-    override fun createAccountWithGoogleAccount(): LiveData<DataOrErrorResult<Boolean, Exception?>> {
+    override suspend fun createAccountWithGoogleAccount(): DataOrErrorResult<Boolean, Exception?> {
         TODO("Not yet implemented")
     }
 
-    override fun createAccountWithPhone(phoneNumber: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
+    override suspend fun createAccountWithPhone(phoneNumber: String): DataOrErrorResult<Boolean, Exception?> {
         TODO("Not yet implemented")
     }
 
@@ -125,43 +118,37 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         return dataOrException
     }
 
-    override fun verifyCode(code: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
-        val dataOrException = MutableLiveData<DataOrErrorResult<Boolean, Exception?>>()
+    override suspend fun verifyCode(code: String): DataOrErrorResult<Boolean, Exception?> {
         val credential = PhoneAuthProvider.getCredential(verificationId, code)
-        auth.signInWithCredential(credential).addOnCompleteListener { result ->
-            val res = DataOrErrorResult<Boolean, Exception?>()
-            if (result.isSuccessful) {
-                currentUser = getUser(auth.currentUser)
-                res.setData(true)
-            } else {
-                res.setException(result.exception)
-            }
-            dataOrException.value = res
+        val res = DataOrErrorResult<Boolean, Exception?>()
+        try {
+            auth.signInWithCredential(credential).await()
+            currentUser = getUser(auth.currentUser)
+            res.setData(true)
+        } catch (e: Exception) {
+            res.setException(e)
         }
         verificationId = ""
-        return dataOrException
+        return res
     }
 
-    override fun signInWithGoogle(): LiveData<DataOrErrorResult<Account?, Exception?>> {
+    override suspend fun signInWithGoogle(): DataOrErrorResult<Account?, Exception?> {
         TODO("Not yet implemented")
     }
 
-    override fun signInWithEmailAndPassword(
+    override suspend fun signInWithEmailAndPassword(
         email: String,
         password: String
-    ): LiveData<DataOrErrorResult<Boolean, Exception?>> {
-        val dataOrException = MutableLiveData<DataOrErrorResult<Boolean, Exception?>>()
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            val res = DataOrErrorResult<Boolean, Exception?>()
-            if (task.isSuccessful) {
-                currentUser = getUser(auth.currentUser)
-                res.setData(true)
-            } else {
-                res.setException(task.exception)
-            }
-            dataOrException.value = res
+    ): DataOrErrorResult<Boolean, Exception?> {
+        val res = DataOrErrorResult<Boolean, Exception?>()
+        try {
+            auth.signInWithEmailAndPassword(email, password).await()
+            currentUser = getUser(auth.currentUser)
+            res.setData(true)
+        } catch (e: Exception) {
+            res.setException(e)
         }
-        return dataOrException
+        return res
     }
 
     private fun getUser(currentUser: FirebaseUser?): Account? {

@@ -74,7 +74,7 @@ class HomePageViewModelTest {
         // Then
         Assertions.assertEquals(
             pageSize,
-            homePageViewModel.state.value?.businessArticles?.size ?: -1
+            homePageViewModel.homePageState.value?.businessArticles?.size ?: -1
         )
     }
 
@@ -105,7 +105,7 @@ class HomePageViewModelTest {
         }
 
         // Then
-        Assertions.assertEquals(pageSize, homePageViewModel.state.value?.recommendedAds?.size ?: -1)
+        Assertions.assertEquals(pageSize, homePageViewModel.homePageState.value?.recommendedAds?.size ?: -1)
     }
 
     @Test
@@ -132,7 +132,7 @@ class HomePageViewModelTest {
         }
 
         // Then
-        Assertions.assertEquals(0, homePageViewModel.state.value?.businessArticles?.size ?: -1)
+        Assertions.assertEquals(0, homePageViewModel.homePageState.value?.businessArticles?.size ?: -1)
     }
 
     @Test
@@ -161,6 +161,6 @@ class HomePageViewModelTest {
         }
 
         // Then
-        Assertions.assertEquals(0, homePageViewModel.state.value?.recommendedAds?.size ?: -1)
+        Assertions.assertEquals(0, homePageViewModel.homePageState.value?.recommendedAds?.size ?: -1)
     }
 }

@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import ru.desh.partfinder.R
 import ru.desh.partfinder.core.domain.repository.AuthRepository
 import ru.desh.partfinder.core.ui.SnackbarBuilder
@@ -24,6 +27,17 @@ class RegistrationConfirmationViewModel @Inject constructor(
     private val registrationState: MutableStateFlow<RegistrationState>,
     private val authRepository: AuthRepository
 ) : ViewModel() {
+
+    data class RegistrationConfirmationState(
+        val isOtpConfirmed: Boolean = false,
+        val isOtpConfirmationFailed: Boolean = false,
+        val error: Exception? = null
+    )
+
+    private val _registrationConfirmationState = MutableLiveData(RegistrationConfirmationState())
+    val registrationConfirmationState: LiveData<RegistrationConfirmationState> =
+        _registrationConfirmationState
+
     fun notifyDataConfirmed() {
         registrationState.value = RegistrationState.DataConfirmed
     }
@@ -32,8 +46,21 @@ class RegistrationConfirmationViewModel @Inject constructor(
         return authRepository.sendVerificationCode(phoneNumber)
     }
 
-    fun signInWithCode(code: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
-        return authRepository.verifyCode(code)
+    fun signInWithCode(code: String) {
+        viewModelScope.launch {
+            val res = authRepository.verifyCode(code)
+            if (!res.isException) {
+                _registrationConfirmationState.value = _registrationConfirmationState.value?.copy(
+                    isOtpConfirmed = true
+                )
+                this@RegistrationConfirmationViewModel.notifyDataConfirmed()
+            } else {
+                _registrationConfirmationState.value = _registrationConfirmationState.value?.copy(
+                    isOtpConfirmationFailed = true,
+                    error = res.exception
+                )
+            }
+        }
     }
 }
 
@@ -67,12 +94,17 @@ class RegistrationConfirmationFragment(
         return binding.root
     }
 
+    private lateinit var dangerMessage: SnackbarBuilder
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
+            dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.DANGER)
                 .setTitle(getString(R.string.message_title_code_doesnt_send))
+
+            viewModel.registrationConfirmationState.observe(viewLifecycleOwner) { newState ->
+                updateUiState(newState)
+            }
             when (registrationType) {
                 RegistrationFragment.RegistrationType.PHONE -> {
                     val phoneNumber = arguments?.getString(PHONE_NUMBER_ARGUMENT) ?: ""
@@ -125,15 +157,15 @@ class RegistrationConfirmationFragment(
 
             }
             registrationConfirmationButtonConfirmOtp.setOnClickListener {
-                viewModel.signInWithCode(otp).observe(viewLifecycleOwner) { result ->
-                    if (!result.isException) {
-                        viewModel.notifyDataConfirmed()
-                    } else {
-                        dangerMessage.setTitle(getString(R.string.message_title_wrong_code))
-                            .setText(result.exception?.message ?: "").show()
-                    }
-                }
+                viewModel.signInWithCode(otp)
             }
+        }
+    }
+
+    private fun updateUiState(newState: RegistrationConfirmationViewModel.RegistrationConfirmationState) {
+        if (newState.isOtpConfirmationFailed) {
+            dangerMessage.setTitle(getString(R.string.message_title_wrong_code))
+                .setText(newState.error?.message ?: "").show()
         }
     }
 

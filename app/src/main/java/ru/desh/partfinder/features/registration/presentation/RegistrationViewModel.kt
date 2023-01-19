@@ -1,5 +1,6 @@
 package ru.desh.partfinder.features.registration.presentation
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
@@ -31,15 +32,17 @@ class RegistrationViewModel @Inject constructor(
             Registration_Data(registrationType)
         )
 
-    fun toPhoneConfirmation() = innerRouter.navigateTo(
+    fun toPhoneConfirmation(args: Bundle) = innerRouter.navigateTo(
         Registration_Confirmation(
-            RegistrationFragment.RegistrationType.PHONE
+            RegistrationFragment.RegistrationType.PHONE,
+            args
         )
     )
 
     fun toEmailConfirmation() = innerRouter.navigateTo(
         Registration_Confirmation(
-            RegistrationFragment.RegistrationType.EMAIL
+            RegistrationFragment.RegistrationType.EMAIL,
+            null
         )
     )
 

@@ -27,12 +27,16 @@ class HomePageViewModel @Inject constructor(
     private var newsCurrentPage = 0
     private var recommendedAdsCurrentPage = 0
 
-    val state: LiveData<HomePageState> get() = _state
-    private val _state = MutableLiveData<HomePageState>()
+    data class HomePageState(
+        val isLoadingArticles: Boolean = true,
+        val isLoadingAds: Boolean = true,
+        val businessArticles: List<BusinessArticle> = emptyList(),
+        val recommendedAds: List<Ad> = emptyList()
+    )
 
-    init {
-        _state.value = HomePageState()
-    }
+    private val _homePageState = MutableLiveData(HomePageState())
+    val homePageState: LiveData<HomePageState> = _homePageState
+
 
     fun toAdCategorySearch(adCategory: AdCategory) = router.navigateTo(CategorySearch(adCategory))
     fun toAdDetails(ad: Ad) = router.navigateTo(AdDetails(ad))
@@ -44,21 +48,21 @@ class HomePageViewModel @Inject constructor(
             authRepository.getCurrentAccount()?.displayName!!
 
     suspend fun requestRecommendedAdsNextPage() {
-        val lastUid = if (_state.value?.recommendedAds?.size!! > 0)
-            _state.value!!.recommendedAds.last().uid else null
+        val lastUid = if (_homePageState.value?.recommendedAds?.size!! > 0)
+            _homePageState.value!!.recommendedAds.last().uid else null
 
         val result = adRepository.getRecommendedAds(
             Pagination.DEFAULT_PAGE_SIZE, ++recommendedAdsCurrentPage,
             lastUid
         )
         if (!result.isException) {
-            val currentList = state.value?.recommendedAds.orEmpty()
+            val currentList = homePageState.value?.recommendedAds.orEmpty()
             val newList = currentList + (result.data as List<Ad>).subtract(currentList)
-            _state.value = state.value!!.copy(
+            _homePageState.value = homePageState.value!!.copy(
                 recommendedAds = newList
             )
         } else {
-            //onFailureListener(exception)
+            // TODO failure handler
         }
     }
 
@@ -68,20 +72,15 @@ class HomePageViewModel @Inject constructor(
         )
 
         if (!result.isException) {
-            val currentList = state.value?.businessArticles.orEmpty()
+            val currentList = homePageState.value?.businessArticles.orEmpty()
             val newList = currentList + result.data!!
-            _state.value = state.value!!.copy(
+            _homePageState.value = homePageState.value!!.copy(
                 businessArticles = newList
             )
         } else {
-            // onFailureListener(exception)
+            // TODO failure handler
         }
     }
 }
 
-data class HomePageState(
-    val isLoadingArticles: Boolean = true,
-    val isLoadingAds: Boolean = true,
-    val businessArticles: List<BusinessArticle> = emptyList(),
-    val recommendedAds: List<Ad> = emptyList()
-)
+

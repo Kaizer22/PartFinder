@@ -76,7 +76,7 @@ class HomePageFragment : Fragment() {
                 .setType(SnackbarBuilder.Type.WARNING)
                 .setTitle(getString(R.string.message_title_error))
                 .setText(getString(R.string.message_text_cannot_load_rec_ads))
-        viewModel.state.observe(viewLifecycleOwner) {
+        viewModel.homePageState.observe(viewLifecycleOwner) {
             updateUiState(it, adsAdapter, businessArticlesAdapter)
         }
         lifecycleScope.launchWhenCreated {
@@ -178,7 +178,7 @@ class HomePageFragment : Fragment() {
     }
 
     private fun updateUiState(
-        state: HomePageState,
+        state: HomePageViewModel.HomePageState,
         adsAdapter: AdsAdapter, businessArticleAdapter: BusinessArticleAdapter
     ) {
         adsAdapter.submitList(state.recommendedAds)

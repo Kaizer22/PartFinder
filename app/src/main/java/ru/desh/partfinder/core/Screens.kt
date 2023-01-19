@@ -2,6 +2,7 @@ package ru.desh.partfinder.core
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import ru.desh.partfinder.core.domain.model.Ad
@@ -95,9 +96,14 @@ object Screens {
         }
 
     fun Registration_Confirmation(
-        registrationState: RegistrationFragment.RegistrationType
-    ) = FragmentScreen {
-        RegistrationConfirmationFragment(registrationState)
+        registrationState: RegistrationFragment.RegistrationType,
+        args: Bundle?
+    ): FragmentScreen {
+        val registrationConfirmationFragment = RegistrationConfirmationFragment(registrationState)
+        registrationConfirmationFragment.arguments = args
+        return FragmentScreen {
+            registrationConfirmationFragment
+        }
     }
 
     fun Post_Registration() = FragmentScreen {
