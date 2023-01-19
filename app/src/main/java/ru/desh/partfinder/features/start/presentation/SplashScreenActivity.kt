@@ -17,14 +17,16 @@ import ru.desh.partfinder.core.di.module.AppNavigation
 import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
-class SplashScreenActivity: AppCompatActivity() {
+class SplashScreenActivity : AppCompatActivity() {
 
     @Inject
     @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder
+
     @Inject
     @AppNavigation
     lateinit var router: Router
+
     @Inject
     lateinit var propertiesRepository: PropertiesRepository
 

@@ -6,47 +6,64 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.terrakok.cicerone.NavigatorHolder
-import com.github.terrakok.cicerone.Router
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import ru.desh.partfinder.R
-import ru.desh.partfinder.core.di.module.RegistrationNavigation
 import ru.desh.partfinder.core.domain.model.User
 import ru.desh.partfinder.core.domain.repository.UserRepository
 import ru.desh.partfinder.core.ui.SnackbarBuilder
-import ru.desh.partfinder.core.utils.DataOrErrorResult
 import ru.desh.partfinder.databinding.FragmentRegistrationNameFormBinding
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
 import ru.desh.partfinder.features.registration.presentation.RegistrationState
-import java.util.UUID
+import java.util.*
 import javax.inject.Inject
 
 class RegistrationNameViewModel @Inject constructor(
     private val registrationState: MutableStateFlow<RegistrationState>,
     private val userRepository: UserRepository
-): ViewModel() {
-    fun createUser(name: String, surname: String, thirdName: String)
-    : LiveData<DataOrErrorResult<Boolean, Exception>>{
-        val user = User(UUID.randomUUID().toString(),
-        "",
-        name, surname, thirdName, "", emptyList()
+) : ViewModel() {
+
+    data class RegistrationNameState(
+        val isUserCreated: Boolean = false,
+        val isUserCreationFailed: Boolean = false,
+        val error: Exception? = null
+    )
+
+    private val _registrationNameState = MutableLiveData(RegistrationNameState())
+    val registrationNameState: LiveData<RegistrationNameState> = _registrationNameState
+
+    fun createUser(name: String, surname: String, thirdName: String) {
+        val user = User(
+            UUID.randomUUID().toString(),
+            "",
+            name, surname, thirdName, "", emptyList()
         )
-        return userRepository.createUser(user)
+        viewModelScope.launch {
+            val res = userRepository.createUser(user)
+            if (!res.isException) {
+                _registrationNameState.value = _registrationNameState.value?.copy(
+                    isUserCreated = true
+                )
+                this@RegistrationNameViewModel.notifyUserCreated()
+            } else {
+                _registrationNameState.value = _registrationNameState.value?.copy(
+                    isUserCreationFailed = true,
+                    error = res.exception
+                )
+            }
+        }
     }
-    fun notifyUserCreated() {
+
+    private fun notifyUserCreated() {
         registrationState.value = RegistrationState.RegistrationFinished
     }
 }
 
-class RegistrationNameFragment: Fragment(){
-    @Inject
-    @RegistrationNavigation
-    lateinit var router: Router
-    @Inject
-    @RegistrationNavigation
-    lateinit var navigatorHolder: NavigatorHolder
+class RegistrationNameFragment : Fragment() {
     @Inject
     lateinit var viewModel: RegistrationNameViewModel
 
@@ -67,33 +84,39 @@ class RegistrationNameFragment: Fragment(){
         return binding.root
     }
 
+    private lateinit var dangerMessage: SnackbarBuilder
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             val warningMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.WARNING)
                 .setTitle(getString(R.string.message_title_wrong_input))
-            val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
+            dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.DANGER)
                 .setTitle(getString(R.string.message_title_error))
+
+            viewModel.registrationNameState.observe(viewLifecycleOwner) { newState ->
+                updateUiState(newState)
+            }
+
             nameFormButtonSend.setOnClickListener {
                 val name = nameFormNameInput.text.toString()
                 val surname = nameFormSurnameInput.text.toString()
                 val thirdName = nameFormThirdNameInput.text.toString()
                 if (isValidInput(name, surname, thirdName)) {
-                    viewModel.createUser(name, surname, thirdName).observe(viewLifecycleOwner) { result ->
-                        if (!result.isException) {
-                            viewModel.notifyUserCreated()
-                        } else {
-                            dangerMessage.setText(result.exception.toString())
-                                .show()
-                        }
-                    }
+                    viewModel.createUser(name, surname, thirdName)
                 } else {
                     warningMessage.setText(getString(R.string.message_text_invalid_name))
                         .show()
                 }
             }
+        }
+    }
+
+    private fun updateUiState(newState: RegistrationNameViewModel.RegistrationNameState) {
+        if (newState.isUserCreationFailed) {
+            dangerMessage.setText(newState.error?.message ?: "")
+            .show()
         }
     }
 

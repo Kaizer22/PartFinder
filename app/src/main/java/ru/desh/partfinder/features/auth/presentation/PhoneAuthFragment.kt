@@ -6,26 +6,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.github.terrakok.cicerone.NavigatorHolder
+import androidx.lifecycle.ViewModel
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
 import ru.desh.partfinder.R
-import ru.desh.partfinder.core.Screens
 import ru.desh.partfinder.core.Screens.CodeEnter
+import ru.desh.partfinder.core.Screens.Registration
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.ui.SnackbarBuilder
 import ru.desh.partfinder.databinding.FragmentPhoneAuthBinding
 import javax.inject.Inject
 
+class PhoneAuthViewModel @Inject constructor(
+    @AppNavigation private val router: Router
+) : ViewModel() {
+    fun back() = router.exit()
+    fun toRegistration() = router.navigateTo(Registration())
+    fun toCodeEnter(phoneNumber: String) = router.navigateTo(CodeEnter(phoneNumber))
+}
+
 // TODO unify with RegistrationDataFragment and reuse
-class PhoneAuthFragment: Fragment() {
+class PhoneAuthFragment : Fragment() {
     @Inject
-    @AppNavigation
-    lateinit var router: Router
-    @Inject
-    @AppNavigation
-    lateinit var navigatorHolder: NavigatorHolder
+    lateinit var viewModel: PhoneAuthViewModel
 
     private lateinit var binding: FragmentPhoneAuthBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,21 +50,22 @@ class PhoneAuthFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             val warningMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
-                .setType(SnackbarBuilder.Type.WARNING).setTitle(getString(R.string.message_title_wrong_input))
+                .setType(SnackbarBuilder.Type.WARNING)
+                .setTitle(getString(R.string.message_title_wrong_input))
             phoneAuthButtonSend.setOnClickListener {
                 val phoneNumber = phoneAuthInput.editText?.text.toString()
                 if (isValidPhoneNumber(phoneNumber)) {
-                    router.navigateTo(CodeEnter(phoneNumber))
+                    viewModel.toCodeEnter(phoneNumber)
                 } else {
                     warningMessage.setText(getString(R.string.message_text_wrong_phone_number))
                         .show()
                 }
             }
             phoneAuthButtonBack.setOnClickListener {
-                router.exit()
+                viewModel.back()
             }
             hintRegisterBlock.authButtonToRegister.setOnClickListener {
-                router.navigateTo(Screens.Registration())
+                viewModel.toRegistration()
             }
         }
     }

@@ -14,13 +14,11 @@ import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doOnTextChanged
 import com.google.android.material.card.MaterialCardView
 import ru.desh.library.R
 
 // TODO show last input digit in hidden mode
-open class OtpInputView: LinearLayout {
+open class OtpInputView : LinearLayout {
     internal enum class OptInputType(val type: Int) {
         NUMBER(1),
         NUMBER_HIDDEN(2)
@@ -53,6 +51,7 @@ open class OtpInputView: LinearLayout {
             it.text.toString()
         }
     }
+
     fun setText(value: String) {
         if (value.length == digitsCount) {
             mOtpText = value
@@ -76,22 +75,23 @@ open class OtpInputView: LinearLayout {
             return sum == mListOfDigits.size
         }
 
-    constructor(context: Context): super(context) {
+    constructor(context: Context) : super(context) {
         init(context, null)
     }
 
-    constructor(context: Context, attrs: AttributeSet?): super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         init(context, attrs)
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int): super(
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context, attrs, defStyleAttr
-            ) {
+    ) {
         init(context, attrs)
     }
 
     private var onChanged: (inputComplete: Boolean, otpText: String) -> Unit =
-        {_,_ ->}
+        { _, _ -> }
+
     private fun init(context: Context, attrs: AttributeSet?) {
         inflate(context, R.layout.custom_otp_input, this)
         if (attrs != null) {
@@ -103,7 +103,8 @@ open class OtpInputView: LinearLayout {
         }
 
         for (i in 0 until digitsCount) {
-            val digitView = inflate(context, R.layout.custom_otp_input_digit_field, null) as MaterialCardView
+            val digitView =
+                inflate(context, R.layout.custom_otp_input_digit_field, null) as MaterialCardView
             digitView.radius = cornerRadius.toFloat()
 
             val editText = digitView.getChildAt(0) as EditText
@@ -154,12 +155,12 @@ open class OtpInputView: LinearLayout {
                 return@setOnKeyListener false
             }
 
-            if(borderColor!= -1) {
+            if (borderColor != -1) {
                 digitView.strokeColor = borderColor
                 digitView.strokeWidth = borderWidth
             }
 
-            if(hintColor != -1) {
+            if (hintColor != -1) {
                 editText.setHintTextColor(hintColor)
             }
 

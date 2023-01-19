@@ -11,7 +11,7 @@ import ru.desh.partfinder.features.BottomNavigationActivity
 
 class AdDetailsFragment(
     private val data: Ad
-): Fragment() {
+) : Fragment() {
 
     private lateinit var binding: FragmentAdDetailsBinding
 

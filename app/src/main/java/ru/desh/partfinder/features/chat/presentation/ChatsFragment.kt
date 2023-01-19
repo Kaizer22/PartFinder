@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import ru.desh.partfinder.databinding.FragmentChatsBinding
 import ru.desh.partfinder.features.BottomNavigationActivity
 
-class ChatsFragment: Fragment() {
+class ChatsFragment : Fragment() {
     private lateinit var binding: FragmentChatsBinding
     override fun onCreateView(
         inflater: LayoutInflater,

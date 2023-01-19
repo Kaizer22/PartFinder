@@ -5,12 +5,13 @@ sealed class RegistrationState {
 
     data class RegistrationMethodSelected(
         val registrationType: RegistrationFragment.RegistrationType
-        ): RegistrationState()
+    ) : RegistrationState()
 
     data class PhoneInputFinished(
         val phoneNumber: String
     ) : RegistrationState()
+
     object EmailInputFinished : RegistrationState()
-    object DataConfirmed: RegistrationState()
-    object RegistrationFinished: RegistrationState()
+    object DataConfirmed : RegistrationState()
+    object RegistrationFinished : RegistrationState()
 }

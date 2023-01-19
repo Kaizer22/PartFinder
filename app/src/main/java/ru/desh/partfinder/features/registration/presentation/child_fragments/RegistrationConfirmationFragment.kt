@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import ru.desh.partfinder.R
 import ru.desh.partfinder.core.domain.repository.AuthRepository
 import ru.desh.partfinder.core.ui.SnackbarBuilder
@@ -23,22 +26,51 @@ import javax.inject.Inject
 class RegistrationConfirmationViewModel @Inject constructor(
     private val registrationState: MutableStateFlow<RegistrationState>,
     private val authRepository: AuthRepository
-): ViewModel() {
-    fun notifyDataConfirmed(){
+) : ViewModel() {
+
+    data class RegistrationConfirmationState(
+        val isOtpConfirmed: Boolean = false,
+        val isOtpConfirmationFailed: Boolean = false,
+        val error: Exception? = null
+    )
+
+    private val _registrationConfirmationState = MutableLiveData(RegistrationConfirmationState())
+    val registrationConfirmationState: LiveData<RegistrationConfirmationState> =
+        _registrationConfirmationState
+
+    fun notifyDataConfirmed() {
         registrationState.value = RegistrationState.DataConfirmed
     }
+
     fun sendVerificationCode(phoneNumber: String): LiveData<DataOrErrorResult<String, Exception?>> {
         return authRepository.sendVerificationCode(phoneNumber)
     }
-    fun signInWithCode(code: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
-        return authRepository.verifyCode(code)
+
+    fun signInWithCode(code: String) {
+        viewModelScope.launch {
+            val res = authRepository.verifyCode(code)
+            if (!res.isException) {
+                _registrationConfirmationState.value = _registrationConfirmationState.value?.copy(
+                    isOtpConfirmed = true
+                )
+                this@RegistrationConfirmationViewModel.notifyDataConfirmed()
+            } else {
+                _registrationConfirmationState.value = _registrationConfirmationState.value?.copy(
+                    isOtpConfirmationFailed = true,
+                    error = res.exception
+                )
+            }
+        }
     }
 }
 
 class RegistrationConfirmationFragment(
     private val registrationType: RegistrationFragment.RegistrationType,
-    private val phoneNumber: String
-): Fragment() {
+) : Fragment() {
+    companion object {
+        const val PHONE_NUMBER_ARGUMENT = "phone_number"
+    }
+
     @Inject
     lateinit var viewModel: RegistrationConfirmationViewModel
 
@@ -57,20 +89,30 @@ class RegistrationConfirmationFragment(
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegistrationConfirmationBinding
-            .inflate(inflater,container,false)
+            .inflate(inflater, container, false)
+
         return binding.root
     }
 
+    private lateinit var dangerMessage: SnackbarBuilder
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
+            dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.DANGER)
                 .setTitle(getString(R.string.message_title_code_doesnt_send))
+
+            viewModel.registrationConfirmationState.observe(viewLifecycleOwner) { newState ->
+                updateUiState(newState)
+            }
             when (registrationType) {
                 RegistrationFragment.RegistrationType.PHONE -> {
-                    registrationConfirmationTitle.text = getString(R.string.registration_phone_title)
-                    registrationConfirmationInfo.text = getString(R.string.registration_confirmation_phone_info)
+                    val phoneNumber = arguments?.getString(PHONE_NUMBER_ARGUMENT) ?: ""
+
+                    registrationConfirmationTitle.text =
+                        getString(R.string.registration_phone_title)
+                    registrationConfirmationInfo.text =
+                        getString(R.string.registration_confirmation_phone_info)
                     registrationConfirmationOtpInput.visibility = View.VISIBLE
                     registrationConfirmationButtonRepeatOtp.visibility = View.VISIBLE
                     registrationConfirmationButtonConfirmOtp.visibility = View.VISIBLE
@@ -81,25 +123,28 @@ class RegistrationConfirmationFragment(
                             activateConfirmationButton()
                         }
                     }
-                    viewModel.sendVerificationCode(phoneNumber).observe(viewLifecycleOwner){
-                        result -> if (!result.isException) {
-                            result.data?.let {
-                                otp = it
-                                if (otp.length == registrationConfirmationOtpInput.digitsCount()) {
-                                    registrationConfirmationOtpInput.setText(otp)
-                                    activateConfirmationButton()
+                    viewModel.sendVerificationCode(phoneNumber)
+                        .observe(viewLifecycleOwner) { result ->
+                            if (!result.isException) {
+                                result.data?.let {
+                                    otp = it
+                                    if (otp.length == registrationConfirmationOtpInput.digitsCount()) {
+                                        registrationConfirmationOtpInput.setText(otp)
+                                        activateConfirmationButton()
+                                    }
                                 }
+                            } else {
+                                dangerMessage.setText(result.exception?.message ?: "")
+                                    .show()
                             }
-                        } else {
-                            dangerMessage.setText(result.exception?.message ?: "")
-                                .show()
                         }
-                    }
 
                 }
                 RegistrationFragment.RegistrationType.EMAIL -> {
-                    registrationConfirmationTitle.text = getString(R.string.registration_email_title)
-                    registrationConfirmationInfo.text = getString(R.string.registration_confirmation_email_info)
+                    registrationConfirmationTitle.text =
+                        getString(R.string.registration_email_title)
+                    registrationConfirmationInfo.text =
+                        getString(R.string.registration_confirmation_email_info)
                     registrationConfirmationEmailAnimation.visibility = View.VISIBLE
                     registrationConfirmationButtonEmailNext.visibility = View.VISIBLE
                 }
@@ -112,16 +157,15 @@ class RegistrationConfirmationFragment(
 
             }
             registrationConfirmationButtonConfirmOtp.setOnClickListener {
-                viewModel.signInWithCode(otp).observe(viewLifecycleOwner) {
-                    result ->
-                    if (!result.isException) {
-                        viewModel.notifyDataConfirmed()
-                    } else {
-                        dangerMessage.setTitle(getString(R.string.message_title_wrong_code))
-                            .setText(result.exception?.message ?: "").show()
-                    }
-                }
+                viewModel.signInWithCode(otp)
             }
+        }
+    }
+
+    private fun updateUiState(newState: RegistrationConfirmationViewModel.RegistrationConfirmationState) {
+        if (newState.isOtpConfirmationFailed) {
+            dangerMessage.setTitle(getString(R.string.message_title_wrong_code))
+                .setText(newState.error?.message ?: "").show()
         }
     }
 
@@ -130,12 +174,13 @@ class RegistrationConfirmationFragment(
         val theme = requireActivity().theme.obtainStyledAttributes(
             arrayOf(
                 R.attr.buttonPrimaryColor,
-                R.attr.buttonPrimaryTextColor).toIntArray()
+                R.attr.buttonPrimaryTextColor
+            ).toIntArray()
         )
         binding.apply {
             registrationConfirmationButtonConfirmOtp.apply {
                 isClickable = true
-                backgroundTintList = ColorStateList.valueOf(theme.getColor(0,0))
+                backgroundTintList = ColorStateList.valueOf(theme.getColor(0, 0))
                 setTextColor(theme.getColor(1, 0))
             }
         }

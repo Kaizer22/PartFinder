@@ -11,7 +11,7 @@ import ru.desh.partfinder.core.di.SingleApplicationComponent
 // TODO Unify input validation process
 // TODO Human readable errors in case of exceptions
 
-class PartFinderApplication: Application() {
+class PartFinderApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         // Because app doesn't fully ready to dark/light theming

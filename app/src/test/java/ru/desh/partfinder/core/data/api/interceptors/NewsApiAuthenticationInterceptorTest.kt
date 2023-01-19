@@ -14,13 +14,12 @@ import org.junit.jupiter.api.Assertions
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import ru.desh.library.BuildConfig
 import ru.desh.partfinder.core.data.api.business_news.ApiEndpoints
 import ru.desh.partfinder.core.data.api.business_news.ApiParams
 import ru.desh.partfinder.core.data.api.business_news.ApiUtils
 
 @RunWith(RobolectricTestRunner::class)
-@Config(manifest= Config.NONE, sdk = [Build.VERSION_CODES.P])
+@Config(manifest = Config.NONE, sdk = [Build.VERSION_CODES.P])
 class NewsApiAuthenticationInterceptorTest {
 
     private lateinit var mockWebServer: MockWebServer
@@ -52,18 +51,26 @@ class NewsApiAuthenticationInterceptorTest {
         val request = mockWebServer.takeRequest()
 
         with(request) {
-            Assertions.assertEquals(true, requestUrl?.queryParameterNames
-                ?.contains(ApiParams.API_KEY))
-            Assertions.assertEquals(ApiUtils.QHZV_DSL_NHB,
-                requestUrl?.queryParameter(ApiParams.API_KEY))
+            Assertions.assertEquals(
+                true, requestUrl?.queryParameterNames
+                    ?.contains(ApiParams.API_KEY)
+            )
+            Assertions.assertEquals(
+                ApiUtils.QHZV_DSL_NHB,
+                requestUrl?.queryParameter(ApiParams.API_KEY)
+            )
         }
     }
 
     private fun getNewsAPIDispatcher() = object : Dispatcher() {
         override fun dispatch(request: RecordedRequest): MockResponse {
             return when (request.path) {
-                ApiEndpoints.TOP_HEADLINES_ENDPOINT_V2 -> { MockResponse().setResponseCode(200) }
-                else -> { MockResponse().setResponseCode(404) }
+                ApiEndpoints.TOP_HEADLINES_ENDPOINT_V2 -> {
+                    MockResponse().setResponseCode(200)
+                }
+                else -> {
+                    MockResponse().setResponseCode(404)
+                }
             }
         }
     }

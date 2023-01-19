@@ -6,10 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import com.github.terrakok.cicerone.NavigatorHolder
-import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.flow.MutableStateFlow
-import ru.desh.partfinder.core.di.module.RegistrationNavigation
 import ru.desh.partfinder.databinding.FragmentRegistrationMethodBinding
 import ru.desh.partfinder.features.registration.presentation.RegistrationFragment
 import ru.desh.partfinder.features.registration.presentation.RegistrationState
@@ -17,12 +14,13 @@ import javax.inject.Inject
 
 class RegistrationMethodViewModel @Inject constructor(
     private val registrationState: MutableStateFlow<RegistrationState>
-): ViewModel() {
+) : ViewModel() {
     fun setMethodEmail() {
         registrationState.value = RegistrationState.RegistrationMethodSelected(
             RegistrationFragment.RegistrationType.EMAIL
         )
     }
+
     fun setMethodPhone() {
         registrationState.value = RegistrationState.RegistrationMethodSelected(
             RegistrationFragment.RegistrationType.PHONE
@@ -30,16 +28,9 @@ class RegistrationMethodViewModel @Inject constructor(
     }
 }
 
-class RegistrationMethodFragment: Fragment() {
+class RegistrationMethodFragment : Fragment() {
     @Inject
     lateinit var viewModel: RegistrationMethodViewModel
-
-    @Inject
-    @RegistrationNavigation
-    lateinit var router: Router
-    @Inject
-    @RegistrationNavigation
-    lateinit var navigatorHolder: NavigatorHolder
 
     private lateinit var binding: FragmentRegistrationMethodBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +38,7 @@ class RegistrationMethodFragment: Fragment() {
         (parentFragment as RegistrationFragment).registrationComponent
             .inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     @AppNavigation
     lateinit var router: Router
+
     @Inject
     @AppNavigation
     lateinit var navigatorHolder: NavigatorHolder

@@ -14,21 +14,24 @@ import ru.desh.library.R
 
 //TODO fix text placement
 //TODO add animations
-class SteppedProgressBarView: View {
-    constructor(context: Context): super(context)
-    constructor(context: Context, attributeSet: AttributeSet): super(context, attributeSet){
+class SteppedProgressBarView : View {
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
         initAttributes(attributeSet)
     }
-    constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int):
+
+    constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int) :
             super(context, attributeSet, defStyleAttr) {
-            initAttributes(attributeSet)
-            }
+        initAttributes(attributeSet)
+    }
 
     private fun initAttributes(attributeSet: AttributeSet) {
         val typedArray = context.theme
             .obtainStyledAttributes(attributeSet, R.styleable.SteppedProgressBarView, 0, 0)
-        labelsTextAppearance = typedArray.getResourceId(R.styleable.SteppedProgressBarView_android_textAppearance,
-        0)
+        labelsTextAppearance = typedArray.getResourceId(
+            R.styleable.SteppedProgressBarView_android_textAppearance,
+            0
+        )
 
         steppedProgressBarPaint = TextView(context).apply {
             setTextAppearance(labelsTextAppearance)
@@ -36,50 +39,73 @@ class SteppedProgressBarView: View {
             textAlign = Paint.Align.CENTER
         }
 
-        stepSize = typedArray.getDimensionPixelSize(R.styleable.
-        SteppedProgressBarView_stepSize, stepSize)
+        stepSize = typedArray.getDimensionPixelSize(
+            R.styleable.SteppedProgressBarView_stepSize, stepSize
+        )
 
-        progressBarHeight = typedArray.getDimensionPixelSize(R.styleable.
-        SteppedProgressBarView_progressBarHeight, progressBarHeight)
+        progressBarHeight = typedArray.getDimensionPixelSize(
+            R.styleable.SteppedProgressBarView_progressBarHeight, progressBarHeight
+        )
 
-        progressDrawableId = typedArray.getResourceId(R.styleable.SteppedProgressBarView_progressDrawable,
-            android.R.color.transparent)
-        progressFillDrawableId = typedArray.getResourceId(R.styleable.SteppedProgressBarView_progressFillDrawable,
-            android.R.color.transparent)
-        notAchievedStepDrawableId = typedArray.getResourceId(R.styleable.SteppedProgressBarView_notAchievedStepDrawable,
-            android.R.color.transparent)
-        achievedStepDrawableId = typedArray.getResourceId(R.styleable.SteppedProgressBarView_achievedStepDrawable,
-            android.R.color.transparent)
-        hasPreStep = typedArray.getBoolean(R.styleable.SteppedProgressBarView_hasPreStep,
-            hasPreStep)
-        hasPostStep = typedArray.getBoolean(R.styleable.SteppedProgressBarView_hasPostStep,
-            hasPostStep)
+        progressDrawableId = typedArray.getResourceId(
+            R.styleable.SteppedProgressBarView_progressDrawable,
+            android.R.color.transparent
+        )
+        progressFillDrawableId = typedArray.getResourceId(
+            R.styleable.SteppedProgressBarView_progressFillDrawable,
+            android.R.color.transparent
+        )
+        notAchievedStepDrawableId = typedArray.getResourceId(
+            R.styleable.SteppedProgressBarView_notAchievedStepDrawable,
+            android.R.color.transparent
+        )
+        achievedStepDrawableId = typedArray.getResourceId(
+            R.styleable.SteppedProgressBarView_achievedStepDrawable,
+            android.R.color.transparent
+        )
+        hasPreStep = typedArray.getBoolean(
+            R.styleable.SteppedProgressBarView_hasPreStep,
+            hasPreStep
+        )
+        hasPostStep = typedArray.getBoolean(
+            R.styleable.SteppedProgressBarView_hasPostStep,
+            hasPostStep
+        )
 
         progressDrawable = ResourcesCompat.getDrawable(resources, progressDrawableId, null)!!
-        progressFillDrawable = ResourcesCompat.getDrawable(resources, progressFillDrawableId, null)!!
-        notAchievedStepDrawable = ResourcesCompat.getDrawable(resources, notAchievedStepDrawableId, null)!!
-        achievedStepDrawable = ResourcesCompat.getDrawable(resources, achievedStepDrawableId, null)!!
+        progressFillDrawable =
+            ResourcesCompat.getDrawable(resources, progressFillDrawableId, null)!!
+        notAchievedStepDrawable =
+            ResourcesCompat.getDrawable(resources, notAchievedStepDrawableId, null)!!
+        achievedStepDrawable =
+            ResourcesCompat.getDrawable(resources, achievedStepDrawableId, null)!!
 
         val stepsAttr = typedArray.getTextArray(R.styleable.SteppedProgressBarView_android_entries)
         if (stepsAttr != null) {
             setSteps(stepsAttr.toList().map { it.toString() })
         }
-        currentStep = typedArray.getInt(R.styleable.SteppedProgressBarView_defaultStep,
-            0)
+        currentStep = typedArray.getInt(
+            R.styleable.SteppedProgressBarView_defaultStep,
+            0
+        )
 
         typedArray.recycle()
     }
 
     private var stepsNumber = 3
+
     @DrawableRes
     private var progressDrawableId = 0
     private lateinit var progressDrawable: Drawable
+
     @DrawableRes
     private var progressFillDrawableId = 0
     private lateinit var progressFillDrawable: Drawable
+
     @DrawableRes
     private var notAchievedStepDrawableId = 0
     private lateinit var notAchievedStepDrawable: Drawable
+
     @DrawableRes
     private var achievedStepDrawableId = 0
     private lateinit var achievedStepDrawable: Drawable
@@ -121,6 +147,7 @@ class SteppedProgressBarView: View {
         val emptySteps = arrayOfNulls<String>(stepsNumber).map { it ?: "" }.toList()
         setSteps(emptySteps)
     }
+
     fun setSteps(steps: List<String>) {
         // stepsNumber >= 2
         stepsNumber = steps.size
@@ -142,22 +169,33 @@ class SteppedProgressBarView: View {
     }
 
     private fun remeasure() {
-        mProgressBarBorders.set(0, stepSize / 2 - progressBarHeight / 2,
-            viewWidth, stepSize / 2 + progressBarHeight / 2)
+        mProgressBarBorders.set(
+            0, stepSize / 2 - progressBarHeight / 2,
+            viewWidth, stepSize / 2 + progressBarHeight / 2
+        )
         val stepStartEndDistance = viewWidth / (stepsNumber + 1) / 2
         val stepsIndent = (viewWidth - 2 * stepStartEndDistance) / (stepsNumber - 1)
         for (i in 0 until mStepsBordersList.size) {
-            mStepsBordersList[i].set(stepStartEndDistance + i * stepsIndent - stepSize / 2,0,
-                stepStartEndDistance + i * stepsIndent + stepSize / 2, stepSize)
+            mStepsBordersList[i].set(
+                stepStartEndDistance + i * stepsIndent - stepSize / 2, 0,
+                stepStartEndDistance + i * stepsIndent + stepSize / 2, stepSize
+            )
 
             val stepLabel = mStepsList[i]
-            steppedProgressBarPaint.getTextBounds(stepLabel, 0, stepLabel.length, mLabelsBordersList[i])
+            steppedProgressBarPaint.getTextBounds(
+                stepLabel,
+                0,
+                stepLabel.length,
+                mLabelsBordersList[i]
+            )
         }
-        val fillRightBorder = if(hasPostStep && currentStep > stepsNumber) viewWidth else
+        val fillRightBorder = if (hasPostStep && currentStep > stepsNumber) viewWidth else
             stepStartEndDistance + (currentStep - 1) * stepsIndent
 
-        mProgressFillBorders.set(0, stepSize / 2 - progressBarHeight / 2,
-            fillRightBorder, stepSize / 2 + progressBarHeight / 2)
+        mProgressFillBorders.set(
+            0, stepSize / 2 - progressBarHeight / 2,
+            fillRightBorder, stepSize / 2 + progressBarHeight / 2
+        )
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -168,24 +206,27 @@ class SteppedProgressBarView: View {
             progressFillDrawable.bounds = mProgressFillBorders
             progressFillDrawable.draw(canvas)
             mStepsBordersList.forEachIndexed { i, step ->
-                if (i+1 <= currentStep) {
+                if (i + 1 <= currentStep) {
                     achievedStepDrawable.bounds = step
                     achievedStepDrawable.draw(canvas)
                 } else {
                     notAchievedStepDrawable.bounds = step
                     notAchievedStepDrawable.draw(canvas)
                 }
-                canvas.drawText(mStepsList[i],
+                canvas.drawText(
+                    mStepsList[i],
                     step.left.toFloat() + step.width() / 2,
                     step.bottom.toFloat() + 15 + mLabelsBordersList[i].height(),
-                    steppedProgressBarPaint)
+                    steppedProgressBarPaint
+                )
             }
         }
     }
 
-    fun nextStep(){
-        if ( (currentStep + 1 <= stepsNumber + 1  && hasPostStep)  ||
-                currentStep + 1 <= stepsNumber) {
+    fun nextStep() {
+        if ((currentStep + 1 <= stepsNumber + 1 && hasPostStep) ||
+            currentStep + 1 <= stepsNumber
+        ) {
             currentStep += 1
             remeasure()
         }

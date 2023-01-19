@@ -37,13 +37,19 @@ class RegistrationFlowTest {
         onView(withId(R.id.registration_data_password_input))
             .perform(typeText(testPassword))
         onView(withId(R.id.registration_data_password_repeat_input))
-            .perform(typeText(testPassword),
-                closeSoftKeyboard())
+            .perform(
+                typeText(testPassword),
+                closeSoftKeyboard()
+            )
         onView(withId(R.id.registration_data_button_send))
             .perform(click())
 
-        onView(isRoot()).perform(waitForView(R.id.registration_confirmation_email_animation,
-        3000))
+        onView(isRoot()).perform(
+            waitForView(
+                R.id.registration_confirmation_email_animation,
+                3000
+            )
+        )
         onView(withId(R.id.registration_confirmation_button_email_next))
             .perform(click())
 
@@ -56,12 +62,17 @@ class RegistrationFlowTest {
         onView(withId(R.id.name_form_button_send))
             .perform(click())
 
-        onView(isRoot()).perform(waitForView(R.id.post_registration_button_finish,
-            3000))
+        onView(isRoot()).perform(
+            waitForView(
+                R.id.post_registration_button_finish,
+                3000
+            )
+        )
         onView(withId(R.id.post_registration_button_finish)).perform(click())
 
         onView(withId(R.id.auth_email_input)).perform(typeText(testEmail))
-        onView(withId(R.id.auth_password_input)).perform(typeText(testPassword),
+        onView(withId(R.id.auth_password_input)).perform(
+            typeText(testPassword),
             closeSoftKeyboard()
         )
         onView(withId(R.id.auth_button_sign_in)).perform(click())

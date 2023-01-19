@@ -17,20 +17,22 @@ import ru.desh.partfinder.core.data.properties.PropertiesRepository
 import ru.desh.partfinder.databinding.FragmentPrivacyPolicyBinding
 import javax.inject.Inject
 
-class PrivacyPolicyFragmentViewModel @Inject constructor(
-    private val propertiesRepository: PropertiesRepository
-): ViewModel() {
-    suspend fun finishOnboarding(){
+class PrivacyPolicyViewModel @Inject constructor(
+    private val propertiesRepository: PropertiesRepository,
+    @AppNavigation private val router: Router
+) : ViewModel() {
+
+    fun toAuth() = router.navigateTo(Auth())
+    fun toPrivacyPolicySource() = router.navigateTo(PrivacyPolicySource())
+
+    suspend fun finishOnboarding() {
         propertiesRepository.setOnboardingFinished()
     }
 }
-class PrivacyPolicyFragment: Fragment() {
-    @Inject
-    lateinit var viewModel: PrivacyPolicyFragmentViewModel
 
+class PrivacyPolicyFragment : Fragment() {
     @Inject
-    @AppNavigation
-    lateinit var router: Router
+    lateinit var viewModel: PrivacyPolicyViewModel
 
     private lateinit var binding: FragmentPrivacyPolicyBinding
 
@@ -38,6 +40,7 @@ class PrivacyPolicyFragment: Fragment() {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,15 +52,15 @@ class PrivacyPolicyFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply{
+        binding.apply {
             privacyPolicyButtonSource.setOnClickListener {
-                router.navigateTo(PrivacyPolicySource())
+                viewModel.toPrivacyPolicySource()
             }
             privacyPolicyButtonAccept.setOnClickListener {
                 lifecycleScope.launch {
                     viewModel.finishOnboarding()
                 }.invokeOnCompletion {
-                    router.navigateTo(Auth())
+                    viewModel.toAuth()
                 }
             }
             privacyPolicyButtonDecline.setOnClickListener {

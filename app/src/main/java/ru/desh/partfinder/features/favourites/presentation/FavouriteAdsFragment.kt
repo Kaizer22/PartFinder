@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import ru.desh.partfinder.databinding.FragmentFavouriteAdsBinding
 import ru.desh.partfinder.features.BottomNavigationActivity
 
-class FavouriteAdsFragment: Fragment() {
+class FavouriteAdsFragment : Fragment() {
     private lateinit var binding: FragmentFavouriteAdsBinding
     override fun onCreateView(
         inflater: LayoutInflater,

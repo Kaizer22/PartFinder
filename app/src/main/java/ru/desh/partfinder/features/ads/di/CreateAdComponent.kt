@@ -1,6 +1,5 @@
 package ru.desh.partfinder.features.ads.di
 
-import dagger.BindsInstance
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
@@ -15,9 +14,7 @@ import javax.inject.Qualifier
 interface CreateAdComponent {
     @Subcomponent.Factory
     interface Factory {
-        fun create(
-            @BindsInstance createAdState: MutableStateFlow<CreateAdState>
-        ): CreateAdComponent
+        fun create(): CreateAdComponent
     }
 
     fun inject(createAdFragment: CreateAdFragment)
@@ -31,11 +28,16 @@ interface CreateAdComponent {
 
 @Qualifier
 annotation class BufferAd
+
 @Module
 class CreateAdModule {
+    private val _createAdState = MutableStateFlow<CreateAdState>(CreateAdState.InitState)
     private val bufferAd = Ad()
 
     @BufferAd
     @Provides
     fun providesBufferAd(): Ad = bufferAd
+
+    @Provides
+    fun provideCreateAdState(): MutableStateFlow<CreateAdState> = _createAdState
 }

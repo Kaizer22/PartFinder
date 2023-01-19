@@ -10,8 +10,10 @@ import javax.inject.Singleton
 
 @Qualifier
 annotation class UserDbReference
+
 @Qualifier
 annotation class AdDbReference
+
 @Qualifier
 annotation class ChatDbReference
 

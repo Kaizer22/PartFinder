@@ -2,9 +2,11 @@ package ru.desh.partfinder.core
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import ru.desh.partfinder.core.domain.model.Ad
+import ru.desh.partfinder.core.domain.model.AdCategory
 import ru.desh.partfinder.features.BottomNavigationActivity
 import ru.desh.partfinder.features.ads.presentation.AdDetailsFragment
 import ru.desh.partfinder.features.ads.presentation.CategorySearchFragment
@@ -34,6 +36,7 @@ object Screens {
         val i = Intent(it, MainActivity::class.java)
         i.putExtra(IS_ONBOARDING_FINISHED, isOnboardingFinished)
     }
+
     fun BottomNavigation() = ActivityScreen {
         Intent(it, BottomNavigationActivity::class.java)
     }
@@ -45,7 +48,9 @@ object Screens {
         Intent(Intent.ACTION_VIEW, Uri.parse(url))
     }
 
-    const val APP_PRIVACY_POLICY_URL = "https://github.com/Kaizer22/PartFinder/blob/master/privacy-policy.md"
+    const val APP_PRIVACY_POLICY_URL =
+        "https://github.com/Kaizer22/PartFinder/blob/master/privacy-policy.md"
+
     fun PrivacyPolicySource() = ActivityScreen {
         Intent(Intent.ACTION_VIEW, Uri.parse(APP_PRIVACY_POLICY_URL))
     }
@@ -58,9 +63,11 @@ object Screens {
     fun Welcome() = FragmentScreen {
         WelcomeFragment()
     }
+
     fun OnBoarding() = FragmentScreen {
         OnBoardingFragment()
     }
+
     fun PrivacyPolicy() = FragmentScreen {
         PrivacyPolicyFragment()
     }
@@ -70,41 +77,59 @@ object Screens {
     fun Registration_Name() = FragmentScreen {
         RegistrationNameFragment()
     }
+
     fun Registration() = FragmentScreen {
         RegistrationFragment()
     }
+
     fun NewProfile() = FragmentScreen {
         UserFormFragment()
     }
+
     fun Registration_Method() = FragmentScreen {
         RegistrationMethodFragment()
     }
+
     fun Registration_Data(registrationType: RegistrationFragment.RegistrationType) =
         FragmentScreen {
             RegistrationDataFragment(registrationType)
+        }
+
+    fun Registration_Confirmation(
+        registrationState: RegistrationFragment.RegistrationType,
+        args: Bundle?
+    ): FragmentScreen {
+        val registrationConfirmationFragment = RegistrationConfirmationFragment(registrationState)
+        registrationConfirmationFragment.arguments = args
+        return FragmentScreen {
+            registrationConfirmationFragment
+        }
     }
-    fun Registration_Confirmation(registrationState: RegistrationFragment.RegistrationType,
-        phoneNumber: String) = FragmentScreen {
-        RegistrationConfirmationFragment(registrationState, phoneNumber)
-    }
+
     fun Post_Registration() = FragmentScreen {
         PostRegistrationFragment()
     }
+
     fun UserForm() = FragmentScreen {
         UserFormFragment()
     }
+
     fun Pre_UserForm() = FragmentScreen {
         PreUserFormFragment()
     }
+
     fun UserForm_Orgainisation() = FragmentScreen {
         UserFormOrganisationFragment()
     }
+
     fun UserForm_Activity() = FragmentScreen {
         UserFormActivityFragment()
     }
+
     fun UserForm_About() = FragmentScreen {
         UserFormAboutFragment()
     }
+
     fun UserForm_Survey() = FragmentScreen {
         UserFormSurveyFragment()
     }
@@ -114,12 +139,15 @@ object Screens {
     fun Auth() = FragmentScreen {
         AuthFragment()
     }
+
     fun PasswordReset() = FragmentScreen {
         PasswordResetFragment()
     }
-    fun PhoneAuth() = FragmentScreen{
+
+    fun PhoneAuth() = FragmentScreen {
         PhoneAuthFragment()
     }
+
     fun CodeEnter(phoneNumber: String) = FragmentScreen {
         CodeEnterFragment(phoneNumber)
     }
@@ -131,8 +159,8 @@ object Screens {
         HomePageFragment()
     }
 
-    fun CategorySearch(category: String) = FragmentScreen {
-        CategorySearchFragment(category)
+    fun CategorySearch(adCategory: AdCategory) = FragmentScreen {
+        CategorySearchFragment(adCategory)
     }
 
     fun AdDetails(ad: Ad) = FragmentScreen {

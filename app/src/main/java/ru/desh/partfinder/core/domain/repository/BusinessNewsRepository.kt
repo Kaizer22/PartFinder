@@ -1,11 +1,12 @@
 package ru.desh.partfinder.core.domain.repository
 
 import ru.desh.partfinder.core.domain.model.BusinessArticle
-import ru.desh.partfinder.core.domain.model.search.Pagination
+import ru.desh.partfinder.core.utils.DataOrErrorResult
 
 interface BusinessNewsRepository {
     // Remote
-    suspend fun getLatestBusinessNews(pagination: Pagination): List<BusinessArticle>
+    suspend fun getLatestBusinessNews(pageSize: Int, pageNumber: Int): DataOrErrorResult<
+            List<BusinessArticle>?, Exception?>
 
     // Local
     fun storeArticles(articles: List<BusinessArticle>)

@@ -11,29 +11,26 @@ import ru.desh.partfinder.core.Screens.Main
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.domain.repository.AuthRepository
-import ru.desh.partfinder.databinding.FragmentPostCreateAdBinding
 import ru.desh.partfinder.databinding.FragmentSettingsBinding
 import ru.desh.partfinder.features.BottomNavigationActivity
-import ru.desh.partfinder.features.ads.presentation.CreateAdFragment
 import javax.inject.Inject
 
-class AppSettingsFragmentViewModel @Inject constructor(
-    private val authRepository: AuthRepository
-): ViewModel() {
+class AppSettingsViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    @AppNavigation private val router: Router
+) : ViewModel() {
+
+    fun toMain() = router.navigateTo(Main(true))
 
     fun signOut() {
         authRepository.signOut()
     }
 }
 
-class AppSettingsFragment: Fragment() {
+class AppSettingsFragment : Fragment() {
 
     @Inject
-    lateinit var viewModel: AppSettingsFragmentViewModel
-
-    @Inject
-    @AppNavigation
-    lateinit var router: Router
+    lateinit var viewModel: AppSettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +52,7 @@ class AppSettingsFragment: Fragment() {
         binding.apply {
             settingsCardSignOut.setOnClickListener {
                 viewModel.signOut()
-                router.navigateTo(Main(true))
+                viewModel.toMain()
                 requireActivity().finish()
             }
         }

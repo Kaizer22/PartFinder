@@ -8,14 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.terrakok.cicerone.NavigatorHolder
+import androidx.lifecycle.viewModelScope
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import ru.desh.partfinder.R
-import ru.desh.partfinder.core.Screens
 import ru.desh.partfinder.core.Screens.BottomNavigation
+import ru.desh.partfinder.core.Screens.Registration
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.di.module.AppNavigation
 import ru.desh.partfinder.core.domain.repository.AuthRepository
@@ -24,32 +25,55 @@ import ru.desh.partfinder.core.utils.DataOrErrorResult
 import ru.desh.partfinder.databinding.FragmentEnterSmsCodeBinding
 import javax.inject.Inject
 
-
 class CodeEnterViewModel @Inject constructor(
-    private val authRepository: AuthRepository
-): ViewModel() {
+    private val authRepository: AuthRepository,
+    @AppNavigation private val router: Router
+) : ViewModel() {
+
+    data class CodeEnterState(
+        val isRepeatTimerFinished: Boolean = false,
+        val isSignedIn: Boolean = false,
+        val isSignInFailed: Boolean = false,
+        val error: Exception? = null
+    )
+
+    private val _codeEnterState = MutableLiveData(CodeEnterState())
+    val codeEnterState: LiveData<CodeEnterState> = _codeEnterState
+
+    fun back() = router.exit()
+
+    fun toBottomNavigation() = router.navigateTo(BottomNavigation())
+
+    fun toRegistration() = router.navigateTo(Registration())
+
     fun sendVerificationCode(phoneNumber: String): LiveData<DataOrErrorResult<String, Exception?>> {
         return authRepository.sendVerificationCode(phoneNumber)
     }
-    fun signInWithCode(code: String): LiveData<DataOrErrorResult<Boolean, Exception?>> {
-        return authRepository.verifyCode(code)
+
+    fun signInWithCode(code: String) {
+        viewModelScope.launch {
+            val res = authRepository.verifyCode(code)
+            if (!res.isException) {
+                _codeEnterState.value = _codeEnterState.value?.copy(
+                    isSignedIn = true
+                )
+            } else {
+                _codeEnterState.value = _codeEnterState.value?.copy(
+                    isSignInFailed = true,
+                    error = res.exception
+                )
+            }
+        }
     }
 }
 
 // TODO unify with RegistrationConfirmationFragment and reuse
 class CodeEnterFragment(
     private val phoneNumber: String
-): Fragment() {
+) : Fragment() {
 
     @Inject
     lateinit var viewModel: CodeEnterViewModel
-
-    @Inject
-    @AppNavigation
-    lateinit var router: Router
-    @Inject
-    @AppNavigation
-    lateinit var navigatorHolder: NavigatorHolder
 
     private var otp: String = ""
 
@@ -57,25 +81,28 @@ class CodeEnterFragment(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        SingleApplicationComponent.getInstance()
-            .inject(this)
+        SingleApplicationComponent.getInstance().inject(this)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentEnterSmsCodeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+    private lateinit var dangerMessage: SnackbarBuilder
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
-                .setType(SnackbarBuilder.Type.DANGER)
-                .setTitle(getString(R.string.message_title_code_doesnt_send))
+            dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG).setType(
+                SnackbarBuilder.Type.DANGER
+            ).setTitle(getString(R.string.message_title_code_doesnt_send))
+
+            viewModel.codeEnterState.observe(viewLifecycleOwner) { newState ->
+                updateUiState(newState)
+            }
 
             viewModel.sendVerificationCode(phoneNumber).observe(viewLifecycleOwner) { result ->
                 if (!result.isException) {
@@ -87,8 +114,7 @@ class CodeEnterFragment(
                         }
                     }
                 } else {
-                    dangerMessage.setText(result.exception?.message ?: "")
-                        .show()
+                    dangerMessage.setText(result.exception?.message ?: "").show()
                 }
             }
             enterSmsCodeOtpInput.setInputChangedListener { complete, text ->
@@ -102,21 +128,24 @@ class CodeEnterFragment(
 
             }
             enterSmsCodeButtonConfirmOtp.setOnClickListener {
-                viewModel.signInWithCode(otp).observe(viewLifecycleOwner) { result ->
-                    if (!result.isException) {
-                        router.navigateTo(BottomNavigation())
-                    } else {
-                        dangerMessage.setTitle(getString(R.string.message_title_wrong_code))
-                            .setText(result.exception?.message ?: "").show()
-                    }
-                }
+                viewModel.signInWithCode(otp)
             }
             enterSmsCodeButtonBack.setOnClickListener {
-                router.exit()
+                viewModel.back()
             }
             hintRegisterBlock.authButtonToRegister.setOnClickListener {
-                router.navigateTo(Screens.Registration())
+                viewModel.toRegistration()
             }
+        }
+    }
+
+    private fun updateUiState(newState: CodeEnterViewModel.CodeEnterState) {
+        if (newState.isSignInFailed) {
+            dangerMessage.setTitle(getString(R.string.message_title_wrong_code))
+                .setText(newState.error?.message ?: "").show()
+        }
+        if (newState.isSignedIn) {
+            viewModel.toBottomNavigation()
         }
     }
 
@@ -124,13 +153,13 @@ class CodeEnterFragment(
     private fun activateConfirmationButton() {
         val theme = requireActivity().theme.obtainStyledAttributes(
             arrayOf(
-                R.attr.buttonPrimaryColor,
-                R.attr.buttonPrimaryTextColor).toIntArray()
+                R.attr.buttonPrimaryColor, R.attr.buttonPrimaryTextColor
+            ).toIntArray()
         )
         binding.apply {
             enterSmsCodeButtonConfirmOtp.apply {
                 isClickable = true
-                backgroundTintList = ColorStateList.valueOf(theme.getColor(0,0))
+                backgroundTintList = ColorStateList.valueOf(theme.getColor(0, 0))
                 setTextColor(theme.getColor(1, 0))
             }
         }

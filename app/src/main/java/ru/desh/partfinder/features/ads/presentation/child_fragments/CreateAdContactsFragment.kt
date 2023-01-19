@@ -6,21 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.terrakok.cicerone.Router
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import ru.desh.partfinder.R
-import ru.desh.partfinder.core.Screens
-import ru.desh.partfinder.core.di.module.CreateAdNavigation
 import ru.desh.partfinder.core.domain.model.Ad
 import ru.desh.partfinder.core.domain.model.UserContact
 import ru.desh.partfinder.core.domain.repository.AdRepository
 import ru.desh.partfinder.core.ui.SnackbarBuilder
-import ru.desh.partfinder.core.utils.DataOrErrorResult
 import ru.desh.partfinder.databinding.FragmentCreateAdContactsBinding
-import ru.desh.partfinder.databinding.FragmentCreateAdFilesBinding
-import ru.desh.partfinder.databinding.FragmentPrivacyPolicyBinding
 import ru.desh.partfinder.features.ads.di.BufferAd
 import ru.desh.partfinder.features.ads.presentation.CreateAdFragment
 import ru.desh.partfinder.features.ads.presentation.CreateAdState
@@ -31,24 +28,45 @@ class CreateAdContactsViewModel @Inject constructor(
     @BufferAd private val bufferAd: Ad,
     private val creationState: MutableStateFlow<CreateAdState>,
     private val adRepository: AdRepository
-): ViewModel() {
+) : ViewModel() {
 
-    fun createAd(): LiveData<DataOrErrorResult<
-            Boolean?, Exception?>>{
+    data class CreateAdContactsState(
+        val isAdCreated: Boolean = false,
+        val isCreationFailed: Boolean = false,
+        val error: Exception? = null
+    )
+
+    private val _createAdContactsState = MutableLiveData(CreateAdContactsState())
+    val createAdContactsState: LiveData<CreateAdContactsState> = _createAdContactsState
+
+    fun createAd() {
         bufferAd.creationTimestamp = Date().time
-        return adRepository.createAd(bufferAd)
+        viewModelScope.launch {
+            val res = adRepository.createAd(bufferAd)
+            if (!res.isException) {
+                _createAdContactsState.value = _createAdContactsState.value?.copy(
+                    isAdCreated = true
+                )
+                this@CreateAdContactsViewModel.notifyAdPublished()
+            } else {
+                _createAdContactsState.value = _createAdContactsState.value?.copy(
+                    isCreationFailed = true,
+                    error = res.exception
+                )
+            }
+        }
     }
 
-    fun setContacts(contacts: List<UserContact>){
+    fun setContacts(contacts: List<UserContact>) {
         bufferAd.userContacts = contacts
     }
 
-    fun notifyAdPublished(){
+    fun notifyAdPublished() {
         creationState.value = CreateAdState.AdPublished
     }
 }
 
-class CreateAdContactsFragment: Fragment() {
+class CreateAdContactsFragment : Fragment() {
     @Inject
     lateinit var viewModel: CreateAdContactsViewModel
 
@@ -70,19 +88,24 @@ class CreateAdContactsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            val dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
+            dangerMessage = SnackbarBuilder(content, layoutInflater, Snackbar.LENGTH_LONG)
                 .setType(SnackbarBuilder.Type.DANGER)
                 .setTitle(getString(R.string.message_title_error))
-            createAdContactsButtonNext.setOnClickListener {
-                viewModel.createAd().observe(viewLifecycleOwner){
-                    if (!it.isException) {
-                        viewModel.notifyAdPublished()
-                    } else {
-                        dangerMessage.setText(it.exception?.message.toString())
-                            .show()
-                    }
-                }
+
+            viewModel.createAdContactsState.observe(viewLifecycleOwner) { newState ->
+                updateUiState(newState)
             }
+            createAdContactsButtonNext.setOnClickListener {
+                viewModel.createAd()
+            }
+        }
+    }
+
+    private lateinit var dangerMessage: SnackbarBuilder
+    private fun updateUiState(newState: CreateAdContactsViewModel.CreateAdContactsState) {
+        if (newState.isCreationFailed) {
+            dangerMessage.setText(newState.error?.message ?: "")
+                .show()
         }
     }
 }
