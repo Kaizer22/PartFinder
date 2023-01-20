@@ -1,0 +1,45 @@
+{
+  "status": "ok",
+  "totalResults": 44,
+  "articles": [
+    {
+      "source": {
+        "id": null,
+        "name": "Dtf.ru"
+      },
+      "author": "vc.ru",
+      "title": "Материнская компания Google сократит 12 тысяч сотрудников — 6% штата — Индустрия на DTF - DTF",
+      "description": "Сокращения коснулись всей Alphabet и разных продуктовых направлений, а попали под него те сотрудники, чьи задачи имели более низкий приоритет.",
+      "url": "https://dtf.ru/gameindustry/1581714-materinskaya-kompaniya-google-sokratit-12-tysyach-sotrudnikov-6-shtata",
+      "urlToImage": "https://dtf.ru/cover/fb/c/1581714/1674214231/cover.jpg",
+      "publishedAt": "2023-01-20T11:30:31Z",
+      "content": "5  , ., , ( , \"\" - catch'em all, , )\r\n{\"likeData\":{\"id\":22033915,\"type\":4,\"typeStr\":\"comment\",\"state\":0,\"withUsers\":1,\"contentId\":1581714,\"subsite\":{\"id\":87855,\"name\":\"\\u0418\\u043d\\u0434\\u0443\\u0441\\… [+720 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Vc.ru"
+      },
+      "author": "Определенный шмель",
+      "title": "Google попросила помощи у сооснователей компании Сергея Брина и Ларри Пейджа для «борьбы» с ChatGPT от OpenAI — NYT — Будущее на vc.ru - vc.ru",
+      "description": "Компания планирует выпустить свой ответ чат-боту — в том числе добавить похожие функции в поиск.",
+      "url": "https://vc.ru/future/587437-google-poprosila-pomoshchi-u-soosnovateley-kompanii-sergeya-brina-i-larri-peydzha-dlya-borby-s-chatgpt-ot-openai-nyt",
+      "urlToImage": "https://vc.ru/cover/fb/c/587437/1674213011/cover.jpg",
+      "publishedAt": "2023-01-20T11:10:11Z",
+      "content": "3 - , Google - - ? . , . - , (YouTube, Android), (, Google Street View, Chrome, ), , (Gmail). , . - , - , . - , . - . , .\r\n{\"likeData\":{\"id\":5411313,\"type\":4,\"typeStr\":\"comment\",\"state\":0,\"withUsers\"… [+763 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Vc.ru"
+      },
+      "author": "Маша Цепелева",
+      "title": "Разработчик Angry Birds получил предложение о покупке компании за $810 млн — Финансы на vc.ru - vc.ru",
+      "description": "На фоне новости акции финской Rovio выросли на 37%.",
+      "url": "https://vc.ru/finance/587421-razrabotchik-angry-birds-poluchil-predlozhenie-o-pokupke-kompanii-za-810-mln",
+      "urlToImage": "https://vc.ru/cover/fb/c/587421/1674210507/cover.jpg",
+      "publishedAt": "2023-01-20T10:28:27Z",
+      "content": "4  Angry Birds, 10 : Angry Birds-2, Angry Birds-3, Angry Birds-4, Angry Birds-5, Angry Birds-6, Angry Birds-7, Angry Birds-8, Angry Birds-9, Angry Birds-10, Angry Birds-1488.\r\n{\"likeData\":{\"id\":54111… [+820 chars]"
+    }
+  ]
+}

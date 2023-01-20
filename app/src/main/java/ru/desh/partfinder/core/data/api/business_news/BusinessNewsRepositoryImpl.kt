@@ -32,7 +32,6 @@ class BusinessNewsRepositoryImpl @Inject constructor(
             )
             result.setData(articles)
         } else {
-
             result.setException(processFailedResponse(response.code(), response.message()))
         }
         return result
