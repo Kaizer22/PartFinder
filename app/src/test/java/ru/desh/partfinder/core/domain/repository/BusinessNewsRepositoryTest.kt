@@ -79,7 +79,7 @@ class BusinessNewsRepositoryTest {
         )
 
         runBlocking {
-            val res = businessNewsRepository.getLatestBusinessNews(3, 1)
+            val res = businessNewsRepository.getLatestBusinessNews(pageSize, page)
             Assertions.assertEquals(true, res.isException)
         }
     }

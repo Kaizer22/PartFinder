@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import kotlinx.coroutines.launch
@@ -64,36 +62,34 @@ class RegistrationFragment : Fragment() {
         }
         viewModel.toRegistrationMethod()
         lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.observeRegistrationState().collect { regState ->
-                    when (regState) {
-                        is RegistrationState.RegistrationMethodSelected -> {
-                            binding.registrationSteppedProgressBar.nextStep()
-                            viewModel.toRegistrationData(regState.registrationType)
-                        }
-                        is RegistrationState.PhoneInputFinished -> {
-                            val args = Bundle()
-                            args.putString(
-                                RegistrationConfirmationFragment.PHONE_NUMBER_ARGUMENT,
-                                regState.phoneNumber
-                            )
-                            viewModel.toPhoneConfirmation(args)
-                            binding.registrationSteppedProgressBar.nextStep()
-                        }
-                        is RegistrationState.EmailInputFinished -> {
-                            viewModel.toEmailConfirmation()
-                            binding.registrationSteppedProgressBar.nextStep()
-                        }
-                        is RegistrationState.DataConfirmed -> {
-                            binding.registrationSteppedProgressBar.nextStep()
-                            viewModel.toRegistrationNameForm()
-                        }
-                        is RegistrationState.RegistrationFinished -> {
-                            binding.registrationSteppedProgressBar.nextStep()
-                            viewModel.toPostRegistration()
-                        }
-                        is RegistrationState.InitState -> {}
+            viewModel.observeRegistrationState().collect { regState ->
+                when (regState) {
+                    is RegistrationState.RegistrationMethodSelected -> {
+                        binding.registrationSteppedProgressBar.nextStep()
+                        viewModel.toRegistrationData(regState.registrationType)
                     }
+                    is RegistrationState.PhoneInputFinished -> {
+                        val args = Bundle()
+                        args.putString(
+                            RegistrationConfirmationFragment.PHONE_NUMBER_ARGUMENT,
+                            regState.phoneNumber
+                        )
+                        viewModel.toPhoneConfirmation(args)
+                        binding.registrationSteppedProgressBar.nextStep()
+                    }
+                    is RegistrationState.EmailInputFinished -> {
+                        viewModel.toEmailConfirmation()
+                        binding.registrationSteppedProgressBar.nextStep()
+                    }
+                    is RegistrationState.DataConfirmed -> {
+                        binding.registrationSteppedProgressBar.nextStep()
+                        viewModel.toRegistrationNameForm()
+                    }
+                    is RegistrationState.RegistrationFinished -> {
+                        binding.registrationSteppedProgressBar.nextStep()
+                        viewModel.toPostRegistration()
+                    }
+                    is RegistrationState.InitState -> {}
                 }
             }
         }

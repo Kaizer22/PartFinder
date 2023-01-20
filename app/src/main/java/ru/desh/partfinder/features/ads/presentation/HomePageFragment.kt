@@ -79,7 +79,7 @@ class HomePageFragment : Fragment() {
         viewModel.homePageState.observe(viewLifecycleOwner) {
             updateUiState(it, adsAdapter, businessArticlesAdapter)
         }
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             viewModel.requestBusinessNewsNextPage()
             try {
                 viewModel.requestRecommendedAdsNextPage()
