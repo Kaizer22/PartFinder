@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import ru.desh.partfinder.core.domain.model.Ad
 import ru.desh.partfinder.databinding.FragmentCreateAdDescriptionBinding
@@ -31,11 +32,14 @@ class CreateAdDescriptionViewModel @Inject constructor(
 class CreateAdDescriptionFragment : Fragment() {
 
     @Inject
-    lateinit var viewModel: CreateAdDescriptionViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: CreateAdDescriptionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (parentFragment as CreateAdFragment).createAdComponent.inject(this)
+        viewModel =
+            ViewModelProvider(this, viewModelFactory)[CreateAdDescriptionViewModel::class.java]
     }
 
     private lateinit var binding: FragmentCreateAdDescriptionBinding

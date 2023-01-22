@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.github.terrakok.cicerone.Router
 import ru.desh.partfinder.core.Screens.Main
 import ru.desh.partfinder.core.di.SingleApplicationComponent
@@ -30,11 +31,13 @@ class AppSettingsViewModel @Inject constructor(
 class AppSettingsFragment : Fragment() {
 
     @Inject
-    lateinit var viewModel: AppSettingsViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: AppSettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[AppSettingsViewModel::class.java]
     }
 
     private lateinit var binding: FragmentSettingsBinding

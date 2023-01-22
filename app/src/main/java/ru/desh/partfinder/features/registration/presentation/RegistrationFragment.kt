@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.androidx.AppNavigator
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 class RegistrationFragment : Fragment() {
     @Inject
-    lateinit var viewModel: RegistrationViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: RegistrationViewModel
 
     lateinit var registrationComponent: RegistrationComponent
         private set
@@ -41,6 +43,7 @@ class RegistrationFragment : Fragment() {
             .registrationComponentFactory()
             .create()
         registrationComponent.inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[RegistrationViewModel::class.java]
     }
 
     override fun onCreateView(

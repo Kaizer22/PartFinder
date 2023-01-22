@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import ru.desh.partfinder.R
 import ru.desh.partfinder.core.domain.model.Ad
@@ -37,11 +38,13 @@ class CreateAdTargetViewModel @Inject constructor(
 class CreateAdTargetFragment : Fragment() {
 
     @Inject
-    lateinit var viewModel: CreateAdTargetViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: CreateAdTargetViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (parentFragment as CreateAdFragment).createAdComponent.inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[CreateAdTargetViewModel::class.java]
     }
 
     private lateinit var binding: FragmentCreateAdTargetBinding

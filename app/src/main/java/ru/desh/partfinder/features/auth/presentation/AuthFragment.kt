@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import ru.desh.partfinder.R
 import ru.desh.partfinder.core.di.SingleApplicationComponent
@@ -17,13 +18,15 @@ import javax.inject.Inject
 
 class AuthFragment : Fragment() {
     @Inject
-    lateinit var viewModel: AuthViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: AuthViewModel
 
     private lateinit var binding: FragmentAuthBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[AuthViewModel::class.java]
     }
 
     override fun onCreateView(

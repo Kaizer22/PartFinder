@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModelProvider
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -73,7 +74,8 @@ class CodeEnterFragment(
 ) : Fragment() {
 
     @Inject
-    lateinit var viewModel: CodeEnterViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: CodeEnterViewModel
 
     private var otp: String = ""
 
@@ -82,6 +84,7 @@ class CodeEnterFragment(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[CodeEnterViewModel::class.java]
     }
 
     override fun onCreateView(

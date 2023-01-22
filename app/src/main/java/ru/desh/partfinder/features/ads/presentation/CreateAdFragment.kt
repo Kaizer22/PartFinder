@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.github.terrakok.cicerone.Navigator
@@ -20,9 +21,6 @@ import javax.inject.Inject
 
 
 class CreateAdFragment : Fragment() {
-    @Inject
-    lateinit var viewModel: CreateAdViewModel
-
     private val navigator: Navigator by lazy {
         AppNavigator(requireActivity(), R.id.create_ad_container, childFragmentManager)
     }
@@ -32,12 +30,15 @@ class CreateAdFragment : Fragment() {
     lateinit var createAdComponent: CreateAdComponent
         private set
 
-
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: CreateAdViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createAdComponent = SingleApplicationComponent.getInstance().createAdComponentFactory()
             .create()
         createAdComponent.inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[CreateAdViewModel::class.java]
     }
 
     override fun onCreateView(

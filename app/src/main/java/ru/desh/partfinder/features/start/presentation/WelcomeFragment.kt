@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.github.terrakok.cicerone.Router
 import ru.desh.partfinder.core.Screens.PrivacyPolicy
 import ru.desh.partfinder.core.di.SingleApplicationComponent
@@ -20,13 +21,15 @@ class WelcomeViewModel @Inject constructor(
 }
 
 class WelcomeFragment : Fragment() {
-    @Inject
-    lateinit var viewModel: WelcomeViewModel
-
     private lateinit var binding: FragmentWelcomeBinding
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: WelcomeViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[WelcomeViewModel::class.java]
     }
 
     override fun onCreateView(

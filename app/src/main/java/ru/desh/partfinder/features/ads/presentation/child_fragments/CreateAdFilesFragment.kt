@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import ru.desh.partfinder.core.domain.model.Ad
 import ru.desh.partfinder.core.domain.model.AdFile
@@ -48,12 +49,14 @@ class CreateAdFilesViewModel @Inject constructor(
 class CreateAdFilesFragment : Fragment() {
 
     @Inject
-    lateinit var viewModel: CreateAdFilesViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: CreateAdFilesViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (parentFragment as CreateAdFragment).createAdComponent.inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[CreateAdFilesViewModel::class.java]
     }
 
     private lateinit var binding: FragmentCreateAdFilesBinding

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.github.terrakok.cicerone.Router
 import ru.desh.partfinder.core.Screens.Auth
 import ru.desh.partfinder.core.di.module.AppNavigation
@@ -21,7 +22,8 @@ class PostRegistrationViewModel @Inject constructor(
 
 class PostRegistrationFragment : Fragment() {
     @Inject
-    lateinit var viewModel: PostRegistrationViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: PostRegistrationViewModel
 
     private lateinit var binding: FragmentPostRegistrationBinding
 
@@ -29,6 +31,7 @@ class PostRegistrationFragment : Fragment() {
         super.onCreate(savedInstanceState)
         (parentFragment as RegistrationFragment).registrationComponent
             .inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[PostRegistrationViewModel::class.java]
     }
 
     override fun onCreateView(

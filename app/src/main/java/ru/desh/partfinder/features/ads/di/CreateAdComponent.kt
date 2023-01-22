@@ -10,7 +10,7 @@ import ru.desh.partfinder.features.ads.presentation.CreateAdState
 import ru.desh.partfinder.features.ads.presentation.child_fragments.*
 import javax.inject.Qualifier
 
-@Subcomponent(modules = [CreateAdModule::class])
+@Subcomponent//(modules = [CreateAdModule::class])
 interface CreateAdComponent {
     @Subcomponent.Factory
     interface Factory {
