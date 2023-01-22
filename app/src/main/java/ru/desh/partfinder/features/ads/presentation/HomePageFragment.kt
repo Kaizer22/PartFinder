@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,9 +26,6 @@ import ru.desh.partfinder.features.ads.presentation.adapter.*
 import javax.inject.Inject
 
 class HomePageFragment : Fragment() {
-    @Inject
-    lateinit var viewModel: HomePageViewModel
-
     private lateinit var infoMessage: SnackbarBuilder
     private lateinit var warningMessage: SnackbarBuilder
 
@@ -44,9 +42,14 @@ class HomePageFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentHomePageBinding
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: HomePageViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[HomePageViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -79,7 +82,7 @@ class HomePageFragment : Fragment() {
         viewModel.homePageState.observe(viewLifecycleOwner) {
             updateUiState(it, adsAdapter, businessArticlesAdapter)
         }
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             viewModel.requestBusinessNewsNextPage()
             try {
                 viewModel.requestRecommendedAdsNextPage()

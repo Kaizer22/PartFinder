@@ -1,6 +1,5 @@
 package ru.desh.partfinder.core.data.api.interceptors
 
-import android.os.Build
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.mockwebserver.Dispatcher
@@ -11,15 +10,10 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.Assertions
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 import ru.desh.partfinder.core.data.api.business_news.ApiEndpoints
 import ru.desh.partfinder.core.data.api.business_news.ApiParams
 import ru.desh.partfinder.core.data.api.business_news.ApiUtils
 
-@RunWith(RobolectricTestRunner::class)
-@Config(manifest = Config.NONE, sdk = [Build.VERSION_CODES.P])
 class NewsApiAuthenticationInterceptorTest {
 
     private lateinit var mockWebServer: MockWebServer

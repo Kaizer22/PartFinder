@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.snackbar.Snackbar
 import ru.desh.partfinder.R
@@ -29,12 +30,14 @@ class PhoneAuthViewModel @Inject constructor(
 // TODO unify with RegistrationDataFragment and reuse
 class PhoneAuthFragment : Fragment() {
     @Inject
-    lateinit var viewModel: PhoneAuthViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: PhoneAuthViewModel
 
     private lateinit var binding: FragmentPhoneAuthBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[PhoneAuthViewModel::class.java]
     }
 
     override fun onCreateView(

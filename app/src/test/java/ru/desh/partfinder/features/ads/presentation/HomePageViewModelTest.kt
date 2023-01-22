@@ -1,6 +1,6 @@
 package ru.desh.partfinder.features.ads.presentation
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import android.os.Build
 import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Assertions
 import org.junit.runner.RunWith
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import ru.desh.partfinder.core.domain.model.Ad
 import ru.desh.partfinder.core.domain.model.BusinessArticle
 import ru.desh.partfinder.core.domain.repository.AdRepository
@@ -18,7 +20,8 @@ import ru.desh.partfinder.core.utils.DataOrErrorResult
 import ru.desh.partfinder.core.utils.exception.UnknownNetworkErrorException
 import java.util.*
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(RobolectricTestRunner::class)
+@Config(manifest = Config.NONE, sdk = [Build.VERSION_CODES.P])
 class HomePageViewModelTest {
 
     private lateinit var router: Router
@@ -105,7 +108,10 @@ class HomePageViewModelTest {
         }
 
         // Then
-        Assertions.assertEquals(pageSize, homePageViewModel.homePageState.value?.recommendedAds?.size ?: -1)
+        Assertions.assertEquals(
+            pageSize,
+            homePageViewModel.homePageState.value?.recommendedAds?.size ?: -1
+        )
     }
 
     @Test
@@ -132,7 +138,10 @@ class HomePageViewModelTest {
         }
 
         // Then
-        Assertions.assertEquals(0, homePageViewModel.homePageState.value?.businessArticles?.size ?: -1)
+        Assertions.assertEquals(
+            0,
+            homePageViewModel.homePageState.value?.businessArticles?.size ?: -1
+        )
     }
 
     @Test
@@ -161,6 +170,9 @@ class HomePageViewModelTest {
         }
 
         // Then
-        Assertions.assertEquals(0, homePageViewModel.homePageState.value?.recommendedAds?.size ?: -1)
+        Assertions.assertEquals(
+            0,
+            homePageViewModel.homePageState.value?.recommendedAds?.size ?: -1
+        )
     }
 }

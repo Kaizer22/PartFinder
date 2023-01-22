@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -72,7 +73,8 @@ class RegistrationConfirmationFragment(
     }
 
     @Inject
-    lateinit var viewModel: RegistrationConfirmationViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: RegistrationConfirmationViewModel
 
     private var otp: String = ""
 
@@ -81,6 +83,8 @@ class RegistrationConfirmationFragment(
         super.onCreate(savedInstanceState)
         (parentFragment as RegistrationFragment).registrationComponent
             .inject(this)
+        viewModel =
+            ViewModelProvider(this, viewModelFactory)[RegistrationConfirmationViewModel::class.java]
     }
 
     override fun onCreateView(

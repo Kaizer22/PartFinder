@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -65,7 +66,8 @@ class RegistrationNameViewModel @Inject constructor(
 
 class RegistrationNameFragment : Fragment() {
     @Inject
-    lateinit var viewModel: RegistrationNameViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: RegistrationNameViewModel
 
     private lateinit var binding: FragmentRegistrationNameFormBinding
 
@@ -73,6 +75,7 @@ class RegistrationNameFragment : Fragment() {
         super.onCreate(savedInstanceState)
         (parentFragment as RegistrationFragment).registrationComponent
             .inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[RegistrationNameViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -116,7 +119,7 @@ class RegistrationNameFragment : Fragment() {
     private fun updateUiState(newState: RegistrationNameViewModel.RegistrationNameState) {
         if (newState.isUserCreationFailed) {
             dangerMessage.setText(newState.error?.message ?: "")
-            .show()
+                .show()
         }
     }
 

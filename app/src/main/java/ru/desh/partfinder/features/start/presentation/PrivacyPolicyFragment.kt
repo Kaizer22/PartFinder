@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.launch
 import ru.desh.partfinder.core.Screens.Auth
 import ru.desh.partfinder.core.Screens.PrivacyPolicySource
+import ru.desh.partfinder.core.data.properties.PropertiesRepository
 import ru.desh.partfinder.core.di.SingleApplicationComponent
 import ru.desh.partfinder.core.di.module.AppNavigation
-import ru.desh.partfinder.core.data.properties.PropertiesRepository
 import ru.desh.partfinder.databinding.FragmentPrivacyPolicyBinding
 import javax.inject.Inject
 
@@ -31,14 +32,15 @@ class PrivacyPolicyViewModel @Inject constructor(
 }
 
 class PrivacyPolicyFragment : Fragment() {
-    @Inject
-    lateinit var viewModel: PrivacyPolicyViewModel
-
     private lateinit var binding: FragmentPrivacyPolicyBinding
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: PrivacyPolicyViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SingleApplicationComponent.getInstance().inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[PrivacyPolicyViewModel::class.java]
     }
 
     override fun onCreateView(
