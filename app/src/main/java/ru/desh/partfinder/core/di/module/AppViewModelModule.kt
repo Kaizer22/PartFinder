@@ -9,10 +9,7 @@ import ru.desh.partfinder.core.di.ViewModelKey
 import ru.desh.partfinder.core.ui.ViewModelFactory
 import ru.desh.partfinder.features.ads.presentation.CreateAdViewModel
 import ru.desh.partfinder.features.ads.presentation.HomePageViewModel
-import ru.desh.partfinder.features.ads.presentation.child_fragments.CreateAdContactsViewModel
-import ru.desh.partfinder.features.ads.presentation.child_fragments.CreateAdDescriptionViewModel
-import ru.desh.partfinder.features.ads.presentation.child_fragments.CreateAdFilesViewModel
-import ru.desh.partfinder.features.ads.presentation.child_fragments.CreateAdTargetViewModel
+import ru.desh.partfinder.features.ads.presentation.child_fragments.*
 import ru.desh.partfinder.features.auth.presentation.AuthViewModel
 import ru.desh.partfinder.features.auth.presentation.CodeEnterViewModel
 import ru.desh.partfinder.features.auth.presentation.PasswordResetViewModel
@@ -122,6 +119,11 @@ abstract class AppViewModelModule {
     @IntoMap
     @ViewModelKey(CreateAdTargetViewModel::class)
     abstract fun bindCreateAdTargetViewModel(viewModel: CreateAdTargetViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PostCreateAdViewModel::class)
+    abstract fun bindPostCreateAdViewModel(viewModel: PostCreateAdViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
